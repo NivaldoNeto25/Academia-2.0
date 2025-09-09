@@ -1,4 +1,4 @@
-package br.upe.academia2.0;
+package br.upe.academia2;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
