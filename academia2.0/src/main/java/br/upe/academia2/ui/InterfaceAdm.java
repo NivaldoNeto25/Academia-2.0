@@ -118,6 +118,12 @@ public class InterfaceAdm {
         System.out.println("\n--- Excluir Aluno ---");
         System.out.print("Digite o email do aluno a ser removido: ");
         String email = sc.nextLine();
+
+        if (this.adm.getEmail().equalsIgnoreCase(email)) {
+            System.out.println("Erro: Você não pode excluir sua própria conta de administrador.");
+            return; 
+        }
+        
         usuarioBusiness.deletarUsuario(email);
     }
 }

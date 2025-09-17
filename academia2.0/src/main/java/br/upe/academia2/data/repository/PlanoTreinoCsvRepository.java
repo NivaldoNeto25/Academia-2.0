@@ -1,5 +1,6 @@
 package br.upe.academia2.data.repository;
 
+import br.upe.academia2.business.ExercicioBusiness;
 import br.upe.academia2.data.beans.*;
 
 import java.io.*;
@@ -12,7 +13,7 @@ import java.util.ArrayList; // Certifique-se de que ArrayList está importado
 public class PlanoTreinoCsvRepository {
 
     private final String baseDir;
-    private final ExercicioRepoImpl exercicioRepository = new ExercicioRepoImpl();
+    private final ExercicioBusiness exercicioBusiness = new ExercicioBusiness();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
@@ -105,7 +106,7 @@ public class PlanoTreinoCsvRepository {
                     int carga = Integer.parseInt(partes[4]);
 
                     SecaoTreino secao = plano.getOuCriarSecao(nomeSecao);
-                    Exercicio exercicio = exercicioRepository.findByNome(nomeExercicio);
+                    Exercicio exercicio = exercicioBusiness.buscarExercicioPorNome(nomeExercicio);
 
                     if (exercicio != null) {
                         ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);

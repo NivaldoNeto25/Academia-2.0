@@ -75,7 +75,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
         return false;
     }
 
-    private void persistirNoCsv() {
+    public void persistirNoCsv() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("nome,descricao,caminhoGif");
             writer.newLine();
@@ -91,7 +91,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
         }
     }
 
-    private void carregarDoCsv() {
+    public void carregarDoCsv() {
         File file = new File(filePath);
         if (!file.exists()) {
             persistirNoCsv();

@@ -171,6 +171,7 @@ public class PlanosDeTreino {
 
     private void coletarExerciciosParaPlano(PlanoTreino plano) {
         boolean continuar = true;
+        
         while (continuar) {
             System.out.print("\nNome da Seção (ex: Treino A - Peito e Tríceps): ");
             String nomeSecao = sc.nextLine();
