@@ -16,7 +16,7 @@ public class ExercicioBusiness {
     }
 
     public void salvar(Exercicio exercicio) {
-        exercicioRepository.carregarDoCsv();
+        exercicioRepository.persistirNoCsv();
 
         if (exercicio == null || exercicio.getNome() == null || exercicio.getNome().trim().isEmpty()) {
             System.err.println("Exercício inválido para cadastro.");
@@ -38,13 +38,14 @@ public class ExercicioBusiness {
     }
 
     public List<Exercicio> listarExercicios() {
-        exercicioRepository.carregarDoCsv();
+
         return exercicioRepository.findAll();
     }
 
     public Exercicio buscarExercicioPorNome(String nome) {
         
         exercicioRepository.carregarDoCsv();
+
         return exercicioRepository.findByNome(nome);
     }
 
@@ -64,8 +65,6 @@ public class ExercicioBusiness {
     }
 
     public void deletarExercicio(String nome) {
-        
-        exercicioRepository.carregarDoCsv();
         try{
             if (nome.isEmpty() || nome.equals(" ")){
                 throw new InputMismatchException();

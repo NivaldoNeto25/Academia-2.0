@@ -39,6 +39,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
 
     @Override
     public List<Exercicio> findAll() {
+        carregarDoCsv();
         return new ArrayList<>(exercicios);
     }
 
@@ -66,17 +67,19 @@ public class ExercicioRepoImpl implements IExercicioRepository {
 
     @Override
     public boolean delete(String nome) {
-        Exercicio exercicio = findByNome(nome);
-        if (exercicio != null) {
-            boolean removido = exercicios.remove(exercicio);
-            if (removido) persistirNoCsv();
-            return removido;
+        boolean removido = this.exercicios.removeIf(e -> e.getNome().equalsIgnoreCase(nome));
+        if (removido) {
+            System.out.println("Exercício removido: " + nome);
+            persistirNoCsv();
+            return true;
+        } else {
+            System.out.println("Exercício não encontrado: " + nome);
+            return false;
         }
-        return false;
     }
 
     public void persistirNoCsv() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             writer.write("nome,descricao,caminhoGif");
             writer.newLine();
             for (Exercicio e : exercicios) {
@@ -92,6 +95,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
     }
 
     public void carregarDoCsv() {
+        exercicios.clear();
         File file = new File(filePath);
         if (!file.exists()) {
             persistirNoCsv();

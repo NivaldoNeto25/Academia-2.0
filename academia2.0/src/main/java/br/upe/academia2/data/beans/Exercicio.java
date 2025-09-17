@@ -1,5 +1,7 @@
 package br.upe.academia2.data.beans;
 
+import java.util.Objects;
+
 public class Exercicio {
 
     private String nome;
@@ -35,5 +37,18 @@ public class Exercicio {
 
     public void setCaminhoGif(String caminhoGif) {
         this.caminhoGif = caminhoGif;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Exercicio exercicio = (Exercicio) o;
+        return Objects.equals(nome, exercicio.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 }
