@@ -11,13 +11,14 @@ import java.util.List;
 
 public class UsuarioBusiness {
 
-    private IUsuarioRepository usuarioRepository;
+    private UsuarioCsvRepository usuarioRepository;
 
     public UsuarioBusiness() {
         this.usuarioRepository = new UsuarioCsvRepository();
     }
 
     public String autenticar(String email, String senha) {
+        usuarioRepository.persistirNoCsv();
         Usuario usuario = usuarioRepository.findByEmail(email);
 
         if (usuario != null && usuario.getSenha().equals(senha)) {
@@ -31,15 +32,21 @@ public class UsuarioBusiness {
     }
 
     public void cadastrarUsuario(Usuario usuario) {
+        usuarioRepository.persistirNoCsv();
+        
         usuarioRepository.create(usuario);
         System.out.println("Usuário cadastrado com sucesso!");
     }
 
     public List<Usuario> listarUsuarios() {
+        usuarioRepository.persistirNoCsv();
+        
         return usuarioRepository.listarTodos();
     }
 
     public List<Comum> listarUsuariosComuns() {
+        usuarioRepository.persistirNoCsv();
+       
         List<Comum> comuns = new ArrayList<>();
         for (Usuario u : usuarioRepository.listarTodos()) {
             if (u instanceof Comum) {
@@ -50,6 +57,8 @@ public class UsuarioBusiness {
     }
 
     public void deletarUsuario(String email) {
+        usuarioRepository.persistirNoCsv();
+
         boolean deletado = usuarioRepository.delete(email);
         if (deletado) {
             System.out.println("Usuário removido com sucesso!");
@@ -59,6 +68,8 @@ public class UsuarioBusiness {
     }
     
     public void atualizarUsuario(Usuario usuario) {
+        usuarioRepository.persistirNoCsv();
+        
         Usuario atualizado = usuarioRepository.update(usuario);
         if (atualizado != null) {
             System.out.println("Dados do usuário atualizados com sucesso!");

@@ -13,6 +13,7 @@ public class InterfacePrincipal {
     private final Scanner sc;
     private static UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
     private static UsuarioCsvRepository usuarioCsvRepository = new UsuarioCsvRepository();
+    public static String email;
 
     public InterfacePrincipal(Scanner scGlobal) {
         this.sc = scGlobal;
@@ -53,7 +54,7 @@ public class InterfacePrincipal {
     private void realizarLogin() {
 
         System.out.print("Email: ");
-        String email = sc.nextLine();
+        email = sc.nextLine();
 
         System.out.print("Senha: ");
         String senha = sc.nextLine();

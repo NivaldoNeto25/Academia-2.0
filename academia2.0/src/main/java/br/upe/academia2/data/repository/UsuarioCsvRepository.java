@@ -98,7 +98,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         return new ArrayList<>(this.usuarios);
     }
 
-    private void persistirNoCsv() {
+    public void persistirNoCsv() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath))) {
             writer.write(CSV_HEADER);
             writer.newLine();
@@ -123,7 +123,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         }
     }
 
-    private void carregarDoCsv() {
+    public void carregarDoCsv() {
         File file = new File(this.filePath);
         if (!file.exists()) {
             System.out.println(" Arquivo CSV não encontrado. Criando novo.");

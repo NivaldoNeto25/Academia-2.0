@@ -62,7 +62,7 @@ public class PlanoTreinoBusiness {
         System.out.println("Plano: " + plano.getNomePlano());
 
         for (var secao : plano.getSecoes()) {
-            System.out.println("  ➤ Seção: " + secao.getNomeTreino());
+            System.out.println(" - Seção: " + secao.getNomeTreino());
             for (var item : secao.getItensPlano()) {
                 System.out.printf("     - %s: %d séries x %d reps (carga: %dkg)%n",
                         item.getExercicio().getNome(),
