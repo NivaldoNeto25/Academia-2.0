@@ -132,7 +132,8 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(this.filePath))) {
-            reader.readLine();
+            @SuppressWarnings("unused")
+            String header = reader.readLine();
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(",", -1);

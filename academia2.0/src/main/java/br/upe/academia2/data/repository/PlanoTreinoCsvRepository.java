@@ -72,7 +72,8 @@ public class PlanoTreinoCsvRepository {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoPlano))) {
 
-            reader.readLine();
+            @SuppressWarnings("unused")
+            String jump = reader.readLine();
 
 
             String metadataLine = reader.readLine();

@@ -103,7 +103,9 @@ public class ExercicioRepoImpl implements IExercicioRepository {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            reader.readLine(); // pular cabeçalho
+            @SuppressWarnings("unused")
+            String header = reader.readLine(); // pular cabeçalho
+
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(",", -1);
