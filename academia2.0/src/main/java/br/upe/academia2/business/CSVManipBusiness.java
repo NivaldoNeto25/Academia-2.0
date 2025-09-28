@@ -8,8 +8,7 @@ public class CSVManipBusiness {
     public ArrayList<String> leitor(String caminho) {
         ArrayList<String> resposta = new ArrayList<>();
 
-        try {
-            BufferedReader leitor = new BufferedReader(new FileReader(caminho));
+        try(BufferedReader leitor = new BufferedReader(new FileReader(caminho));) {
             String linha;
             boolean primeiraLinha = true;
             while ((linha = leitor.readLine()) != null) {
@@ -30,12 +29,11 @@ public class CSVManipBusiness {
     public void escritor(ArrayList<String> nomeDosCampos, ArrayList<String> input, String nomeDoArquivo, String caminhoDoArquivo){
         String caminhoAbsoluto = caminhoDoArquivo + "/" + nomeDoArquivo;
 
-        try {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoAbsoluto, StandardCharsets.UTF_8,true))) {
             File directory = new File(caminhoAbsoluto);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-            FileWriter writer = new FileWriter(caminhoAbsoluto, StandardCharsets.UTF_8,true);
 
             for (int index = 0; index < input.size(); index++) {
                 if(index == 0){
