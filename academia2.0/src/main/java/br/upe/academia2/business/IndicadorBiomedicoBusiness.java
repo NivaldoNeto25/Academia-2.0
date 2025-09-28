@@ -4,6 +4,7 @@ import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.IndBioRepoImpl;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -35,8 +36,8 @@ public class IndicadorBiomedicoBusiness {
     }
 
     private void salvarNoCSV(IndicadorBiomedico indicador) {
-        try {
-            FileWriter writer = new FileWriter(caminhoArquivo, true);
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo, true))){
+            
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dataFormatada = sdf.format(indicador.getDataRegistro());
             writer.append(String.format(Locale.US,
