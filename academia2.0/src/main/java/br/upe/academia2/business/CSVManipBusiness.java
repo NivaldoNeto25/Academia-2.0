@@ -20,7 +20,6 @@ public class CSVManipBusiness {
                 String instancia = vector[0];
                 resposta.add(instancia);
             }
-            leitor.close();
         } catch (IOException IOE) {
             IOE.printStackTrace();
         }
@@ -49,7 +48,6 @@ public class CSVManipBusiness {
                 }
             }
             writer.flush();
-            writer.close();
         }catch (IOException IOE){
             IOE.printStackTrace();
         }
