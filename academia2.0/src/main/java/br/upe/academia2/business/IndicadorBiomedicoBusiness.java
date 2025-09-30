@@ -50,7 +50,6 @@ public class IndicadorBiomedicoBusiness {
                     indicador.getImc(),
                     sdf.format(indicador.getDataRegistro())
             ));
-            writer.close();
         } catch (IOException e) {
             System.out.println("Erro ao salvar no CSV: " + e.getMessage());
         }
@@ -81,10 +80,9 @@ public class IndicadorBiomedicoBusiness {
 
     public boolean exportarRelatorioEvolucao(Usuario U, Date inicio,Date fim){
         try{
-            String nome = U.getNome();
             String email = U.getEmail();
-            ArrayList<String> stringParaExportacao = new ArrayList<String>();
-            ArrayList<String> separado = new ArrayList<String>();
+            ArrayList<String> stringParaExportacao = new ArrayList<>();
+            ArrayList<String> separado = new ArrayList<>();
             for(int index = 0; index < indBioRepository.findAll().size(); index++){
                 if(indBioRepository.findAll().get(index).getEmail().equals(email)){
                     separado.add(String.valueOf(indBioRepository.findAll().get(index).getPercentualGordura()));
@@ -97,7 +95,7 @@ public class IndicadorBiomedicoBusiness {
             for(int index = 0; index < separado.size(); index += 5){
                 stringParaExportacao.add(separado.get(index) +","+ separado.get(index+1) +","+ separado.get(index+2) +","+ separado.get(index+3) +","+ separado.get(index+4));
             }
-            ArrayList<String> nomeDosCampos = new ArrayList<String>();
+            ArrayList<String> nomeDosCampos = new ArrayList<>();
             nomeDosCampos.add("Percentual de gordura");
             nomeDosCampos.add("Percentual de massa magra");
             nomeDosCampos.add("IMC");
