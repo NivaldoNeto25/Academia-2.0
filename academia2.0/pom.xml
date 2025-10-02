@@ -8,8 +8,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>academia2.0</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/NivaldoNeto25/Academia-2.0</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
