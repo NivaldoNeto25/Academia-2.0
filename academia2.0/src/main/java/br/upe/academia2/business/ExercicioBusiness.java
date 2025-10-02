@@ -2,7 +2,6 @@ package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.Exercicio;
 import br.upe.academia2.data.repository.ExercicioRepoImpl;
-import br.upe.academia2.data.repository.interfaces.IExercicioRepository;
 
 import java.util.InputMismatchException;
 import java.util.List;
