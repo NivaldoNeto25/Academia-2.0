@@ -39,7 +39,7 @@ public class IndicadorBiomedicoBusiness {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo, true))){
             
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String dataFormatada = sdf.format(indicador.getDataRegistro());
+            
             writer.append(String.format(Locale.US,
                     "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s\n",
                     indicador.getEmail(),
