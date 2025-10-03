@@ -78,7 +78,7 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public boolean exportarRelatorioEvolucao(Usuario U, Date inicio,Date fim){
+    public boolean exportarRelatorioEvolucao(Usuario Unico, Date inicio,Date fim){
         try{
             String email = U.getEmail();
             ArrayList<String> stringParaExportacao = new ArrayList<>();
