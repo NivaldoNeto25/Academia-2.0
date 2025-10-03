@@ -7,7 +7,6 @@ import java.io.*;
 import java.text.ParseException; // Adicionado para lidar com ParseException
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.ArrayList; // Certifique-se de que ArrayList está importado
 
 public class PlanoTreinoCsvRepository {
