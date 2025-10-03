@@ -4,7 +4,6 @@ import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
 import java.util.ArrayList;
 import java.util.List;
