@@ -55,7 +55,7 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public boolean importarIndicadoresDeCSV(Usuario usuario, String caminhoArquivo){
+    public boolean importarIndicadoresDeCSV(String caminhoArquivo){
         try {
             ArrayList<String> arquivoParaImportar = fileManip.leitor(caminhoArquivo);
             for (String linha : arquivoParaImportar) {
@@ -78,9 +78,9 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public boolean exportarRelatorioEvolucao(Usuario U, Date inicio,Date fim){
+    public boolean exportarRelatorioEvolucao(Usuario Unico, Date inicio,Date fim){
         try{
-            String email = U.getEmail();
+            String email = Unico.getEmail();
             ArrayList<String> stringParaExportacao = new ArrayList<>();
             ArrayList<String> separado = new ArrayList<>();
             for(int index = 0; index < indBioRepository.findAll().size(); index++){

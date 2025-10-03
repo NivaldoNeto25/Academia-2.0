@@ -55,7 +55,7 @@ public class ExercicioBusiness {
                 throw new InputMismatchException();
             }
             exercicioRepository.update(exercicio);
-        } catch (InputMismatchException ime){
+        } catch (InputMismatchException e){
             System.out.println("Algum campo acabou ficando em branco, tente novamente");
         } catch (Exception e) {
             System.out.println("Algo deu errado. Por favor, tente novamente");
@@ -68,7 +68,7 @@ public class ExercicioBusiness {
                 throw new InputMismatchException();
             }
             exercicioRepository.delete(nome);
-        }catch (InputMismatchException ime){
+        }catch (InputMismatchException e){
             System.out.println("nome vazio, por favor escreva novamente");
         }
         catch (Exception e) {

@@ -19,8 +19,8 @@ public class CSVManipBusiness {
                 String instancia = vector[0];
                 resposta.add(instancia);
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return resposta;
     }
@@ -47,8 +47,8 @@ public class CSVManipBusiness {
                 }
             }
             writer.flush();
-        }catch (IOException ioe){
-            ioe.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 }
