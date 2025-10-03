@@ -5,6 +5,8 @@ import br.upe.academia2.data.beans.PlanoTreino;
 
 public class SecaoTreinoBusiness {
 
+    private PlanoTreinoBusiness planoTreinoBusiness;
+
     public SecaoTreinoBusiness() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness();
     }

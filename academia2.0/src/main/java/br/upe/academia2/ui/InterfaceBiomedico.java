@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class InterfaceBiomedico {
 
+    private UsuarioBusiness usuarioBusiness;
+
     private IndicadorBiomedicoBusiness indicadorBiomedicoBusiness;
     private Scanner sc = new Scanner(System.in);
     private Usuario usuarioLogado;
@@ -121,7 +123,8 @@ public class InterfaceBiomedico {
         System.out.print("Digite o caminho completo do arquivo CSV: ");
         String caminhoArquivo = sc.nextLine();
 
-        boolean importado = indicadorBiomedicoBusiness.importarIndicadoresDeCSV(usuarioLogado, caminhoArquivo);
+
+        boolean importado = indicadorBiomedicoBusiness.importarIndicadoresDeCSV(caminhoArquivo);
 
         if (importado) {
             System.out.println("Indicadores importados com sucesso!");
