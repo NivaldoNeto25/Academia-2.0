@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class IndBioRepoImplTest {
+class IndBioRepoImplTest {
 
     private IndBioRepoImpl indBioRepository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         indBioRepository = new IndBioRepoImpl();
     }
 
     @Test
-    public void testSaveIndicadorBiomedico() {
+    void testSaveIndicadorBiomedico() {
         IndicadorBiomedico indicador = new IndicadorBiomedico(
                 "teste@email.com", 70.0, 1.75, 15.0, 40.0, 22.86, new Date()
         );
@@ -36,7 +36,7 @@ public class IndBioRepoImplTest {
     }
 
     @Test
-    public void testSaveNullIndicadorBiomedico() {
+    void testSaveNullIndicadorBiomedico() {
         boolean result = indBioRepository.save(null);
 
         assertFalse(result);
@@ -46,7 +46,7 @@ public class IndBioRepoImplTest {
     }
 
     @Test
-    public void testFindAllEmpty() {
+    void testFindAllEmpty() {
         List<IndicadorBiomedico> allIndicators = indBioRepository.findAll();
 
         assertNotNull(allIndicators);
@@ -54,7 +54,7 @@ public class IndBioRepoImplTest {
     }
 
     @Test
-    public void testFindAllWithMultipleIndicators() {
+    void testFindAllWithMultipleIndicators() {
         IndicadorBiomedico indicador1 = new IndicadorBiomedico(
                 "teste1@email.com", 70.0, 1.75, 15.0, 40.0, 22.86, new Date()
         );

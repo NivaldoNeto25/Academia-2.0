@@ -78,9 +78,9 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public boolean exportarRelatorioEvolucao(Usuario Unico, Date inicio,Date fim){
+    public boolean exportarRelatorioEvolucao(Usuario unico, Date inicio,Date fim){
         try{
-            String email = Unico.getEmail();
+            String email = unico.getEmail();
             ArrayList<String> stringParaExportacao = new ArrayList<>();
             ArrayList<String> separado = new ArrayList<>();
             for(int index = 0; index < indBioRepository.findAll().size(); index++){
