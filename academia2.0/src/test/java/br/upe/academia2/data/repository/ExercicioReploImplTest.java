@@ -1,5 +1,4 @@
 package br.upe.academia2.data.repository;
-package br.upe.academia2.data.repository;
 
 import br.upe.academia2.data.beans.Exercicio;
 import org.junit.jupiter.api.*;
