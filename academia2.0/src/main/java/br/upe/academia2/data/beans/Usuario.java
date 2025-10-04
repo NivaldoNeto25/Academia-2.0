@@ -16,7 +16,7 @@ public abstract class Usuario {
     private List<IndicadorBiomedico> indicaBio;
 
 
-    public Usuario(String nome, String telefone, String email, String senha, Double pesoAtual, Double alturaAtual, Double percGorduraAtual){
+    protected Usuario(String nome, String telefone, String email, String senha, Double pesoAtual, Double alturaAtual, Double percGorduraAtual){
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -29,7 +29,7 @@ public abstract class Usuario {
     }
     
     
-    public Usuario() {
+    protected Usuario() {
         
     }
 

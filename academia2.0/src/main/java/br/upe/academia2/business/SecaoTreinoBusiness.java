@@ -2,7 +2,6 @@ package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.ItemPlanoTreino;
 import br.upe.academia2.data.beans.PlanoTreino;
-import br.upe.academia2.data.beans.Usuario;
 
 public class SecaoTreinoBusiness {
 

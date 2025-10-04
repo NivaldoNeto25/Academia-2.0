@@ -1,5 +1,4 @@
 package br.upe.academia2.business;
-import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -20,8 +19,8 @@ public class CSVManipBusiness {
                 String instancia = vector[0];
                 resposta.add(instancia);
             }
-        } catch (IOException IOE) {
-            IOE.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return resposta;
     }
@@ -48,8 +47,8 @@ public class CSVManipBusiness {
                 }
             }
             writer.flush();
-        }catch (IOException IOE){
-            IOE.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 }

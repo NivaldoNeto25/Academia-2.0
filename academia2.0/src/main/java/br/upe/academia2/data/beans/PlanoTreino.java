@@ -33,10 +33,6 @@ public class PlanoTreino {
         return todosOsItens;
     }
 
-    public void setItens(List<ItemPlanoTreino> itens) {
-        System.err.println("Aviso: setItens não é suportado. Gerencie os itens através das seções.");
-    }
-
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getNomePlano() { return nomePlano; }

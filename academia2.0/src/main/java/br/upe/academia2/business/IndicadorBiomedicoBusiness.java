@@ -42,7 +42,7 @@ public class IndicadorBiomedicoBusiness {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo, true))){
             
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String dataFormatada = sdf.format(indicador.getDataRegistro());
+            
             writer.append(String.format(Locale.US,
                     "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s\n",
                     indicador.getEmail(),
@@ -58,7 +58,7 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public boolean importarIndicadoresDeCSV(Usuario usuario, String caminhoArquivo){
+    public boolean importarIndicadoresDeCSV(String caminhoArquivo){
         try {
             ArrayList<String> arquivoParaImportar = fileManip.leitor(caminhoArquivo);
             for (String linha : arquivoParaImportar) {
@@ -81,9 +81,9 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public boolean exportarRelatorioEvolucao(Usuario U, Date inicio,Date fim){
+    public boolean exportarRelatorioEvolucao(Usuario unico, Date inicio,Date fim){
         try{
-            String email = U.getEmail();
+            String email = unico.getEmail();
             ArrayList<String> stringParaExportacao = new ArrayList<>();
             ArrayList<String> separado = new ArrayList<>();
             for(int index = 0; index < indBioRepository.findAll().size(); index++){
