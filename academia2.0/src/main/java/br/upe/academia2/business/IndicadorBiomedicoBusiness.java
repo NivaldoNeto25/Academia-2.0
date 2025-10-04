@@ -9,11 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class IndicadorBiomedicoBusiness {
     private IndBioRepoImpl indBioRepository = new IndBioRepoImpl();
     private CSVManipBusiness fileManip = new CSVManipBusiness();
     private final String caminhoArquivo = "data/indicadores.csv";
+
+    private Logger logger = Logger.getLogger(IndicadorBiomedicoBusiness.class.getName());
 
     public IndicadorBiomedicoBusiness() {}
 
@@ -51,7 +54,7 @@ public class IndicadorBiomedicoBusiness {
                     sdf.format(indicador.getDataRegistro())
             ));
         } catch (IOException e) {
-            System.out.println("Erro ao salvar no CSV: " + e.getMessage());
+            logger.warning("Erro ao salvar no CSV: " + e.getMessage());
         }
     }
 
@@ -73,7 +76,7 @@ public class IndicadorBiomedicoBusiness {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("Erro ao importar indicadores: " + e.getMessage());
+            logger.warning("Erro ao importar indicadores: " + e.getMessage());
             return false;
         }
     }
@@ -106,7 +109,7 @@ public class IndicadorBiomedicoBusiness {
             return true;
 
         } catch (Exception e) {
-            System.out.println("\nAlgo deu errado. Por favor, tente novamente");
+            logger.warning("\nAlgo deu errado. Por favor, tente novamente");
         }
         return false;
     }
