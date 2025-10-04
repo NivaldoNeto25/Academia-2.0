@@ -6,11 +6,14 @@ import br.upe.academia2.data.repository.interfaces.IExercicioRepository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ExercicioRepoImpl implements IExercicioRepository {
 
     private List<Exercicio> exercicios = new ArrayList<>();
     private final String filePath;
+
+    private Logger logger = Logger.getLogger(ExercicioRepoImpl.class.getName());
 
     public ExercicioRepoImpl() {
         this.filePath = System.getProperty("user.dir") + "/data/exercicios.csv";
@@ -29,7 +32,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
     @Override
     public Exercicio create(Exercicio exercicio) {
         if (findByNome(exercicio.getNome()) != null) {
-            System.err.println("Erro: Já existe um exercício com o nome '" + exercicio.getNome() + "'.");
+            logger.warning("Erro: Já existe um exercício com o nome '" + exercicio.getNome() + "'.");
             return null;
         }
         exercicios.add(exercicio);
@@ -69,11 +72,11 @@ public class ExercicioRepoImpl implements IExercicioRepository {
     public boolean delete(String nome) {
         boolean removido = this.exercicios.removeIf(e -> e.getNome().equalsIgnoreCase(nome));
         if (removido) {
-            System.out.println("Exercício removido: " + nome);
+            logger.info("Exercício removido: " + nome);
             persistirNoCsv();
             return true;
         } else {
-            System.out.println("Exercício não encontrado: " + nome);
+            logger.warning("Exercício não encontrado: " + nome);
             return false;
         }
     }
@@ -90,7 +93,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Erro ao salvar CSV de exercícios: " + e.getMessage());
+            logger.warning("Erro ao salvar CSV de exercícios: " + e.getMessage());
         }
     }
 
@@ -119,7 +122,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Erro ao carregar CSV de exercícios: " + e.getMessage());
+           logger.warning("Erro ao carregar CSV de exercícios: " + e.getMessage());
         }
     }
 
