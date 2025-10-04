@@ -6,9 +6,13 @@ import br.upe.academia2.data.repository.interfaces.IExercicioRepository;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ExercicioBusiness {
     private ExercicioRepoImpl exercicioRepository;
+
+    private Logger logger = Logger.getLogger(ExercicioBusiness.class.getName());
 
     public ExercicioBusiness() {
         this.exercicioRepository = new ExercicioRepoImpl();
@@ -18,21 +22,21 @@ public class ExercicioBusiness {
         exercicioRepository.persistirNoCsv();
 
         if (exercicio == null || exercicio.getNome() == null || exercicio.getNome().trim().isEmpty()) {
-            System.err.println("Exercício inválido para cadastro.");
+            logger.log(Level.WARNING, "Exercício inválido para cadastro.");
             return;
         }
 
         Exercicio existente = exercicioRepository.findByNome(exercicio.getNome());
         if (existente != null) {
-            System.out.println("Exercício com este nome já existe.");
+            logger.log(Level.WARNING,"Exercício com este nome já existe.");
             return;
         }
 
         Exercicio exercicioCriado = exercicioRepository.create(exercicio);
         if (exercicioCriado != null) {
-            System.out.println("Exercício '" + exercicio.getNome() + "' cadastrado com sucesso!");
+            logger.info("Exercício '" + exercicio.getNome() + "' cadastrado com sucesso!");
         } else {
-            System.out.println("Erro ao cadastrar exercício.");
+            logger.warning("Erro ao cadastrar exercício.");
         }
     }
 
@@ -57,9 +61,9 @@ public class ExercicioBusiness {
             }
             exercicioRepository.update(exercicio);
         } catch (InputMismatchException IME){
-            System.out.println("Algum campo acabou ficando em branco, tente novamente");
+            logger.warning("Algum campo acabou ficando em branco, tente novamente");
         } catch (Exception e) {
-            System.out.println("Algo deu errado. Por favor, tente novamente");
+            logger.warning("Algo deu errado. Por favor, tente novamente");
         }
     }
 
@@ -70,10 +74,10 @@ public class ExercicioBusiness {
             }
             exercicioRepository.delete(nome);
         }catch (InputMismatchException IME){
-            System.out.println("nome vazio, por favor escreva novamente");
+            logger.warning("nome vazio, por favor escreva novamente");
         }
         catch (Exception e) {
-            System.out.println("Algo deu errado. Por favor, tente novamente");
+            logger.warning("Algo deu errado. Por favor, tente novamente");
         }
     }
 }
