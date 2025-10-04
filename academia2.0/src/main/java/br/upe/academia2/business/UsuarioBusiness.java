@@ -7,10 +7,13 @@ import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class UsuarioBusiness {
 
     private UsuarioCsvRepository usuarioRepository;
+
+    private Logger logger = Logger.getLogger(UsuarioBusiness.class.getName());
 
     public UsuarioBusiness() {
         this.usuarioRepository = new UsuarioCsvRepository();
@@ -34,7 +37,7 @@ public class UsuarioBusiness {
         usuarioRepository.persistirNoCsv();
         
         usuarioRepository.create(usuario);
-        System.out.println("Usuário cadastrado com sucesso!");
+        logger.info("Usuário cadastrado com sucesso!");
     }
 
     public List<Usuario> listarUsuarios() {
@@ -60,9 +63,9 @@ public class UsuarioBusiness {
 
         boolean deletado = usuarioRepository.delete(email);
         if (deletado) {
-            System.out.println("Usuário removido com sucesso!");
+            logger.info("Usuário removido com sucesso!");
         } else {
-            System.out.println("Usuário não encontrado.");
+            logger.warning("Usuário não encontrado.");
         }
     }
     
@@ -71,9 +74,9 @@ public class UsuarioBusiness {
         
         Usuario atualizado = usuarioRepository.update(usuario);
         if (atualizado != null) {
-            System.out.println("Dados do usuário atualizados com sucesso!");
+            logger.info("Dados do usuário atualizados com sucesso!");
         } else {
-            System.out.println("Falha ao atualizar: usuário não encontrado.");
+            logger.warning("Falha ao atualizar: usuário não encontrado.");
         }
     }
 }
