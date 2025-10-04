@@ -7,11 +7,14 @@ import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PlanoTreinoBusiness {
 
     private final IUsuarioRepository usuarioRepository;
     private final PlanoTreinoCsvRepository planoRepository;
+
+    private Logger logger = Logger.getLogger(PlanoTreinoBusiness.class.getName());
 
     public PlanoTreinoBusiness() {
         this.usuarioRepository = new UsuarioCsvRepository();
@@ -20,7 +23,7 @@ public class PlanoTreinoBusiness {
 
     public void cadastrarPlanoDeTreino(Usuario usuario, PlanoTreino plano) {
         if (usuario == null || plano == null) {
-            System.err.println("Usuário ou Plano de Treino nulos.");
+            logger.warning("Usuário ou Plano de Treino nulos.");
             return;
         }
 
@@ -30,12 +33,12 @@ public class PlanoTreinoBusiness {
         usuarioRepository.update(usuario);
         planoRepository.salvarPlano(plano);
 
-        System.out.println("Plano de treino '" + plano.getNomePlano() + "' cadastrado para o usuário " + usuario.getNome());
+        logger.info("Plano de treino '" + plano.getNomePlano() + "' cadastrado para o usuário " + usuario.getNome());
     }
 
     public PlanoTreino carregarPlanoDoUsuario(Usuario usuario) {
         if (usuario == null) {
-            System.err.println("Usuário nulo.");
+            logger.warning("Usuário nulo.");
             return null;
         }
 
@@ -50,19 +53,19 @@ public class PlanoTreinoBusiness {
 
     public void modificarPlanoDeTreino(PlanoTreino plano) {
         if (plano == null || plano.getUsuario() == null) {
-            System.err.println("Plano ou usuário nulos.");
+            logger.warning("Plano ou usuário nulos.");
             return;
         }
 
         planoRepository.salvarPlano(plano);
-        System.out.println("Plano de treino atualizado com sucesso!");
+        logger.info("Plano de treino atualizado com sucesso!");
     }
 
     public void exibirPlanoDeTreino(PlanoTreino plano) {
-        System.out.println("Plano: " + plano.getNomePlano());
+        logger.info("Plano: " + plano.getNomePlano());
 
         for (var secao : plano.getSecoes()) {
-            System.out.println(" - Seção: " + secao.getNomeTreino());
+            logger.info(" - Seção: " + secao.getNomeTreino());
             for (var item : secao.getItensPlano()) {
                 System.out.printf("     - %s: %d séries x %d reps (carga: %dkg)%n",
                         item.getExercicio().getNome(),
