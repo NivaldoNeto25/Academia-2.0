@@ -4,11 +4,13 @@ import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.repository.interfaces.IIndBioRepository;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 
 public class IndBioRepoImpl implements IIndBioRepository {
 
     private ArrayList<IndicadorBiomedico> indicadoresBiomedicos = new ArrayList<IndicadorBiomedico>();
+    private Logger logger = Logger.getLogger(IndBioRepoImpl.class.getName());
 
     @Override
     public boolean save(IndicadorBiomedico indicadorBiomedico) {
@@ -19,7 +21,7 @@ public class IndBioRepoImpl implements IIndBioRepository {
                 return indicadoresBiomedicos.add(indicadorBiomedico);
             }
         } catch (Exception e) {
-            System.out.println("O método de salvar falhou");
+            logger.warning("O método de salvar falhou");
         }
         return false;
     }
