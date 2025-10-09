@@ -4,6 +4,7 @@ import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class InterfaceAluno {
     private final Scanner sc = new Scanner(System.in);
@@ -12,25 +13,33 @@ public class InterfaceAluno {
     private InterfaceBiomedico indicadores = new InterfaceBiomedico();
     private PlanosDeTreino planoTreino;
     private Relatorios relatorios = new Relatorios();
-
+    private static final Logger logger = Logger.getLogger(InterfaceAluno.class.getName());
 
     public InterfaceAluno(Usuario aluno) {
-        this.aluno = new Comum(aluno.getNome(), aluno.getTelefone(), aluno.getEmail(), aluno.getSenha(), aluno.getPesoAtual(),aluno.getAlturaAtual(),aluno.getPercGorduraAtual());
-        this.planoTreino = new PlanosDeTreino (this.aluno);
+        this.aluno = new Comum(
+                aluno.getNome(),
+                aluno.getTelefone(),
+                aluno.getEmail(),
+                aluno.getSenha(),
+                aluno.getPesoAtual(),
+                aluno.getAlturaAtual(),
+                aluno.getPercGorduraAtual()
+        );
+        this.planoTreino = new PlanosDeTreino(this.aluno);
     }
 
     public void exibirMenuAlunos() {
         boolean sair = false;
 
         while (!sair) {
-            System.out.println("=".repeat(20));
-            System.out.println("MENU DO ALUNO");
-            System.out.println("=".repeat(20));
-            System.out.println("1 - Exercícios");
-            System.out.println("2 - Indicadores");
-            System.out.println("3 - Plano de treino");
-            System.out.println("4 - Relatório");
-            System.out.println("5 - Sair");
+            logger.info("=".repeat(20));
+            logger.info("MENU DO ALUNO");
+            logger.info("=".repeat(20));
+            logger.info("1 - Exercícios");
+            logger.info("2 - Indicadores");
+            logger.info("3 - Plano de treino");
+            logger.info("4 - Relatório");
+            logger.info("5 - Sair");
             System.out.print("Escolha uma opção: ");
 
             try {
@@ -51,15 +60,14 @@ public class InterfaceAluno {
                         relatorios.exibirMenuRelatorios(aluno);
                         break;
                     case 5:
-                        System.out.println("Saindo...");
+                        logger.info("Saindo...");
                         sair = true;
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente.");
+                        logger.info("Opção inválida! Tente novamente.");
                 }
-
             } catch (Exception e) {
-                System.out.println("Erro: Entrada inválida!");
+                logger.info("Erro: Entrada inválida!");
                 sc.nextLine();
             }
         }

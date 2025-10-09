@@ -6,11 +6,13 @@ import br.upe.academia2.data.beans.Usuario;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class InterfaceAdm {
     private final Scanner sc = new Scanner(System.in);
     private final Usuario adm;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+    private static final Logger logger = Logger.getLogger(InterfaceAdm.class.getName());
 
     public InterfaceAdm(Usuario adm) {
         this.adm = adm;
@@ -19,15 +21,16 @@ public class InterfaceAdm {
     public void exibirMenuAdm() {
         boolean sair = false;
         while (!sair) {
-            System.out.println("=".repeat(20));
-            System.out.println("MENU ADMINISTRADOR");
-            System.out.println("=".repeat(20));
-            System.out.println("1 - Cadastrar alunos");
-            System.out.println("2 - Listar alunos");
-            System.out.println("3 - Modificar alunos");
-            System.out.println("4 - Excluir alunos");
-            System.out.println("5 - Sair");
-            System.out.print("Escolha uma opção: ");
+            logger.info("=".repeat(20));
+            logger.info("MENU ADMINISTRADOR");
+            logger.info("=".repeat(20));
+            logger.info("1 - Cadastrar alunos");
+            logger.info("2 - Listar alunos");
+            logger.info("3 - Modificar alunos");
+            logger.info("4 - Excluir alunos");
+            logger.info("5 - Sair");
+
+            System.out.print("Escolha uma opção: "); // prompt kept on System.out for immediate input
 
             try {
                 int opcao = Integer.parseInt(sc.nextLine());
@@ -46,20 +49,20 @@ public class InterfaceAdm {
                         excluirAluno();
                         break;
                     case 5:
-                        System.out.println("Saindo...");
+                        logger.info("Saindo...");
                         sair = true;
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente");
+                        logger.info("Opção inválida! Tente novamente");
                 }
             } catch (Exception e) {
-                System.out.println("Erro: Entrada inválida!");
+                logger.info("Erro: Entrada inválida!");
             }
         }
     }
 
     private void cadastrarAluno() {
-        System.out.println("\n--- Cadastro de Novo Aluno ---");
+        logger.info("\n--- Cadastro de Novo Aluno ---");
         System.out.print("Nome: ");
         String nome = sc.nextLine();
         System.out.print("Email: ");
@@ -67,7 +70,7 @@ public class InterfaceAdm {
         System.out.print("Senha: ");
         String senha = sc.nextLine();
         if (usuarioBusiness.listarUsuarios().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
-            System.out.println("Erro: Já existe um aluno com esse email.");
+            logger.info("Erro: Já existe um aluno com esse email.");
             return;
         }
 
@@ -76,19 +79,19 @@ public class InterfaceAdm {
     }
 
     private void listarAlunos() {
-        System.out.println("\n--- Lista de Alunos ---");
+        logger.info("\n--- Lista de Alunos ---");
         List<Comum> alunos = usuarioBusiness.listarUsuariosComuns();
         if (alunos.isEmpty()) {
-            System.out.println("Nenhum aluno cadastrado.");
+            logger.info("Nenhum aluno cadastrado.");
         } else {
             for (Comum aluno : alunos) {
-                System.out.println("Nome: " + aluno.getNome() + " | Email: " + aluno.getEmail());
+                logger.info("Nome: " + aluno.getNome() + " | Email: " + aluno.getEmail());
             }
         }
     }
 
     private void modificarAluno() {
-        System.out.println("\n--- Modificar Aluno ---");
+        logger.info("\n--- Modificar Aluno ---");
         System.out.print("Digite o email do aluno: ");
         String email = sc.nextLine();
 
@@ -99,7 +102,7 @@ public class InterfaceAdm {
                 .orElse(null);
 
         if (existente == null) {
-            System.out.println("Aluno não encontrado.");
+            logger.info("Aluno não encontrado.");
             return;
         }
 
@@ -115,15 +118,15 @@ public class InterfaceAdm {
     }
 
     private void excluirAluno() {
-        System.out.println("\n--- Excluir Aluno ---");
+        logger.info("\n--- Excluir Aluno ---");
         System.out.print("Digite o email do aluno a ser removido: ");
         String email = sc.nextLine();
 
         if (this.adm.getEmail().equalsIgnoreCase(email)) {
-            System.out.println("Erro: Você não pode excluir sua própria conta de administrador.");
-            return; 
+            logger.info("Erro: Você não pode excluir sua própria conta de administrador.");
+            return;
         }
-        
+
         usuarioBusiness.deletarUsuario(email);
     }
 }

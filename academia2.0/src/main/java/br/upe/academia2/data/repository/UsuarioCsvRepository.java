@@ -44,9 +44,9 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         if (!parent.exists()) {
             boolean criada = parent.mkdirs();
             if (criada) {
-                System.out.println(" Pasta 'data/' criada: " + parent.getAbsolutePath()); // unchanged
+                logger.info(" Pasta 'data/' criada: " + parent.getAbsolutePath());
             } else {
-                logger.severe(" Falha ao criar pasta 'data/': " + parent.getAbsolutePath()); // replaces System.err
+                logger.severe(" Falha ao criar pasta 'data/': " + parent.getAbsolutePath());
             }
         }
     }
@@ -56,10 +56,10 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         if (findByEmail(usuario.getEmail()) == null) {
             this.usuarios.add(usuario);
             persistirNoCsv();
-            System.out.println(" Usuário criado: " + usuario.getEmail()); // unchanged
+            logger.info(" Usuário criado: " + usuario.getEmail());
             return usuario;
         }
-        System.out.println(" Usuário já existe: " + usuario.getEmail()); // unchanged
+        logger.info(" Usuário já existe: " + usuario.getEmail());
         return null;
     }
 
@@ -76,7 +76,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         this.usuarios.removeIf(u -> u.getEmail().equalsIgnoreCase(usuario.getEmail()));
         this.usuarios.add(usuario);
         persistirNoCsv();
-        System.out.println(" Usuário atualizado: " + usuario.getEmail()); // unchanged
+        logger.info(" Usuário atualizado: " + usuario.getEmail());
         return usuario;
     }
 
@@ -85,18 +85,18 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         boolean removido = this.usuarios.removeIf(u -> u.getEmail().equalsIgnoreCase(email));
         if (removido) {
             persistirNoCsv();
-            System.out.println(" Usuário removido: " + email); // unchanged
+            logger.info(" Usuário removido: " + email);
         } else {
-            System.out.println(" Usuário não encontrado para remoção: " + email); // unchanged
+            logger.info(" Usuário não encontrado para remoção: " + email);
         }
         return removido;
     }
 
     @Override
     public List<Usuario> listarTodos() {
-        System.out.println(" Listando usuários... Total: " + this.usuarios.size()); // unchanged
+        logger.info(" Listando usuários... Total: " + this.usuarios.size());
         for (Usuario u : this.usuarios) {
-            System.out.println("   - " + u.getEmail() + " (" + u.getNome() + ")"); // unchanged
+            logger.info("   - " + u.getEmail() + " (" + u.getNome() + ")");
         }
         return new ArrayList<>(this.usuarios);
     }
@@ -120,16 +120,16 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
                 writer.write(linha);
                 writer.newLine();
             }
-            System.out.println("CSV salvo com sucesso: " + this.filePath); // unchanged
+            logger.info("CSV salvo com sucesso: " + this.filePath);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Erro ao salvar CSV: " + e.getMessage(), e); // replaces System.err
+            logger.log(Level.SEVERE, "Erro ao salvar CSV: " + e.getMessage(), e);
         }
     }
 
     public void carregarDoCsv() {
         File file = new File(this.filePath);
         if (!file.exists()) {
-            System.out.println(" Arquivo CSV não encontrado. Criando novo."); // unchanged
+            logger.info(" Arquivo CSV não encontrado. Criando novo.");
             persistirNoCsv();
             return;
         }
@@ -158,7 +158,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
 
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, " Erro ao carregar CSV: " + e.getMessage(), e); // replaces System.err
+            logger.log(Level.SEVERE, " Erro ao carregar CSV: " + e.getMessage(), e);
         }
     }
 }

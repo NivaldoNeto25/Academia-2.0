@@ -1,12 +1,12 @@
 package br.upe.academia2.ui;
 
-
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class InterfacePrincipal {
 
@@ -14,6 +14,7 @@ public class InterfacePrincipal {
     private static UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
     private static UsuarioCsvRepository usuarioCsvRepository = new UsuarioCsvRepository();
     public static String email;
+    private static final Logger logger = Logger.getLogger(InterfacePrincipal.class.getName());
 
     public InterfacePrincipal(Scanner scGlobal) {
         this.sc = scGlobal;
@@ -21,38 +22,37 @@ public class InterfacePrincipal {
 
     public void exibirMenuPrincipal() {
         boolean sair = false;
-        while (!sair){
-            System.out.println("=".repeat(20));
-            System.out.println("BEM-VINDO");
-            System.out.println("=".repeat(20));
-            System.out.println("1 - Entrar");
-            System.out.println("2 - Sair");
+        while (!sair) {
+            logger.info("=".repeat(20));
+            logger.info("BEM-VINDO");
+            logger.info("=".repeat(20));
+            logger.info("1 - Entrar");
+            logger.info("2 - Sair");
             System.out.print("Escolha uma opção: ");
 
-            try{
+            try {
                 int opcao = sc.nextInt();
                 sc.nextLine();
 
-                switch (opcao){
+                switch (opcao) {
                     case 1:
                         realizarLogin();
                         break;
                     case 2:
-                        System.out.println("Saindo...");
+                        logger.info("Saindo...");
                         sair = true;
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente");
+                        logger.info("Opção inválida! Tente novamente");
                 }
-            }catch (InputMismatchException e){
-                System.out.println("Erro: Entrada inválida!");
+            } catch (InputMismatchException e) {
+                logger.info("Erro: Entrada inválida!");
                 sc.nextLine();
             }
         }
     }
 
     private void realizarLogin() {
-
         System.out.print("Email: ");
         email = sc.nextLine();
 
@@ -65,11 +65,11 @@ public class InterfacePrincipal {
             Usuario usuarioLogado = usuarioCsvRepository.findByEmail(email);
 
             if (usuarioLogado == null) {
-                System.out.println("Erro crítico: usuário autenticado mas não encontrado. Contate o suporte.");
+                logger.severe("Erro crítico: usuário autenticado mas não encontrado. Contate o suporte.");
                 return;
             }
 
-            System.out.println("\nLogin realizado com sucesso!");
+            logger.info("\nLogin realizado com sucesso!");
 
             switch (tipoUsuario) {
                 case "ADM":
@@ -82,7 +82,7 @@ public class InterfacePrincipal {
                     break;
             }
         } else {
-            System.out.println("E-mail ou senha inválidos! Tente novamente.");
+            logger.info("E-mail ou senha inválidos! Tente novamente.");
         }
     }
 }

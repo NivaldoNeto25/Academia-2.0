@@ -7,22 +7,24 @@ import br.upe.academia2.data.beans.Usuario;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class Relatorios {
     private final Scanner sc = new Scanner(System.in);
     private final String caminhoCSV = "data/indicadores.csv";
     private final CSVManipBusiness csvManip = new CSVManipBusiness();
+    private static final Logger logger = Logger.getLogger(Relatorios.class.getName());
 
     public void exibirMenuRelatorios(Usuario usuario) {
         boolean sair = false;
 
         while (!sair) {
-            System.out.println("=".repeat(20));
-            System.out.println("RELATÓRIOS");
-            System.out.println("=".repeat(20));
-            System.out.println("1 - Relatório Geral");
-            System.out.println("2 - Relatório Comparativo");
-            System.out.println("3 - Sair");
+            logger.info("=".repeat(20));
+            logger.info("RELATÓRIOS");
+            logger.info("=".repeat(20));
+            logger.info("1 - Relatório Geral");
+            logger.info("2 - Relatório Comparativo");
+            logger.info("3 - Sair");
             System.out.print("Escolha uma opção: ");
 
             try {
@@ -40,10 +42,10 @@ public class Relatorios {
                         sair = true;
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente.");
+                        logger.info("Opção inválida! Tente novamente.");
                 }
             } catch (Exception e) {
-                System.out.println("Erro: Entrada inválida!");
+                logger.info("Erro: Entrada inválida!");
                 sc.nextLine();
             }
         }
@@ -53,11 +55,11 @@ public class Relatorios {
         List<IndicadorBiomedico> lista = carregarIndicadores(usuario.getEmail());
 
         if (lista.isEmpty()) {
-            System.out.println("Nenhum indicador encontrado para este usuário.");
+            logger.info("Nenhum indicador encontrado para este usuário.");
             return;
         }
 
-        System.out.println("\nRELATÓRIO GERAL:");
+        logger.info("\nRELATÓRIO GERAL:");
         List<List<String>> dadosParaCSV = new ArrayList<>();
 
         for (IndicadorBiomedico ind : lista) {
@@ -82,24 +84,24 @@ public class Relatorios {
         List<IndicadorBiomedico> lista = carregarIndicadores(usuario.getEmail());
 
         if (lista.isEmpty()) {
-            System.out.println("Nenhum indicador encontrado para este usuário.");
+            logger.info("Nenhum indicador encontrado para este usuário.");
             return;
         }
 
         if (lista.size() == 1) {
-            System.out.println("Apenas um registro encontrado. Exibindo:");
+            logger.info("Apenas um registro encontrado. Exibindo:");
             imprimirIndicador(lista.get(0));
             return;
         }
 
         // Mostrar todos os registros numerados
-        System.out.println("\nRegistros disponíveis:");
+        logger.info("\nRegistros disponíveis:");
         for (int i = 0; i < lista.size(); i++) {
-            System.out.printf("%d - Data: %s | IMC: %.2f | Peso: %.2fkg\n",
+            logger.info(String.format("%d - Data: %s | IMC: %.2f | Peso: %.2fkg",
                     i + 1,
                     new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lista.get(i).getDataRegistro()),
                     lista.get(i).getImc(),
-                    lista.get(i).getPeso());
+                    lista.get(i).getPeso()));
         }
 
         try {
@@ -109,18 +111,18 @@ public class Relatorios {
             int segundoIdx = Integer.parseInt(sc.nextLine()) - 1;
 
             if (primeiroIdx < 0 || segundoIdx < 0 || primeiroIdx >= lista.size() || segundoIdx >= lista.size()) {
-                System.out.println("Índices inválidos.");
+                logger.info("Índices inválidos.");
                 return;
             }
 
             IndicadorBiomedico primeiro = lista.get(primeiroIdx);
             IndicadorBiomedico segundo = lista.get(segundoIdx);
 
-            System.out.println("\nRELATÓRIO COMPARATIVO:");
-            System.out.println("- Registro " + (primeiroIdx + 1) + ":");
+            logger.info("\nRELATÓRIO COMPARATIVO:");
+            logger.info("- Registro " + (primeiroIdx + 1) + ":");
             imprimirIndicador(primeiro);
 
-            System.out.println("- Registro " + (segundoIdx + 1) + ":");
+            logger.info("- Registro " + (segundoIdx + 1) + ":");
             imprimirIndicador(segundo);
 
             List<List<String>> dados = List.of(
@@ -145,7 +147,7 @@ public class Relatorios {
                     dados);
 
         } catch (NumberFormatException e) {
-            System.out.println("Entrada inválida. Digite apenas números.");
+            logger.info("Entrada inválida. Digite apenas números.");
         }
     }
 
@@ -169,20 +171,20 @@ public class Relatorios {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Erro ao carregar dados do CSV: " + e.getMessage());
+            logger.info("Erro ao carregar dados do CSV: " + e.getMessage());
         }
 
         return resultado;
     }
 
     private void imprimirIndicador(IndicadorBiomedico ind) {
-        System.out.println("-".repeat(50));
-        System.out.println("Data: " + ind.getDataRegistro());
-        System.out.println("Peso: " + ind.getPeso() + " kg");
-        System.out.println("Altura: " + ind.getAltura() + " m");
-        System.out.println("IMC: " + String.format("%.2f", ind.getImc()));
-        System.out.println("Gordura: " + ind.getPercentualGordura() + "%");
-        System.out.println("Massa Magra: " + ind.getPercentualMassaMagra() + "%");
+        logger.info("-".repeat(50));
+        logger.info("Data: " + ind.getDataRegistro());
+        logger.info("Peso: " + ind.getPeso() + " kg");
+        logger.info("Altura: " + ind.getAltura() + " m");
+        logger.info("IMC: " + String.format("%.2f", ind.getImc()));
+        logger.info("Gordura: " + ind.getPercentualGordura() + "%");
+        logger.info("Massa Magra: " + ind.getPercentualMassaMagra() + "%");
     }
 
     private void salvarCSV(String nomeArquivo, List<String> cabecalho, List<List<String>> linhas) {
@@ -191,9 +193,9 @@ public class Relatorios {
             for (List<String> linha : linhas) {
                 writer.append(String.join(",", linha)).append("\n");
             }
-            System.out.println("✅ Arquivo gerado: data/" + nomeArquivo);
+            logger.info("Arquivo gerado: data/" + nomeArquivo);
         } catch (Exception e) {
-            System.out.println("Erro ao salvar CSV: " + e.getMessage());
+            logger.info("Erro ao salvar CSV: " + e.getMessage());
         }
     }
 }

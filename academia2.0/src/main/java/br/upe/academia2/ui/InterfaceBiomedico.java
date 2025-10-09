@@ -1,10 +1,12 @@
 package br.upe.academia2.ui;
+
 import br.upe.academia2.business.*;
 import br.upe.academia2.data.beans.*;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class InterfaceBiomedico {
 
@@ -13,20 +15,29 @@ public class InterfaceBiomedico {
     private IndicadorBiomedicoBusiness indicadorBiomedicoBusiness;
     private Scanner sc = new Scanner(System.in);
     private Usuario usuarioLogado;
+    private static final Logger logger = Logger.getLogger(InterfaceBiomedico.class.getName());
 
     public InterfaceBiomedico() {
         indicadorBiomedicoBusiness = new IndicadorBiomedicoBusiness();
     }
 
     public void exibirMenuIndicadores(Usuario aluno) {
-        usuarioLogado = new Comum(aluno.getNome(), aluno.getTelefone(), aluno.getEmail(), aluno.getSenha(), aluno.getPesoAtual(),aluno.getAlturaAtual(),aluno.getPercGorduraAtual());
+        usuarioLogado = new Comum(
+                aluno.getNome(),
+                aluno.getTelefone(),
+                aluno.getEmail(),
+                aluno.getSenha(),
+                aluno.getPesoAtual(),
+                aluno.getAlturaAtual(),
+                aluno.getPercGorduraAtual()
+        );
         boolean voltar = false;
         while (!voltar) {
-            System.out.println("\n=== INDICADORES BIOMÉDICOS ===");
-            System.out.println("1 - Cadastrar indicadores");
-            System.out.println("2 - Listar indicadores");
-            System.out.println("3 - Importar indicadores (CSV)");
-            System.out.println("4 - Voltar");
+            logger.info("\n=== INDICADORES BIOMÉDICOS ===");
+            logger.info("1 - Cadastrar indicadores");
+            logger.info("2 - Listar indicadores");
+            logger.info("3 - Importar indicadores (CSV)");
+            logger.info("4 - Voltar");
             System.out.print("Escolha uma opção: ");
 
             try {
@@ -47,17 +58,17 @@ public class InterfaceBiomedico {
                         voltar = true;
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente.");
+                        logger.info("Opção inválida! Tente novamente.");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Erro: Entrada inválida. Por favor, digite um número.");
+                logger.info("Erro: Entrada inválida. Por favor, digite um número.");
                 sc.nextLine();
             }
         }
     }
 
     private void cadastrarIndicadores() {
-        System.out.println("\n=== CADASTRAR INDICADORES BIOMÉDICOS ===");
+        logger.info("\n=== CADASTRAR INDICADORES BIOMÉDICOS ===");
 
         try {
             System.out.print("Peso (kg): ");
@@ -79,60 +90,60 @@ public class InterfaceBiomedico {
 
             indicadorBiomedicoBusiness.cadastrarIndicador(usuarioLogado, indicador);
 
-            System.out.println("✅ Indicador cadastrado com sucesso!");
+            logger.info("Indicador cadastrado com sucesso!");
 
         } catch (InputMismatchException e) {
-            System.out.println("Erro: Digite valores numéricos válidos.");
+            logger.info("Erro: Digite valores numéricos válidos.");
             sc.nextLine();
         }
     }
 
     private void listarIndicadores() {
-        System.out.println("\n=== SEUS INDICADORES BIOMÉDICOS ===");
+        logger.info("\n=== SEUS INDICADORES BIOMÉDICOS ===");
 
         List<IndicadorBiomedico> indicadores = indicadorBiomedicoBusiness.listarIndicadores(usuarioLogado);
 
         if (indicadores.isEmpty()) {
-            System.out.println("Nenhum indicador biomédico cadastrado.");
+            logger.info("Nenhum indicador biomédico cadastrado.");
             return;
         }
 
-        System.out.println("Total de registros: " + indicadores.size());
-        System.out.println("-".repeat(60));
+        logger.info("Total de registros: " + indicadores.size());
+        logger.info("-".repeat(60));
 
         for (int i = 0; i < indicadores.size(); i++) {
             IndicadorBiomedico ind = indicadores.get(i);
-            System.out.println("Registro " + (i + 1) + " (Usuário: " + ind.getEmail() + ")");
-            System.out.println("Peso: " + ind.getPeso() + " kg");
-            System.out.println("Altura: " + ind.getAltura() + " m");
-            System.out.println("IMC: " + String.format("%.2f", ind.getImc()));
-            System.out.println("Gordura: " + ind.getPercentualGordura() + "%");
-            System.out.println("Massa Magra: " + ind.getPercentualMassaMagra() + "%");
-            System.out.println("Data: " + ind.getDataRegistro());
-            System.out.println("-".repeat(60));
+            logger.info("Registro " + (i + 1) + " (Usuário: " + ind.getEmail() + ")");
+            logger.info("Peso: " + ind.getPeso() + " kg");
+            logger.info("Altura: " + ind.getAltura() + " m");
+            logger.info("IMC: " + String.format("%.2f", ind.getImc()));
+            logger.info("Gordura: " + ind.getPercentualGordura() + "%");
+            logger.info("Massa Magra: " + ind.getPercentualMassaMagra() + "%");
+            logger.info("Data: " + ind.getDataRegistro());
+            logger.info("-".repeat(60));
         }
     }
 
     private void importarIndicadoresCSV() {
-        System.out.println("\n=== IMPORTAR INDICADORES BIOMÉDICOS (CSV) ===");
-        System.out.println("Formato esperado do CSV:");
-        System.out.println("peso,altura,percentualGordura,percentualMassaMagra");
-        System.out.println("Exemplo: 70.5,1.75,15.2,84.8");
-        System.out.println();
+        logger.info("\n=== IMPORTAR INDICADORES BIOMÉDICOS (CSV) ===");
+        logger.info("Formato esperado do CSV:");
+        logger.info("peso,altura,percentualGordura,percentualMassaMagra");
+        logger.info("Exemplo: 70.5,1.75,15.2,84.8");
+        logger.info("");
 
         System.out.print("Digite o caminho completo do arquivo CSV: ");
         String caminhoArquivo = sc.nextLine();
 
-
         boolean importado = indicadorBiomedicoBusiness.importarIndicadoresDeCSV(caminhoArquivo);
 
         if (importado) {
-            System.out.println("Indicadores importados com sucesso!");
+            logger.info("Indicadores importados com sucesso!");
         } else {
-            System.out.println("Erro ao importar indicadores. Verifique o formato do arquivo.");
+            logger.info("Erro ao importar indicadores. Verifique o formato do arquivo.");
         }
     }
 
     public void relatorioEvolucao() {
+        // Implementação futura
     }
 }
