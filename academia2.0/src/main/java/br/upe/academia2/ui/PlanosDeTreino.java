@@ -20,6 +20,8 @@ public class PlanosDeTreino {
     private Usuario usuarioLogado;
     private static final Logger logger = Logger.getLogger(PlanosDeTreino.class.getName());
 
+    private static final String MSG_ESCOLHA_OPCAO = "Escolha uma opção: ";
+
     public PlanosDeTreino(Usuario usuarioLogado) {
         this.usuarioBusiness = new UsuarioBusiness();
         this.exercicioBusiness = new ExercicioBusiness();
@@ -41,7 +43,7 @@ public class PlanosDeTreino {
             logger.info("3 - Modificar plano de treino");
             logger.info("4 - Seção Treino");
             logger.info("5 - Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.print(MSG_ESCOLHA_OPCAO);
 
             try {
                 int opcao = sc.nextInt();
@@ -88,7 +90,7 @@ public class PlanosDeTreino {
         boolean finalizar = false;
         while (!finalizar) {
             logger.info("\n--- Modificando Plano: " + plano.getNomePlano() + " ---");
-            planoTreinoBusiness.exibirPlanoDeTreino(plano); // Mostra o estado atual do plano
+            planoTreinoBusiness.exibirPlanoDeTreino(plano);
             logger.info("\nOpções de Modificação:");
             logger.info("1 - Alterar nome do plano");
             logger.info("2 - Alterar datas");
@@ -96,7 +98,7 @@ public class PlanosDeTreino {
             logger.info("4 - Modificar exercício existente");
             logger.info("5 - Remover exercício de uma seção");
             logger.info("6 - Salvar e Finalizar modificações");
-            System.out.print("Escolha uma opção: ");
+            System.out.print(MSG_ESCOLHA_OPCAO);
 
             try {
                 int opcao = Integer.parseInt(sc.nextLine());
@@ -348,7 +350,7 @@ public class PlanosDeTreino {
 
         logger.info("\n1 - Exibir seção como cartão (consulta)");
         logger.info("2 - Executar treino (preenchimento)");
-        System.out.print("Escolha uma opção: ");
+        System.out.print(MSG_ESCOLHA_OPCAO);
 
         try {
             int opcao = sc.nextInt();
@@ -421,7 +423,7 @@ public class PlanosDeTreino {
 
                         if (resposta.equalsIgnoreCase("s")) {
                             secaoTreinoBusiness.registrarPerformance(item, cargaRealizada, repeticoesRealizadas, seriesRealizadas);
-                            houveAlteracoesNoPlano = true; // Marca que o plano foi modificado.
+                            houveAlteracoesNoPlano = true;
                             logger.info("Parâmetros do exercício atualizados.");
                         } else {
                             logger.info("Plano mantido sem alterações para este exercício.");
@@ -437,7 +439,7 @@ public class PlanosDeTreino {
 
         if (houveAlteracoesNoPlano) {
             logger.info("\nSalvando todas as alterações no plano de treino...");
-            planoTreinoBusiness.modificarPlanoDeTreino(plano); // Salva o estado final do plano UMA ÚNICA VEZ.
+            planoTreinoBusiness.modificarPlanoDeTreino(plano);
         }
 
         logger.info("\nSeção de treino concluída!");
