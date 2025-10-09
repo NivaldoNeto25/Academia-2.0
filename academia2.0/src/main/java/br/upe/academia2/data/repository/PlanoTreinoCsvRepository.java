@@ -14,6 +14,8 @@ public class PlanoTreinoCsvRepository {
 
     private static final Logger logger = Logger.getLogger(PlanoTreinoCsvRepository.class.getName());
 
+    private static final String ERRO_AO_CARREGAR = "Erro ao carregar";
+
     private final String baseDir;
     private final ExercicioBusiness exercicioBusiness = new ExercicioBusiness();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -66,7 +68,7 @@ public class PlanoTreinoCsvRepository {
 
         if (!file.exists()) {
             logger.log(Level.WARNING, "Arquivo de plano não encontrado: " + arquivoPlano);
-            return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
+            return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoPlano))) {
@@ -76,13 +78,13 @@ public class PlanoTreinoCsvRepository {
             String metadataLine = reader.readLine();
             if (metadataLine == null || metadataLine.trim().isEmpty()) {
                 logger.log(Level.SEVERE, "Erro ao carregar plano de treino: Metadados do plano ausentes ou arquivo corrompido.");
-                return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
+                return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
             }
 
             String[] metadata = metadataLine.split(",", -1);
             if (metadata.length < 5) {
                 logger.log(Level.SEVERE, "Erro ao carregar plano de treino: Metadados incompletos.");
-                return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
+                return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
             }
 
             int id = Integer.parseInt(metadata[0]);
@@ -117,7 +119,7 @@ public class PlanoTreinoCsvRepository {
 
         } catch (IOException | ParseException | NumberFormatException e) {
             logger.log(Level.SEVERE, "Erro ao carregar plano de treino: " + e.getMessage(), e);
-            return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
+            return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
         }
     }
 
