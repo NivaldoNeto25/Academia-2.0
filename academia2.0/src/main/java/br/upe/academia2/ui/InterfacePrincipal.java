@@ -71,15 +71,12 @@ public class InterfacePrincipal {
 
             logger.info("\nLogin realizado com sucesso!");
 
-            switch (tipoUsuario) {
-                case "ADM":
-                    InterfaceAdm interfaceAdm = new InterfaceAdm(usuarioLogado);
-                    interfaceAdm.exibirMenuAdm();
-                    break;
-                case "COMUM":
-                    InterfaceAluno interfaceAluno = new InterfaceAluno(usuarioLogado);
-                    interfaceAluno.exibirMenuAlunos();
-                    break;
+            if ("ADM".equals(tipoUsuario)) {
+                InterfaceAdm interfaceAdm = new InterfaceAdm(usuarioLogado);
+                interfaceAdm.exibirMenuAdm();
+            } else if ("COMUM".equals(tipoUsuario)) {
+                InterfaceAluno interfaceAluno = new InterfaceAluno(usuarioLogado);
+                interfaceAluno.exibirMenuAlunos();
             }
         } else {
             logger.info("E-mail ou senha inválidos! Tente novamente.");
