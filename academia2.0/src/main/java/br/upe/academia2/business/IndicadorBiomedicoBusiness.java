@@ -46,11 +46,11 @@ public class IndicadorBiomedicoBusiness {
 
     private void salvarNoCSV(IndicadorBiomedico indicador) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo, true))){
-            
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            
+
             writer.append(String.format(Locale.US,
-                    "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s\n",
+                    "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s%n",
                     indicador.getEmail(),
                     indicador.getPeso(),
                     indicador.getAltura(),
