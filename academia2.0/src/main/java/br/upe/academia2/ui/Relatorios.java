@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class Relatorios {
     private final Scanner sc = new Scanner(System.in);
-    private final String caminhoCSV = "data/indicadores.csv";
+    private static final String caminhoCSV = "data/indicadores.csv";
     private final CSVManipBusiness csvManip = new CSVManipBusiness();
     private static final Logger logger = Logger.getLogger(Relatorios.class.getName());
 
