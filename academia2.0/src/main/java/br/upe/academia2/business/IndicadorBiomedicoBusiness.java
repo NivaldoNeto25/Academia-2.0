@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class IndicadorBiomedicoBusiness {
     private IndBioRepoImpl indBioRepository = new IndBioRepoImpl();
     private CSVManipBusiness fileManip = new CSVManipBusiness();
-    private final String caminhoArquivo = "data/indicadores.csv";
+    private static final String caminhoArquivo = "data/indicadores.csv";
 
     private Logger logger = Logger.getLogger(IndicadorBiomedicoBusiness.class.getName());
 
