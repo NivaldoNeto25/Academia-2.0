@@ -38,7 +38,7 @@ public class PlanoTreinoCsvRepository {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("id,nomePlano,inicioPlano,fimPlano,emailUsuario\n");
 
-            writer.write(String.format("%d,%s,%s,%s,%s\n",
+            writer.write(String.format("%d,%s,%s,%s,%s%n",
                     plano.getId(),
                     escape(plano.getNomePlano()),
                     dateFormat.format(plano.getInicioPlano()),
@@ -47,7 +47,7 @@ public class PlanoTreinoCsvRepository {
 
             for (SecaoTreino secao : plano.getSecoes()) {
                 for (ItemPlanoTreino item : secao.getItensPlano()) {
-                    writer.write(String.format("%s,%s,%d,%d,%d\n",
+                    writer.write(String.format("%s,%s,%d,%d,%d%n",
                             escape(secao.getNomeTreino()),
                             escape(item.getExercicio().getNome()),
                             item.getSeries(),
