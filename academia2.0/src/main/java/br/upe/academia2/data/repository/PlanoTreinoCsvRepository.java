@@ -4,16 +4,19 @@ import br.upe.academia2.business.ExercicioBusiness;
 import br.upe.academia2.data.beans.*;
 
 import java.io.*;
-import java.text.ParseException; // Adicionado para lidar com ParseException
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PlanoTreinoCsvRepository {
+
+    private static final Logger logger = Logger.getLogger(PlanoTreinoCsvRepository.class.getName());
 
     private final String baseDir;
     private final ExercicioBusiness exercicioBusiness = new ExercicioBusiness();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 
     public PlanoTreinoCsvRepository() {
         String projectDir = System.getProperty("user.dir");
@@ -35,14 +38,12 @@ public class PlanoTreinoCsvRepository {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("id,nomePlano,inicioPlano,fimPlano,emailUsuario\n");
 
-
             writer.write(String.format("%d,%s,%s,%s,%s\n",
                     plano.getId(),
                     escape(plano.getNomePlano()),
                     dateFormat.format(plano.getInicioPlano()),
                     dateFormat.format(plano.getFimPlano()),
                     escape(plano.getUsuario().getEmail())));
-
 
             for (SecaoTreino secao : plano.getSecoes()) {
                 for (ItemPlanoTreino item : secao.getItensPlano()) {
@@ -55,7 +56,7 @@ public class PlanoTreinoCsvRepository {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Erro ao salvar plano de treino: " + e.getMessage());
+            logger.log(Level.SEVERE, "Erro ao salvar plano de treino: " + e.getMessage(), e);
         }
     }
 
@@ -63,26 +64,24 @@ public class PlanoTreinoCsvRepository {
         String arquivoPlano = getArquivoPlano(usuario);
         File file = new File(arquivoPlano);
 
-
         if (!file.exists()) {
+            logger.log(Level.WARNING, "Arquivo de plano não encontrado: " + arquivoPlano);
             return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoPlano))) {
-
             @SuppressWarnings("unused")
             String jump = reader.readLine();
 
-
             String metadataLine = reader.readLine();
             if (metadataLine == null || metadataLine.trim().isEmpty()) {
-                System.err.println("Erro ao carregar plano de treino: Metadados do plano ausentes ou arquivo corrompido.");
+                logger.log(Level.SEVERE, "Erro ao carregar plano de treino: Metadados do plano ausentes ou arquivo corrompido.");
                 return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
             }
 
             String[] metadata = metadataLine.split(",", -1);
             if (metadata.length < 5) {
-                System.err.println("Erro ao carregar plano de treino: Metadados incompletos.");
+                logger.log(Level.SEVERE, "Erro ao carregar plano de treino: Metadados incompletos.");
                 return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
             }
 
@@ -90,7 +89,6 @@ public class PlanoTreinoCsvRepository {
             String nomePlano = unescape(metadata[1]);
             Date inicioPlano = dateFormat.parse(metadata[2]);
             Date fimPlano = dateFormat.parse(metadata[3]);
-
 
             PlanoTreino plano = new PlanoTreino(id, nomePlano, inicioPlano, fimPlano, usuario);
 
@@ -111,15 +109,14 @@ public class PlanoTreinoCsvRepository {
                         ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
                         secao.addItemSecao(item);
                     } else {
-                        System.err.println("AVISO: O exercício '" + nomeExercicio + "' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.");
+                        logger.log(Level.WARNING, "O exercício '" + nomeExercicio + "' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.");
                     }
                 }
             }
             return plano;
 
         } catch (IOException | ParseException | NumberFormatException e) {
-            System.err.println("Erro ao carregar plano de treino: " + e.getMessage());
-
+            logger.log(Level.SEVERE, "Erro ao carregar plano de treino: " + e.getMessage(), e);
             return new PlanoTreino(0, "Erro ao carregar", new Date(), new Date(), usuario);
         }
     }
