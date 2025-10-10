@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CSVManipBusiness {
     public List<String> leitor(String caminho) {
-        ArrayList<String> resposta = new ArrayList<>();
+        List<String> resposta = new ArrayList<>();
 
         try(BufferedReader leitor = new BufferedReader(new FileReader(caminho));) {
             String linha;
