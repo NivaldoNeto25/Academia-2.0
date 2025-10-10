@@ -14,6 +14,7 @@ public class Relatorios {
     private static final String caminhoCSV = "data/indicadores.csv";
     private final CSVManipBusiness csvManip = new CSVManipBusiness();
     private static final Logger logger = Logger.getLogger(Relatorios.class.getName());
+    private static final String FORMATO_DATA = "yyyy-MM-dd HH:mm:ss";
 
     public void exibirMenuRelatorios(Usuario usuario) {
         boolean sair = false;
@@ -71,7 +72,7 @@ public class Relatorios {
                     String.format(Locale.US, "%.2f", ind.getPercentualGordura()),
                     String.format(Locale.US, "%.2f", ind.getPercentualMassaMagra()),
                     String.format(Locale.US, "%.2f", ind.getImc()),
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ind.getDataRegistro())
+                    new SimpleDateFormat(FORMATO_DATA).format(ind.getDataRegistro())
             ));
         }
 
@@ -99,7 +100,7 @@ public class Relatorios {
         for (int i = 0; i < lista.size(); i++) {
             logger.info(String.format("%d - Data: %s | IMC: %.2f | Peso: %.2fkg",
                     i + 1,
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lista.get(i).getDataRegistro()),
+                    new SimpleDateFormat(FORMATO_DATA).format(lista.get(i).getDataRegistro()),
                     lista.get(i).getImc(),
                     lista.get(i).getPeso()));
         }
@@ -132,14 +133,14 @@ public class Relatorios {
                             String.format(Locale.US, "%.2f", primeiro.getPercentualGordura()),
                             String.format(Locale.US, "%.2f", primeiro.getPercentualMassaMagra()),
                             String.format(Locale.US, "%.2f", primeiro.getImc()),
-                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(primeiro.getDataRegistro())),
+                            new SimpleDateFormat(FORMATO_DATA).format(primeiro.getDataRegistro())),
                     Arrays.asList("Registro " + (segundoIdx + 1),
                             String.format(Locale.US, "%.2f", segundo.getPeso()),
                             String.format(Locale.US, "%.2f", segundo.getAltura()),
                             String.format(Locale.US, "%.2f", segundo.getPercentualGordura()),
                             String.format(Locale.US, "%.2f", segundo.getPercentualMassaMagra()),
                             String.format(Locale.US, "%.2f", segundo.getImc()),
-                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(segundo.getDataRegistro()))
+                            new SimpleDateFormat(FORMATO_DATA).format(segundo.getDataRegistro()))
             );
 
             salvarCSV("relatorio_comparativo_" + usuario.getEmail().replace("@", "_") + ".csv",
@@ -165,7 +166,7 @@ public class Relatorios {
                     double gordura = Double.parseDouble(dados[3]);
                     double massa = Double.parseDouble(dados[4]);
                     double imc = Double.parseDouble(dados[5]);
-                    Date data = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dados[6]);
+                    Date data = new SimpleDateFormat(FORMATO_DATA).parse(dados[6]);
 
                     resultado.add(new IndicadorBiomedico(email, peso, altura, gordura, massa, imc, data));
                 }

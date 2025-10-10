@@ -39,10 +39,12 @@ class PlanoTreinoCsvRepositoryTest {
 
         Files.createDirectories(planosDir);
 
-        String exerciciosContent = "nome,descricao,caminhoGif\n" +
-                "Supino,Para peito,supino.gif\n" +
-                "Agachamento,Para pernas,agachamento.gif\n" +
-                "Puxada,Para costas,puxada.gif";
+        String exerciciosContent = """
+        nome,descricao,caminhoGif
+        Supino,Para peito,supino.gif
+        Agachamento,Para pernas,agachamento.gif
+        Puxada,Para costas,puxada.gif
+        """;
         Files.write(exerciciosFile, exerciciosContent.getBytes());
 
         planoRepository = new PlanoTreinoCsvRepository();
@@ -93,10 +95,11 @@ class PlanoTreinoCsvRepositoryTest {
         Path planoFilePath = planosDir.resolve("plano_" + usuario.getEmail().replaceAll("[^a-zA-Z0-9]", "_") + ".csv");
 
 
-        String planoContent = String.format("id,nomePlano,inicioPlano,fimPlano,emailUsuario\n" + // Cabeçalho
-                        "2,Plano Carregado,%s,%s,%s\n" +
-                        "Treino B,Agachamento,4,12,60\n" +
-                        "Treino B,Supino,3,8,45\n",
+        String planoContent = String.format("""
+                        id,nomePlano,inicioPlano,fimPlano,emailUsuario
+                        2,Plano Carregado,%s,%s,%s
+                        Treino B,Agachamento,4,12,60
+                        Treino B,Supino,3,8,45""",
                 dateFormat.format(inicio), dateFormat.format(fim), usuario.getEmail());
         Files.write(planoFilePath, planoContent.getBytes());
 
