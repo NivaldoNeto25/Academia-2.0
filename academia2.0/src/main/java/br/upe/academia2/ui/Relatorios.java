@@ -155,7 +155,7 @@ public class Relatorios {
         List<IndicadorBiomedico> resultado = new ArrayList<>();
 
         try {
-            ArrayList<String> linhas = csvManip.leitor(caminhoCSV);
+            List<String> linhas = csvManip.leitor(caminhoCSV);
             for (String linha : linhas) {
                 String[] dados = linha.split(",");
                 if (dados.length >= 7 && dados[0].equals(emailUsuario)) {
