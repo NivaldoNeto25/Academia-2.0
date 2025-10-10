@@ -2,9 +2,10 @@ package br.upe.academia2.business;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CSVManipBusiness {
-    public ArrayList<String> leitor(String caminho) {
+    public List<String> leitor(String caminho) {
         ArrayList<String> resposta = new ArrayList<>();
 
         try(BufferedReader leitor = new BufferedReader(new FileReader(caminho));) {
@@ -24,7 +25,7 @@ public class CSVManipBusiness {
         }
         return resposta;
     }
-    public void escritor(ArrayList<String> nomeDosCampos, ArrayList<String> input, String nomeDoArquivo, String caminhoDoArquivo){
+    public void escritor(List<String> nomeDosCampos, List<String> input, String nomeDoArquivo, String caminhoDoArquivo){
         String caminhoAbsoluto = caminhoDoArquivo + "/" + nomeDoArquivo;
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoAbsoluto, StandardCharsets.UTF_8,true))) {

@@ -66,7 +66,7 @@ public class IndicadorBiomedicoBusiness {
 
     public boolean importarIndicadoresDeCSV(String caminhoArquivo){
         try {
-            ArrayList<String> arquivoParaImportar = fileManip.leitor(caminhoArquivo);
+            List<String> arquivoParaImportar = fileManip.leitor(caminhoArquivo);
             for (String linha : arquivoParaImportar) {
                 String[] dados = linha.split(",");
                 String email = dados[0];
