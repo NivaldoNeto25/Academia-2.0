@@ -22,6 +22,7 @@ public class PlanosDeTreino {
 
     private static final String MSG_ESCOLHA_OPCAO = "Escolha uma opção: ";
     private static final String MSG_OPCAO_INVALIDA = "Opção inválida!";
+    private static final String MSG_ERRO_NUMERO_VALIDO = "Erro: Digite um número válido.";
 
     public PlanosDeTreino(Usuario usuarioLogado) {
         this.usuarioBusiness = new UsuarioBusiness();
@@ -128,7 +129,7 @@ public class PlanosDeTreino {
                         logger.info(MSG_OPCAO_INVALIDA);
                 }
             } catch (NumberFormatException e) {
-                logger.info("Erro: Digite um número válido.");
+                logger.info(MSG_ERRO_NUMERO_VALIDO);
             }
         }
     }
@@ -256,7 +257,7 @@ public class PlanosDeTreino {
                 logger.info(MSG_OPCAO_INVALIDA);
             }
         } catch (InputMismatchException e) {
-            logger.info("Erro: Digite um número válido.");
+            logger.info(MSG_ERRO_NUMERO_VALIDO);
             sc.nextLine();
         }
     }
@@ -285,7 +286,7 @@ public class PlanosDeTreino {
                 logger.info(MSG_OPCAO_INVALIDA);
             }
         } catch (InputMismatchException e) {
-            logger.info("Erro: Digite um número válido.");
+            logger.info(MSG_ERRO_NUMERO_VALIDO);
             sc.nextLine();
         }
     }
@@ -368,7 +369,7 @@ public class PlanosDeTreino {
                     logger.info(MSG_OPCAO_INVALIDA);
             }
         } catch (InputMismatchException e) {
-            logger.info("Erro: Digite um número válido.");
+            logger.info(MSG_ERRO_NUMERO_VALIDO);
             sc.nextLine();
         }
     }
