@@ -37,11 +37,7 @@ class ExercicioRepoImplTest {
 
     @AfterEach
     void tearDown() {}
-    /*
-     * Metodo executado após cada teste.
-     * Atualmente não possui implementação porque não há necessidade de limpeza específica após os testes.
-     * Pode ser implementado futuramente se houver
-    */
+    // Metodo executado após cada teste. Atualmente não possui implementação porque não há necessidade de limpeza específica após os testes.
 
     @AfterAll
     static void tearDownAll() throws IOException {
