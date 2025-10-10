@@ -19,7 +19,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
     private List<Usuario> usuarios;
 
     public UsuarioCsvRepository() {
-        this.filePath = obterCaminhoCsv();
+        this.filePath = obterCaminhoCsv("/data/usuarios.csv");
         criarDiretorioSeNecessario();
         this.usuarios = new ArrayList<>();
         carregarDoCsv();
@@ -32,9 +32,8 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         carregarDoCsv();
     }
 
-    private String obterCaminhoCsv() {
+    private String obterCaminhoCsv(String relativePath) {
         String basePath = System.getProperty("user.dir");
-        String relativePath = "/data/usuarios.csv";
         return basePath + relativePath;
     }
 

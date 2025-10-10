@@ -13,7 +13,7 @@ public class InterfacePrincipal {
     private final Scanner sc;
     private static UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
     private static UsuarioCsvRepository usuarioCsvRepository = new UsuarioCsvRepository();
-    public static String email;
+    private static String email;
     private static final Logger logger = Logger.getLogger(InterfacePrincipal.class.getName());
 
     public InterfacePrincipal(Scanner scGlobal) {

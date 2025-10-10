@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class IndBioRepoImpl implements IIndBioRepository {
 
-    private ArrayList<IndicadorBiomedico> indicadoresBiomedicos = new ArrayList<IndicadorBiomedico>();
+    private List<IndicadorBiomedico> indicadoresBiomedicos = new ArrayList<>();
     private Logger logger = Logger.getLogger(IndBioRepoImpl.class.getName());
 
     @Override
