@@ -13,7 +13,6 @@ public class InterfacePrincipal {
     private final Scanner sc;
     private static UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
     private static UsuarioCsvRepository usuarioCsvRepository = new UsuarioCsvRepository();
-    private static String email;
     private static final Logger logger = Logger.getLogger(InterfacePrincipal.class.getName());
 
     public InterfacePrincipal(Scanner scGlobal) {
@@ -54,7 +53,7 @@ public class InterfacePrincipal {
 
     private void realizarLogin() {
         logger.info("Email: ");
-        email = sc.nextLine();
+        String email = sc.nextLine(); // agora é uma variável local
 
         logger.info("Senha: ");
         String senha = sc.nextLine();

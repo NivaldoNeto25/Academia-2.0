@@ -31,8 +31,8 @@ public class IndicadorBiomedicoBusiness {
         }
     }
 
-    public ArrayList<IndicadorBiomedico> listarIndicadores(Usuario usuario) {
-        ArrayList<IndicadorBiomedico> resultado = new ArrayList<>();
+    public List<IndicadorBiomedico> listarIndicadores(Usuario usuario) {
+        List<IndicadorBiomedico> resultado = new ArrayList<>();
         for (IndicadorBiomedico ind : indBioRepository.findAll()) {
             if (ind.getEmail().equals(usuario.getEmail())) {
                 resultado.add(ind);
