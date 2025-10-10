@@ -18,8 +18,10 @@ public class IndicadorBiomedicoBusiness {
 
     private Logger logger = Logger.getLogger(IndicadorBiomedicoBusiness.class.getName());
 
-    public IndicadorBiomedicoBusiness() {}
-    //Construtor padrão necessário para inicialização padrão da classe.
+    public IndicadorBiomedicoBusiness() {
+        //Construtor padrão necessário para inicialização padrão da classe.
+    }
+    
 
     public void cadastrarIndicador(Usuario usuario, IndicadorBiomedico indicador) {
         if (usuario != null && indicador != null) {
@@ -40,7 +42,7 @@ public class IndicadorBiomedicoBusiness {
     }
 
     private void salvarNoCSV(IndicadorBiomedico indicador) {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo, true))){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO, true))){
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
