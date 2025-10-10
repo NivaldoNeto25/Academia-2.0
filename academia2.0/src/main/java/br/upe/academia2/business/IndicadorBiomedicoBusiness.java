@@ -14,17 +14,12 @@ import java.util.logging.Logger;
 public class IndicadorBiomedicoBusiness {
     private IndBioRepoImpl indBioRepository = new IndBioRepoImpl();
     private CSVManipBusiness fileManip = new CSVManipBusiness();
-    private static final String caminhoArquivo = "data/indicadores.csv";
+    private static final String CAMINHO_ARQUIVO = "data/indicadores.csv";
 
     private Logger logger = Logger.getLogger(IndicadorBiomedicoBusiness.class.getName());
 
     public IndicadorBiomedicoBusiness() {}
-    /**
-     * Construtor padrão.
-     * Nenhuma inicialização adicional é necessária,
-     * pois os campos já são inicializados na declaração.
-     */
-
+    //Construtor padrão necessário para inicialização padrão da classe.
 
     public void cadastrarIndicador(Usuario usuario, IndicadorBiomedico indicador) {
         if (usuario != null && indicador != null) {
