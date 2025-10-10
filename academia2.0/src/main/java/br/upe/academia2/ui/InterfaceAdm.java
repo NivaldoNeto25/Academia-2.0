@@ -30,7 +30,7 @@ public class InterfaceAdm {
             logger.info("4 - Excluir alunos");
             logger.info("5 - Sair");
 
-            System.out.print("Escolha uma opção: "); // prompt kept on System.out for immediate input
+            logger.info("Escolha uma opção: "); // prompt kept on System.out for immediate input
 
             try {
                 int opcao = Integer.parseInt(sc.nextLine());
@@ -63,11 +63,11 @@ public class InterfaceAdm {
 
     private void cadastrarAluno() {
         logger.info("\n--- Cadastro de Novo Aluno ---");
-        System.out.print("Nome: ");
+        logger.info("Nome: ");
         String nome = sc.nextLine();
-        System.out.print("Email: ");
+        logger.info("Email: ");
         String email = sc.nextLine();
-        System.out.print("Senha: ");
+        logger.info("Senha: ");
         String senha = sc.nextLine();
         if (usuarioBusiness.listarUsuarios().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
             logger.info("Erro: Já existe um aluno com esse email.");
@@ -92,7 +92,7 @@ public class InterfaceAdm {
 
     private void modificarAluno() {
         logger.info("\n--- Modificar Aluno ---");
-        System.out.print("Digite o email do aluno: ");
+        logger.info("Digite o email do aluno: ");
         String email = sc.nextLine();
 
         Usuario existente = usuarioBusiness.listarUsuarios()
@@ -106,11 +106,11 @@ public class InterfaceAdm {
             return;
         }
 
-        System.out.print("Novo nome (deixe vazio para manter): ");
+        logger.info("Novo nome (deixe vazio para manter): ");
         String nome = sc.nextLine();
         if (!nome.isBlank()) existente.setNome(nome);
 
-        System.out.print("Nova senha (deixe vazio para manter): ");
+        logger.info("Nova senha (deixe vazio para manter): ");
         String senha = sc.nextLine();
         if (!senha.isBlank()) existente.setSenha(senha);
 
@@ -119,7 +119,7 @@ public class InterfaceAdm {
 
     private void excluirAluno() {
         logger.info("\n--- Excluir Aluno ---");
-        System.out.print("Digite o email do aluno a ser removido: ");
+        logger.info("Digite o email do aluno a ser removido: ");
         String email = sc.nextLine();
 
         if (this.adm.getEmail().equalsIgnoreCase(email)) {

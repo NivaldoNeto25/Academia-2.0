@@ -25,7 +25,7 @@ public class Relatorios {
             logger.info("1 - Relatório Geral");
             logger.info("2 - Relatório Comparativo");
             logger.info("3 - Sair");
-            System.out.print("Escolha uma opção: ");
+            logger.info("Escolha uma opção: ");
 
             try {
                 int opcao = sc.nextInt();
@@ -105,9 +105,9 @@ public class Relatorios {
         }
 
         try {
-            System.out.print("Digite o número do primeiro registro para comparar: ");
+            logger.info("Digite o número do primeiro registro para comparar: ");
             int primeiroIdx = Integer.parseInt(sc.nextLine()) - 1;
-            System.out.print("Digite o número do segundo registro para comparar: ");
+            logger.info("Digite o número do segundo registro para comparar: ");
             int segundoIdx = Integer.parseInt(sc.nextLine()) - 1;
 
             if (primeiroIdx < 0 || segundoIdx < 0 || primeiroIdx >= lista.size() || segundoIdx >= lista.size()) {

@@ -40,7 +40,7 @@ public class InterfaceAluno {
             logger.info("3 - Plano de treino");
             logger.info("4 - Relatório");
             logger.info("5 - Sair");
-            System.out.print("Escolha uma opção: ");
+            logger.info("Escolha uma opção: ");
 
             try {
                 int opcao = sc.nextInt();

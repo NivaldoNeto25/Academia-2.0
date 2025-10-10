@@ -24,7 +24,7 @@ public class Exercicios {
             logger.info("4 - Modificar exercício");
             logger.info("5 - Sair");
 
-            System.out.print("Escolha uma opção: ");  // User input prompts better remain on System.out
+            logger.info("Escolha uma opção: ");  // User input prompts better remain on System.out
 
             try {
                 int opcao = sc.nextInt();
@@ -82,13 +82,13 @@ public class Exercicios {
         logger.info("\n=== CADASTRAR EXERCÍCIO FÍSICO ===");
 
         try {
-            System.out.print("Nome do exercício: ");
+            logger.info("Nome do exercício: ");
             String nome = sc.nextLine();
 
-            System.out.print("Descrição detalhada: ");
+            logger.info("Descrição detalhada: ");
             String descricao = sc.nextLine();
 
-            System.out.print("Caminho do arquivo GIF: ");
+            logger.info("Caminho do arquivo GIF: ");
             String caminhoGif = sc.nextLine();
 
             Exercicio novoExercicio = new Exercicio(nome, descricao, caminhoGif);
@@ -103,7 +103,7 @@ public class Exercicios {
     private void atualizarExercicioExistente() {
         logger.info("\n=== ATUALIZAR EXERCÍCIO ===");
 
-        System.out.print("Digite o nome do exercício a ser atualizado: ");
+        logger.info("Digite o nome do exercício a ser atualizado: ");
         String nome = sc.nextLine().trim();
 
         if (nome.isEmpty()) {
@@ -120,10 +120,10 @@ public class Exercicios {
 
         logger.info("\nDigite os novos dados (deixe vazio para manter o atual):");
 
-        System.out.print("Nova descrição: ");
+        logger.info("Nova descrição: ");
         String novaDescricao = sc.nextLine().trim();
 
-        System.out.print("Novo caminho do GIF: ");
+        logger.info("Novo caminho do GIF: ");
         String novoCaminhoGif = sc.nextLine().trim();
 
         boolean houveMudanca = false;
@@ -149,7 +149,7 @@ public class Exercicios {
     private void excluirExercicio() {
         logger.info("\n=== EXCLUIR EXERCÍCIO ===");
 
-        System.out.print("Digite o nome do exercício a ser excluído: ");
+        logger.info("Digite o nome do exercício a ser excluído: ");
         String nome = sc.nextLine().trim();
 
         if (nome.isEmpty()) {

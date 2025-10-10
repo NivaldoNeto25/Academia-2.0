@@ -28,7 +28,7 @@ public class InterfacePrincipal {
             logger.info("=".repeat(20));
             logger.info("1 - Entrar");
             logger.info("2 - Sair");
-            System.out.print("Escolha uma opção: ");
+            logger.info("Escolha uma opção: ");
 
             try {
                 int opcao = sc.nextInt();
@@ -53,10 +53,10 @@ public class InterfacePrincipal {
     }
 
     private void realizarLogin() {
-        System.out.print("Email: ");
+        logger.info("Email: ");
         email = sc.nextLine();
 
-        System.out.print("Senha: ");
+        logger.info("Senha: ");
         String senha = sc.nextLine();
 
         String tipoUsuario = usuarioBusiness.autenticar(email, senha);

@@ -38,7 +38,7 @@ public class InterfaceBiomedico {
             logger.info("2 - Listar indicadores");
             logger.info("3 - Importar indicadores (CSV)");
             logger.info("4 - Voltar");
-            System.out.print("Escolha uma opção: ");
+            logger.info ("Escolha uma opção: ");
 
             try {
                 int opcao = sc.nextInt();
@@ -71,16 +71,16 @@ public class InterfaceBiomedico {
         logger.info("\n=== CADASTRAR INDICADORES BIOMÉDICOS ===");
 
         try {
-            System.out.print("Peso (kg): ");
+            logger.info("Peso (kg): ");
             double peso = sc.nextDouble();
             sc.nextLine();
-            System.out.print("Altura (m): ");
+            logger.info("Altura (m): ");
             double altura = sc.nextDouble();
             sc.nextLine();
-            System.out.print("Percentual de gordura (%): ");
+            logger.info("Percentual de gordura (%): ");
             double percGordura = sc.nextDouble();
             sc.nextLine();
-            System.out.print("Percentual de massa magra (%): ");
+            logger.info("Percentual de massa magra (%): ");
             double percMassaMagra = sc.nextDouble();
             sc.nextLine();
 
@@ -131,7 +131,7 @@ public class InterfaceBiomedico {
         logger.info("Exemplo: 70.5,1.75,15.2,84.8");
         logger.info("");
 
-        System.out.print("Digite o caminho completo do arquivo CSV: ");
+        logger.info("Digite o caminho completo do arquivo CSV: ");
         String caminhoArquivo = sc.nextLine();
 
         boolean importado = indicadorBiomedicoBusiness.importarIndicadoresDeCSV(caminhoArquivo);

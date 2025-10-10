@@ -43,7 +43,7 @@ public class PlanosDeTreino {
             logger.info("3 - Modificar plano de treino");
             logger.info("4 - Seção Treino");
             logger.info("5 - Sair");
-            System.out.print(MSG_ESCOLHA_OPCAO);
+            logger.info(MSG_ESCOLHA_OPCAO);
 
             try {
                 int opcao = sc.nextInt();
@@ -98,7 +98,7 @@ public class PlanosDeTreino {
             logger.info("4 - Modificar exercício existente");
             logger.info("5 - Remover exercício de uma seção");
             logger.info("6 - Salvar e Finalizar modificações");
-            System.out.print(MSG_ESCOLHA_OPCAO);
+            logger.info(MSG_ESCOLHA_OPCAO);
 
             try {
                 int opcao = Integer.parseInt(sc.nextLine());
@@ -133,7 +133,7 @@ public class PlanosDeTreino {
     }
 
     private void alterarNomePlano(PlanoTreino plano) {
-        System.out.print("Novo nome do plano (atual: " + plano.getNomePlano() + "): ");
+        logger.info("Novo nome do plano (atual: " + plano.getNomePlano() + "): ");
         String novoNome = sc.nextLine();
 
         if (!novoNome.trim().isEmpty()) {
@@ -148,10 +148,10 @@ public class PlanosDeTreino {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-            System.out.print("Nova data de início (dd/MM/yyyy) - atual: " + sdf.format(plano.getInicioPlano()) + ": ");
+            logger.info("Nova data de início (dd/MM/yyyy) - atual: " + sdf.format(plano.getInicioPlano()) + ": ");
             String dataInicioStr = sc.nextLine();
 
-            System.out.print("Nova data de fim (dd/MM/yyyy) - atual: " + sdf.format(plano.getFimPlano()) + ": ");
+            logger.info("Nova data de fim (dd/MM/yyyy) - atual: " + sdf.format(plano.getFimPlano()) + ": ");
             String dataFimStr = sc.nextLine();
 
             if (!dataInicioStr.trim().isEmpty() && !dataFimStr.trim().isEmpty()) {
@@ -180,11 +180,11 @@ public class PlanosDeTreino {
         boolean continuar = true;
 
         while (continuar) {
-            System.out.print("\nNome da Seção (ex: Treino A - Peito e Tríceps): ");
+            logger.info("\nNome da Seção (ex: Treino A - Peito e Tríceps): ");
             String nomeSecao = sc.nextLine();
             SecaoTreino secao = plano.getOuCriarSecao(nomeSecao);
 
-            System.out.print("Nome do exercício a adicionar nesta seção: ");
+            logger.info("Nome do exercício a adicionar nesta seção: ");
             String nomeExercicio = sc.nextLine();
 
             Exercicio exercicio = exercicioBusiness.buscarExercicioPorNome(nomeExercicio);
@@ -193,11 +193,11 @@ public class PlanosDeTreino {
                 logger.info("Exercício não encontrado! Cadastre-o primeiro no menu de exercícios.");
             } else {
                 try {
-                    System.out.print("Número de séries: ");
+                    logger.info("Número de séries: ");
                     int series = Integer.parseInt(sc.nextLine());
-                    System.out.print("Número de repetições: ");
+                    logger.info("Número de repetições: ");
                     int repeticoes = Integer.parseInt(sc.nextLine());
-                    System.out.print("Carga (kg): ");
+                    logger.info("Carga (kg): ");
                     int carga = Integer.parseInt(sc.nextLine());
 
                     ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
@@ -208,7 +208,7 @@ public class PlanosDeTreino {
                     logger.info("Erro: Digite valores numéricos válidos para séries, repetições e carga.");
                 }
             }
-            System.out.print("Deseja adicionar outro exercício a este plano? (s/n): ");
+            logger.info("Deseja adicionar outro exercício a este plano? (s/n): ");
             continuar = sc.nextLine().equalsIgnoreCase("s");
         }
     }
@@ -228,20 +228,20 @@ public class PlanosDeTreino {
         }
 
         try {
-            System.out.print("Escolha o exercício para modificar (número): ");
+            logger.info("Escolha o exercício para modificar (número): ");
             int escolha = sc.nextInt() - 1;
             sc.nextLine();
 
             if (escolha >= 0 && escolha < plano.getItens().size()) {
                 ItemPlanoTreino item = plano.getItens().get(escolha);
 
-                System.out.print("Novas séries (atual: " + item.getSeries() + "): ");
+                logger.info("Novas séries (atual: " + item.getSeries() + "): ");
                 int novasSeries = sc.nextInt();
 
-                System.out.print("Novas repetições (atual: " + item.getRepeticoes() + "): ");
+                logger.info("Novas repetições (atual: " + item.getRepeticoes() + "): ");
                 int novasRepeticoes = sc.nextInt();
 
-                System.out.print("Nova carga (atual: " + item.getCarga() + "kg): ");
+                logger.info("Nova carga (atual: " + item.getCarga() + "kg): ");
                 int novaCarga = sc.nextInt();
                 sc.nextLine();
 
@@ -273,7 +273,7 @@ public class PlanosDeTreino {
         }
 
         try {
-            System.out.print("Escolha o exercício para remover (número): ");
+            logger.info("Escolha o exercício para remover (número): ");
             int escolha = sc.nextInt() - 1;
             sc.nextLine();
 
@@ -303,13 +303,13 @@ public class PlanosDeTreino {
         logger.info("\n=== CADASTRAR NOVO PLANO DE TREINO ===");
 
         try {
-            System.out.print("Nome do plano: ");
+            logger.info("Nome do plano: ");
             String nomePlano = sc.nextLine();
 
-            System.out.print("Data de início (dd/MM/yyyy): ");
+            logger.info("Data de início (dd/MM/yyyy): ");
             String dataInicioStr = sc.nextLine();
 
-            System.out.print("Data de fim (dd/MM/yyyy): ");
+            logger.info("Data de fim (dd/MM/yyyy): ");
             String dataFimStr = sc.nextLine();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -350,7 +350,7 @@ public class PlanosDeTreino {
 
         logger.info("\n1 - Exibir seção como cartão (consulta)");
         logger.info("2 - Executar treino (preenchimento)");
-        System.out.print(MSG_ESCOLHA_OPCAO);
+        logger.info(MSG_ESCOLHA_OPCAO);
 
         try {
             int opcao = sc.nextInt();
@@ -408,17 +408,17 @@ public class PlanosDeTreino {
                 logger.info("Planejado: " + item.getSeries() + " séries x " + item.getRepeticoes() + " repetições com " + item.getCarga() + " kg");
 
                 try {
-                    System.out.print("Quantas séries você fez? ");
+                    logger.info("Quantas séries você fez? ");
                     int seriesRealizadas = Integer.parseInt(sc.nextLine());
-                    System.out.print("Quantas repetições por série? ");
+                    logger.info("Quantas repetições por série? ");
                     int repeticoesRealizadas = Integer.parseInt(sc.nextLine());
-                    System.out.print("Qual carga você usou (kg)? ");
+                    logger.info("Qual carga você usou (kg)? ");
                     int cargaRealizada = Integer.parseInt(sc.nextLine());
 
                     boolean houveDiferenca = (item.getSeries() != seriesRealizadas) || (item.getRepeticoes() != repeticoesRealizadas) || (item.getCarga() != cargaRealizada);
 
                     if (houveDiferenca) {
-                        System.out.print("Performance diferente! Deseja atualizar o plano com os novos parâmetros? (s/n): ");
+                        logger.info("Performance diferente! Deseja atualizar o plano com os novos parâmetros? (s/n): ");
                         String resposta = sc.nextLine();
 
                         if (resposta.equalsIgnoreCase("s")) {
