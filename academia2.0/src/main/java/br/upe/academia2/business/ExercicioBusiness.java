@@ -59,7 +59,7 @@ public class ExercicioBusiness {
                 throw new InputMismatchException();
             }
             exercicioRepository.update(exercicio);
-        } catch (InputMismatchException IME){
+        } catch (InputMismatchException ime){
             logger.warning("Algum campo acabou ficando em branco, tente novamente");
         } catch (Exception e) {
             logger.warning("Algo deu errado. Por favor, tente novamente");
@@ -72,7 +72,7 @@ public class ExercicioBusiness {
                 throw new InputMismatchException();
             }
             exercicioRepository.delete(nome);
-        }catch (InputMismatchException IME){
+        }catch (InputMismatchException ime){
             logger.warning("nome vazio, por favor escreva novamente");
         }
         catch (Exception e) {
