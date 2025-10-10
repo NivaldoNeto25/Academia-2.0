@@ -9,7 +9,9 @@ public class SecaoTreinoBusiness {
 
     private Logger logger = Logger.getLogger(SecaoTreinoBusiness.class.getName());
 
-    public SecaoTreinoBusiness() {}
+    public SecaoTreinoBusiness() {
+        //Construtor padrão necessário para inicialização padrão da classe 
+    }
 
     public void iniciarSessao(PlanoTreino plano) {
         if (plano != null) {

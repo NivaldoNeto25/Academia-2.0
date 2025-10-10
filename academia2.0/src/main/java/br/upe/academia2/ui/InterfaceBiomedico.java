@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 public class InterfaceBiomedico {
 
-    private UsuarioBusiness usuarioBusiness;
-
     private IndicadorBiomedicoBusiness indicadorBiomedicoBusiness;
     private Scanner sc = new Scanner(System.in);
     private Usuario usuarioLogado;

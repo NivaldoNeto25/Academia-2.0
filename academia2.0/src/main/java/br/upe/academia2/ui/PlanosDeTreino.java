@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class PlanosDeTreino {
 
-    private UsuarioBusiness usuarioBusiness;
+    
     private ExercicioBusiness exercicioBusiness;
     private PlanoTreinoBusiness planoTreinoBusiness;
     private SecaoTreinoBusiness secaoTreinoBusiness;
@@ -27,7 +27,6 @@ public class PlanosDeTreino {
     private static final String FORMATO_DATA = "dd/MM/yyyy";
 
     public PlanosDeTreino(Usuario usuarioLogado) {
-        this.usuarioBusiness = new UsuarioBusiness();
         this.exercicioBusiness = new ExercicioBusiness();
         this.planoTreinoBusiness = new PlanoTreinoBusiness();
         this.secaoTreinoBusiness = new SecaoTreinoBusiness();
