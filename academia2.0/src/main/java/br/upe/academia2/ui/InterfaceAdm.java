@@ -21,6 +21,7 @@ public class InterfaceAdm {
     public void exibirMenuAdm() {
         boolean sair = false;
         while (!sair) {
+            if (logger.IsInfoEnable){
             logger.info("=".repeat(20));
             logger.info("MENU ADMINISTRADOR");
             logger.info("=".repeat(20));
@@ -31,7 +32,7 @@ public class InterfaceAdm {
             logger.info("5 - Sair");
 
             logger.info("Escolha uma opção: "); // prompt kept on System.out for immediate input
-
+            }
             try {
                 int opcao = Integer.parseInt(sc.nextLine());
 

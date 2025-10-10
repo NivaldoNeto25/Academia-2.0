@@ -67,15 +67,16 @@ public class PlanoTreinoBusiness {
         for (var secao : plano.getSecoes()) {
             logger.info(" - Seção: " + secao.getNomeTreino());
             for (var item : secao.getItensPlano()) {
-                logger.info(
-                        String.format(
-                                "     - %s: %d séries x %d reps (carga: %dkg)",
+                if (logger.IsInfoEnable){
+                logger.info(String.format(
+                        "     - %s: %d séries x %d reps (carga: %dkg)",
                                 item.getExercicio().getNome(),
                                 item.getSeries(),
                                 item.getRepeticoes(),
                                 item.getCarga()
                         )
                 );
+                }
             }
         }
     }
