@@ -7,6 +7,7 @@ import br.upe.academia2.data.beans.Usuario;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Relatorios {
@@ -20,13 +21,15 @@ public class Relatorios {
         boolean sair = false;
 
         while (!sair) {
-            logger.info("=".repeat(20));
-            logger.info("RELATÓRIOS");
-            logger.info("=".repeat(20));
-            logger.info("1 - Relatório Geral");
-            logger.info("2 - Relatório Comparativo");
-            logger.info("3 - Sair");
-            logger.info("Escolha uma opção: ");
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info("=".repeat(20));
+                logger.info("RELATÓRIOS");
+                logger.info("=".repeat(20));
+                logger.info("1 - Relatório Geral");
+                logger.info("2 - Relatório Comparativo");
+                logger.info("3 - Sair");
+                logger.info("Escolha uma opção: ");
+            }
 
             try {
                 int opcao = sc.nextInt();
@@ -96,13 +99,13 @@ public class Relatorios {
         }
 
         // Mostrar todos os registros numerados
-        logger.info("\nRegistros disponíveis:");
-        for (int i = 0; i < lista.size(); i++) {
-            logger.info(String.format("%d - Data: %s | IMC: %.2f | Peso: %.2fkg",
-                    i + 1,
-                    new SimpleDateFormat(FORMATO_DATA).format(lista.get(i).getDataRegistro()),
-                    lista.get(i).getImc(),
-                    lista.get(i).getPeso()));
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info("\nRegistros disponíveis:");
+            for (int i = 0; i < lista.size(); i++) {
+                String dataFormatada = new SimpleDateFormat(FORMATO_DATA).format(lista.get(i).getDataRegistro());
+                logger.log(Level.INFO, "{0} - Data: {1} | IMC: {2} | Peso: {3}kg",
+                        new Object[]{i + 1, dataFormatada, lista.get(i).getImc(), lista.get(i).getPeso()});
+            }
         }
 
         try {
@@ -119,11 +122,11 @@ public class Relatorios {
             IndicadorBiomedico primeiro = lista.get(primeiroIdx);
             IndicadorBiomedico segundo = lista.get(segundoIdx);
 
-            logger.info("\nRELATÓRIO COMPARATIVO:");
-            logger.info("- Registro " + (primeiroIdx + 1) + ":");
+            logger.log(Level.INFO, "\nRELATÓRIO COMPARATIVO:");
+            logger.log(Level.INFO, "- Registro {0}:", primeiroIdx + 1);
             imprimirIndicador(primeiro);
 
-            logger.info("- Registro " + (segundoIdx + 1) + ":");
+            logger.log(Level.INFO, "- Registro {0}:", segundoIdx + 1);
             imprimirIndicador(segundo);
 
             List<List<String>> dados = List.of(
@@ -180,12 +183,12 @@ public class Relatorios {
 
     private void imprimirIndicador(IndicadorBiomedico ind) {
         logger.info("-".repeat(50));
-        logger.info("Data: " + ind.getDataRegistro());
-        logger.info("Peso: " + ind.getPeso() + " kg");
-        logger.info("Altura: " + ind.getAltura() + " m");
-        logger.info("IMC: " + String.format("%.2f", ind.getImc()));
-        logger.info("Gordura: " + ind.getPercentualGordura() + "%");
-        logger.info("Massa Magra: " + ind.getPercentualMassaMagra() + "%");
+        logger.log(Level.INFO, "Data: {0}", ind.getDataRegistro());
+        logger.log(Level.INFO, "Peso: {0} kg", ind.getPeso());
+        logger.log(Level.INFO, "Altura: {0} m", ind.getAltura());
+        logger.log(Level.INFO, "IMC: {0}", String.format("%.2f", ind.getImc()));
+        logger.log(Level.INFO, "Gordura: {0}%", ind.getPercentualGordura());
+        logger.log(Level.INFO, "Massa Magra: {0}%", ind.getPercentualMassaMagra());
     }
 
     private void salvarCSV(String nomeArquivo, List<String> cabecalho, List<List<String>> linhas) {
@@ -194,7 +197,7 @@ public class Relatorios {
             for (List<String> linha : linhas) {
                 writer.append(String.join(",", linha)).append("\n");
             }
-            logger.info("Arquivo gerado: data/" + nomeArquivo);
+            logger.log(Level.INFO, "Arquivo gerado: data/{0}", nomeArquivo);
         } catch (Exception e) {
             logger.info("Erro ao salvar CSV: " + e.getMessage());
         }

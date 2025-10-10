@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlanosDeTreino {
@@ -38,15 +39,17 @@ public class PlanosDeTreino {
         boolean sair = false;
 
         while (!sair) {
-            logger.info("=".repeat(20));
-            logger.info("PLANO DE TREINO");
-            logger.info("=".repeat(20));
-            logger.info("1 - Cadastrar plano de treino");
-            logger.info("2 - Listar plano de treino");
-            logger.info("3 - Modificar plano de treino");
-            logger.info("4 - Seção Treino");
-            logger.info("5 - Sair");
-            logger.info(MSG_ESCOLHA_OPCAO);
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info("=".repeat(20));
+                logger.info("PLANO DE TREINO");
+                logger.info("=".repeat(20));
+                logger.info("1 - Cadastrar plano de treino");
+                logger.info("2 - Listar plano de treino");
+                logger.info("3 - Modificar plano de treino");
+                logger.info("4 - Seção Treino");
+                logger.info("5 - Sair");
+                logger.info(MSG_ESCOLHA_OPCAO);
+            }
 
             try {
                 int opcao = sc.nextInt();
@@ -92,16 +95,18 @@ public class PlanosDeTreino {
 
         boolean finalizar = false;
         while (!finalizar) {
-            logger.info("\n--- Modificando Plano: " + plano.getNomePlano() + " ---");
-            planoTreinoBusiness.exibirPlanoDeTreino(plano);
-            logger.info("\nOpções de Modificação:");
-            logger.info("1 - Alterar nome do plano");
-            logger.info("2 - Alterar datas");
-            logger.info("3 - Adicionar exercício a uma seção");
-            logger.info("4 - Modificar exercício existente");
-            logger.info("5 - Remover exercício de uma seção");
-            logger.info("6 - Salvar e Finalizar modificações");
-            logger.info(MSG_ESCOLHA_OPCAO);
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info("\n--- Modificando Plano: " + plano.getNomePlano() + " ---");
+                planoTreinoBusiness.exibirPlanoDeTreino(plano);
+                logger.info("\nOpções de Modificação:");
+                logger.info("1 - Alterar nome do plano");
+                logger.info("2 - Alterar datas");
+                logger.info("3 - Adicionar exercício a uma seção");
+                logger.info("4 - Modificar exercício existente");
+                logger.info("5 - Remover exercício de uma seção");
+                logger.info("6 - Salvar e Finalizar modificações");
+                logger.info(MSG_ESCOLHA_OPCAO);
+            }
 
             try {
                 int opcao = Integer.parseInt(sc.nextLine());
@@ -151,10 +156,14 @@ public class PlanosDeTreino {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
 
-            logger.info("Nova data de início (" + FORMATO_DATA + ") - atual: " + sdf.format(plano.getInicioPlano()) + ": ");
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Nova data de início ({0}) - atual: {1}: ", new Object[]{FORMATO_DATA, sdf.format(plano.getInicioPlano())});
+            }
             String dataInicioStr = sc.nextLine();
 
-            logger.info("Nova data de fim (" + FORMATO_DATA + ") - atual: " + sdf.format(plano.getFimPlano()) + ": ");
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Nova data de fim ({0}) - atual: {1}: ", new Object[]{FORMATO_DATA, sdf.format(plano.getFimPlano())});
+            }
             String dataFimStr = sc.nextLine();
 
             if (!dataInicioStr.trim().isEmpty() && !dataFimStr.trim().isEmpty()) {
@@ -205,7 +214,7 @@ public class PlanosDeTreino {
 
                     ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
                     secao.addItemSecao(item);
-                    logger.info("'" + nomeExercicio + "' adicionado à seção '" + nomeSecao + "'.");
+                    logger.log(Level.INFO, "'{0}' adicionado à seção '{1}'.", new Object[]{nomeExercicio, nomeSecao});
 
                 } catch (NumberFormatException e) {
                     logger.info("Erro: Digite valores numéricos válidos para séries, repetições e carga.");
@@ -225,9 +234,7 @@ public class PlanosDeTreino {
         logger.info("Exercícios no plano:");
         for (int i = 0; i < plano.getItens().size(); i++) {
             ItemPlanoTreino item = plano.getItens().get(i);
-            logger.info((i + 1) + ". " + item.getExercicio().getNome() +
-                    " (" + item.getSeries() + "x" + item.getRepeticoes() +
-                    ", " + item.getCarga() + "kg)");
+            logger.log(Level.INFO, "{0}. {1} ({2}x{3}, {4}kg)", new Object[]{i + 1, item.getExercicio().getNome(), item.getSeries(), item.getRepeticoes(), item.getCarga()});
         }
 
         try {
@@ -238,13 +245,13 @@ public class PlanosDeTreino {
             if (escolha >= 0 && escolha < plano.getItens().size()) {
                 ItemPlanoTreino item = plano.getItens().get(escolha);
 
-                logger.info("Novas séries (atual: " + item.getSeries() + "): ");
+                logger.log(Level.INFO, "Novas séries (atual: {0}): ", item.getSeries());
                 int novasSeries = sc.nextInt();
 
-                logger.info("Novas repetições (atual: " + item.getRepeticoes() + "): ");
+                logger.log(Level.INFO, "Novas repetições (atual: {0}): ", item.getRepeticoes());
                 int novasRepeticoes = sc.nextInt();
 
-                logger.info("Nova carga (atual: " + item.getCarga() + "kg): ");
+                logger.log(Level.INFO, "Nova carga (atual: {0}kg): ", item.getCarga());
                 int novaCarga = sc.nextInt();
                 sc.nextLine();
 
@@ -272,7 +279,7 @@ public class PlanosDeTreino {
         logger.info("Exercícios no plano:");
         for (int i = 0; i < plano.getItens().size(); i++) {
             ItemPlanoTreino item = plano.getItens().get(i);
-            logger.info((i + 1) + ". " + item.getExercicio().getNome());
+            logger.log(Level.INFO, "{0}. {1}", new Object[]{i + 1, item.getExercicio().getNome()});
         }
 
         try {
@@ -282,7 +289,7 @@ public class PlanosDeTreino {
 
             if (escolha >= 0 && escolha < plano.getItens().size()) {
                 ItemPlanoTreino itemRemovido = plano.getItens().remove(escolha);
-                logger.info("Exercício '" + itemRemovido.getExercicio().getNome() + "' removido com sucesso!");
+                logger.log(Level.INFO, "Exercício '{0}' removido com sucesso!", itemRemovido.getExercicio().getNome());
             } else {
                 logger.info(MSG_OPCAO_INVALIDA);
             }
@@ -309,10 +316,14 @@ public class PlanosDeTreino {
             logger.info("Nome do plano: ");
             String nomePlano = sc.nextLine();
 
-            logger.info("Data de início (" + FORMATO_DATA + "): ");
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Data de início ({0}): ", FORMATO_DATA);
+            }
             String dataInicioStr = sc.nextLine();
 
-            logger.info("Data de fim (" + FORMATO_DATA + "): ");
+            if (logger.isLoggable(Level.INFO)) {
+                logger.log(Level.INFO, "Data de fim ({0}): ", FORMATO_DATA);
+            }
             String dataFimStr = sc.nextLine();
 
             SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
@@ -376,27 +387,31 @@ public class PlanosDeTreino {
     }
 
     private void exibirSecaoComoCartao(PlanoTreino plano) {
-        logger.info("\n" + "=".repeat(50));
-        logger.info("CARTÃO DE TREINO");
-        logger.info("=".repeat(50));
-        logger.info("Plano: " + plano.getNomePlano());
-        logger.info("Usuário: " + usuarioLogado.getNome());
-        logger.info("Data: " + new SimpleDateFormat(FORMATO_DATA).format(new Date()));
-        logger.info("=".repeat(50));
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info("\n" + "=".repeat(50));
+            logger.info("CARTÃO DE TREINO");
+            logger.info("=".repeat(50));
+            logger.log(Level.INFO, "Plano: {0}", plano.getNomePlano());
+            logger.log(Level.INFO, "Usuário: {0}", usuarioLogado.getNome());
+            logger.log(Level.INFO, "Data: {0}", new SimpleDateFormat(FORMATO_DATA).format(new Date()));
+            logger.info("=".repeat(50));
+        }
 
         for (int i = 0; i < plano.getItens().size(); i++) {
             ItemPlanoTreino item = plano.getItens().get(i);
-            logger.info((i + 1) + ". " + item.getExercicio().getNome());
-            logger.info("Séries: " + item.getSeries());
-            logger.info("Repetições: " + item.getRepeticoes());
-            logger.info("Carga: " + item.getCarga() + " kg");
-            logger.info("Descrição: " + item.getExercicio().getDescricao());
+            logger.log(Level.INFO, "{0}. {1}", new Object[]{i + 1, item.getExercicio().getNome()});
+            logger.log(Level.INFO, "Séries: {0}", item.getSeries());
+            logger.log(Level.INFO, "Repetições: {0}", item.getRepeticoes());
+            logger.log(Level.INFO, "Carga: {0} kg", item.getCarga());
+            logger.log(Level.INFO, "Descrição: {0}", item.getExercicio().getDescricao());
             logger.info("");
         }
 
-        logger.info("=".repeat(50));
-        logger.info("Observações");
-        logger.info("=".repeat(50));
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info("=".repeat(50));
+            logger.info("Observações");
+            logger.info("=".repeat(50));
+        }
     }
 
     private void executarTreino(PlanoTreino plano) {
@@ -405,10 +420,10 @@ public class PlanosDeTreino {
         boolean houveAlteracoesNoPlano = false;
 
         for (SecaoTreino secao : plano.getSecoes()) {
-            logger.info("\n--- INICIANDO SEÇÃO: " + secao.getNomeTreino() + " ---");
+            logger.log(Level.INFO, "\n--- INICIANDO SEÇÃO: {0} ---", secao.getNomeTreino());
             for (ItemPlanoTreino item : secao.getItensPlano()) {
-                logger.info("\n--- Exercício: " + item.getExercicio().getNome() + " ---");
-                logger.info("Planejado: " + item.getSeries() + " séries x " + item.getRepeticoes() + " repetições com " + item.getCarga() + " kg");
+                logger.log(Level.INFO, "\n--- Exercício: {0} ---", item.getExercicio().getNome());
+                logger.log(Level.INFO, "Planejado: {0} séries x {1} repetições com {2} kg", new Object[]{item.getSeries(), item.getRepeticoes(), item.getCarga()});
 
                 try {
                     logger.info("Quantas séries você fez? ");
