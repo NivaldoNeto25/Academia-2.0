@@ -7,6 +7,7 @@ import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlanoTreinoBusiness {
@@ -67,7 +68,7 @@ public class PlanoTreinoBusiness {
         for (var secao : plano.getSecoes()) {
             logger.info(" - Seção: " + secao.getNomeTreino());
             for (var item : secao.getItensPlano()) {
-                if (logger.IsInfoEnable){
+                if (logger.isLoggable(Level.INFO)){
                 logger.info(String.format(
                         "     - %s: %d séries x %d reps (carga: %dkg)",
                                 item.getExercicio().getNome(),

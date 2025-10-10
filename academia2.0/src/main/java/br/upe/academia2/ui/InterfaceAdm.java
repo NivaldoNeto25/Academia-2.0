@@ -4,6 +4,7 @@ import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 
+import java.util.logging.Level;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ public class InterfaceAdm {
     public void exibirMenuAdm() {
         boolean sair = false;
         while (!sair) {
-            if (logger.IsInfoEnable){
+            if (logger.isLoggable(Level.INFO)){
             logger.info("=".repeat(20));
             logger.info("MENU ADMINISTRADOR");
             logger.info("=".repeat(20));
