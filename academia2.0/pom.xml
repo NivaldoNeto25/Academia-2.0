@@ -12,7 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <sonar.projectKey>NivaldoNeto25_Academia-2.0</sonar.projectKey>
     <sonar.organization>nivaldoneto25</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -41,6 +41,11 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.12</version>
     </dependency>
   </dependencies>
 
