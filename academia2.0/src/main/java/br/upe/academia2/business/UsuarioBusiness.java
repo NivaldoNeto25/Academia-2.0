@@ -51,8 +51,8 @@ public class UsuarioBusiness {
        
         List<Comum> comuns = new ArrayList<>();
         for (Usuario u : usuarioRepository.listarTodos()) {
-            if (u instanceof Comum) {
-                comuns.add((Comum) u);
+            if (u instanceof Comum comum) {
+                comuns.add(comum);
             }
         }
         return comuns;
