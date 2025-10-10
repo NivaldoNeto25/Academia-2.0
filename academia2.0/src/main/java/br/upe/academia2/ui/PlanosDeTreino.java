@@ -23,6 +23,7 @@ public class PlanosDeTreino {
     private static final String MSG_ESCOLHA_OPCAO = "Escolha uma opção: ";
     private static final String MSG_OPCAO_INVALIDA = "Opção inválida!";
     private static final String MSG_ERRO_NUMERO_VALIDO = "Erro: Digite um número válido.";
+    private static final String FORMATO_DATA = "dd/MM/yyyy";
 
     public PlanosDeTreino(Usuario usuarioLogado) {
         this.usuarioBusiness = new UsuarioBusiness();
@@ -148,12 +149,12 @@ public class PlanosDeTreino {
 
     private void alterarDatasPlano(PlanoTreino plano) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
 
-            logger.info("Nova data de início (dd/MM/yyyy) - atual: " + sdf.format(plano.getInicioPlano()) + ": ");
+            logger.info("Nova data de início (" + FORMATO_DATA + ") - atual: " + sdf.format(plano.getInicioPlano()) + ": ");
             String dataInicioStr = sc.nextLine();
 
-            logger.info("Nova data de fim (dd/MM/yyyy) - atual: " + sdf.format(plano.getFimPlano()) + ": ");
+            logger.info("Nova data de fim (" + FORMATO_DATA + ") - atual: " + sdf.format(plano.getFimPlano()) + ": ");
             String dataFimStr = sc.nextLine();
 
             if (!dataInicioStr.trim().isEmpty() && !dataFimStr.trim().isEmpty()) {
@@ -169,7 +170,7 @@ public class PlanosDeTreino {
             }
 
         } catch (ParseException e) {
-            logger.info("Erro: Formato de data inválido. Use dd/MM/yyyy");
+            logger.info("Erro: Formato de data inválido. Use " + FORMATO_DATA);
         }
     }
 
@@ -308,13 +309,13 @@ public class PlanosDeTreino {
             logger.info("Nome do plano: ");
             String nomePlano = sc.nextLine();
 
-            logger.info("Data de início (dd/MM/yyyy): ");
+            logger.info("Data de início (" + FORMATO_DATA + "): ");
             String dataInicioStr = sc.nextLine();
 
-            logger.info("Data de fim (dd/MM/yyyy): ");
+            logger.info("Data de fim (" + FORMATO_DATA + "): ");
             String dataFimStr = sc.nextLine();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
             Date dataInicio = sdf.parse(dataInicioStr);
             Date dataFim = sdf.parse(dataFimStr);
 
@@ -325,7 +326,7 @@ public class PlanosDeTreino {
             planoTreinoBusiness.cadastrarPlanoDeTreino(usuarioLogado, novoPlano);
 
         } catch (ParseException e) {
-            logger.info("Erro: Formato de data inválido. Use dd/MM/yyyy");
+            logger.info("Erro: Formato de data inválido. Use " + FORMATO_DATA);
         } catch (Exception e) {
             logger.info("Erro ao cadastrar plano: " + e.getMessage());
         }
@@ -380,7 +381,7 @@ public class PlanosDeTreino {
         logger.info("=".repeat(50));
         logger.info("Plano: " + plano.getNomePlano());
         logger.info("Usuário: " + usuarioLogado.getNome());
-        logger.info("Data: " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        logger.info("Data: " + new SimpleDateFormat(FORMATO_DATA).format(new Date()));
         logger.info("=".repeat(50));
 
         for (int i = 0; i < plano.getItens().size(); i++) {
