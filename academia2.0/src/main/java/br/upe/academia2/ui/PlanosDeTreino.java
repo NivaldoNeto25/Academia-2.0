@@ -21,6 +21,7 @@ public class PlanosDeTreino {
     private static final Logger logger = Logger.getLogger(PlanosDeTreino.class.getName());
 
     private static final String MSG_ESCOLHA_OPCAO = "Escolha uma opção: ";
+    private static final String MSG_OPCAO_INVALIDA = "Opção inválida!";
 
     public PlanosDeTreino(Usuario usuarioLogado) {
         this.usuarioBusiness = new UsuarioBusiness();
@@ -68,7 +69,7 @@ public class PlanosDeTreino {
                         sair = true;
                         break;
                     default:
-                        logger.info("Opção inválida! Tente novamente");
+                        logger.info(MSG_OPCAO_INVALIDA);
                 }
             } catch (Exception e) {
                 logger.info("Erro: Entrada inválida!");
@@ -124,7 +125,7 @@ public class PlanosDeTreino {
                         finalizar = true;
                         break;
                     default:
-                        logger.info("Opção inválida!");
+                        logger.info(MSG_OPCAO_INVALIDA);
                 }
             } catch (NumberFormatException e) {
                 logger.info("Erro: Digite um número válido.");
@@ -252,7 +253,7 @@ public class PlanosDeTreino {
                 logger.info("Exercício modificado com sucesso!");
 
             } else {
-                logger.info("Opção inválida!");
+                logger.info(MSG_OPCAO_INVALIDA);
             }
         } catch (InputMismatchException e) {
             logger.info("Erro: Digite um número válido.");
@@ -281,7 +282,7 @@ public class PlanosDeTreino {
                 ItemPlanoTreino itemRemovido = plano.getItens().remove(escolha);
                 logger.info("Exercício '" + itemRemovido.getExercicio().getNome() + "' removido com sucesso!");
             } else {
-                logger.info("Opção inválida!");
+                logger.info(MSG_OPCAO_INVALIDA);
             }
         } catch (InputMismatchException e) {
             logger.info("Erro: Digite um número válido.");
@@ -364,7 +365,7 @@ public class PlanosDeTreino {
                     executarTreino(plano);
                     break;
                 default:
-                    logger.info("Opção inválida!");
+                    logger.info(MSG_OPCAO_INVALIDA);
             }
         } catch (InputMismatchException e) {
             logger.info("Erro: Digite um número válido.");
