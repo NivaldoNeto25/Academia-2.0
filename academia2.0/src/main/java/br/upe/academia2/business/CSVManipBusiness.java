@@ -3,8 +3,12 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CSVManipBusiness {
+
+    private static final Logger logger = Logger.getLogger(CSVManipBusiness.class.getName());
+
     public List<String> leitor(String caminho) {
         List<String> resposta = new ArrayList<>();
 
@@ -21,7 +25,7 @@ public class CSVManipBusiness {
                 resposta.add(instancia);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe("Erro ao ler o arquivo CSV: " + e.getMessage());
         }
         return resposta;
     }
@@ -49,7 +53,7 @@ public class CSVManipBusiness {
             }
             writer.flush();
         }catch (IOException e){
-            e.printStackTrace();
+            logger.severe("Erro ao escrever no arquivo CSV: " + e.getMessage());    
         }
     }
 }
