@@ -6,6 +6,7 @@ import br.upe.academia2.data.repository.interfaces.IExercicioRepository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExercicioRepoImpl implements IExercicioRepository {
@@ -72,11 +73,11 @@ public class ExercicioRepoImpl implements IExercicioRepository {
     public boolean delete(String nome) {
         boolean removido = this.exercicios.removeIf(e -> e.getNome().equalsIgnoreCase(nome));
         if (removido) {
-            logger.info("Exercício removido: " + nome);
+            logger.log(Level.INFO, "Exercício removido: {0}", nome);
             persistirNoCsv();
             return true;
         } else {
-            logger.warning("Exercício não encontrado: " + nome);
+            logger.log(Level.WARNING, "Exercício não encontrado: {0}", nome);
             return false;
         }
     }
@@ -122,7 +123,7 @@ public class ExercicioRepoImpl implements IExercicioRepository {
                 }
             }
         } catch (IOException e) {
-           logger.warning("Erro ao carregar CSV de exercícios: " + e.getMessage());
+            logger.warning("Erro ao carregar CSV de exercícios: " + e.getMessage());
         }
     }
 

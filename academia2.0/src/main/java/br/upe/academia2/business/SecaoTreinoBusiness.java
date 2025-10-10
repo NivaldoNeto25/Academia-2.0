@@ -7,13 +7,9 @@ import br.upe.academia2.data.beans.PlanoTreino;
 
 public class SecaoTreinoBusiness {
 
-    private PlanoTreinoBusiness planoTreinoBusiness;
-
     private Logger logger = Logger.getLogger(SecaoTreinoBusiness.class.getName());
 
-    public SecaoTreinoBusiness() {
-        this.planoTreinoBusiness = new PlanoTreinoBusiness();
-    }
+    public SecaoTreinoBusiness() {}
 
     public void iniciarSessao(PlanoTreino plano) {
         if (plano != null) {
