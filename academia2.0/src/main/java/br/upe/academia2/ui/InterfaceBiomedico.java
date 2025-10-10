@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InterfaceBiomedico {
@@ -108,18 +109,18 @@ public class InterfaceBiomedico {
             return;
         }
 
-        logger.info("Total de registros: " + indicadores.size());
+        logger.log(Level.INFO, "Total de registros: {0}", indicadores.size());
         logger.info("-".repeat(60));
 
         for (int i = 0; i < indicadores.size(); i++) {
             IndicadorBiomedico ind = indicadores.get(i);
-            logger.info("Registro " + (i + 1) + " (Usuário: " + ind.getEmail() + ")");
-            logger.info("Peso: " + ind.getPeso() + " kg");
-            logger.info("Altura: " + ind.getAltura() + " m");
-            logger.info("IMC: " + String.format("%.2f", ind.getImc()));
-            logger.info("Gordura: " + ind.getPercentualGordura() + "%");
-            logger.info("Massa Magra: " + ind.getPercentualMassaMagra() + "%");
-            logger.info("Data: " + ind.getDataRegistro());
+            logger.log(Level.INFO, "Registro {0} (Usuário: {1})", new Object[]{i + 1, ind.getEmail()});
+            logger.log(Level.INFO, "Peso: {0} kg", ind.getPeso());
+            logger.log(Level.INFO, "Altura: {0} m", ind.getAltura());
+            logger.log(Level.INFO, "IMC: {0}", String.format("%.2f", ind.getImc()));
+            logger.log(Level.INFO, "Gordura: {0}%", ind.getPercentualGordura());
+            logger.log(Level.INFO, "Massa Magra: {0}%", ind.getPercentualMassaMagra());
+            logger.log(Level.INFO, "Data: {0}", ind.getDataRegistro());
             logger.info("-".repeat(60));
         }
     }

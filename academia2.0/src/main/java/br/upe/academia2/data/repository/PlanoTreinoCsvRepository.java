@@ -67,7 +67,7 @@ public class PlanoTreinoCsvRepository {
         File file = new File(arquivoPlano);
 
         if (!file.exists()) {
-            logger.log(Level.WARNING, "Arquivo de plano não encontrado: " + arquivoPlano);
+            logger.log(Level.WARNING, "Arquivo de plano não encontrado: {0}", arquivoPlano);
             return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
         }
 
@@ -111,7 +111,7 @@ public class PlanoTreinoCsvRepository {
                         ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
                         secao.addItemSecao(item);
                     } else {
-                        logger.log(Level.WARNING, "O exercício '" + nomeExercicio + "' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.");
+                        logger.log(Level.WARNING, "O exercício ''{0}'' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.", nomeExercicio);
                     }
                 }
             }
