@@ -2,7 +2,6 @@ package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 
@@ -17,9 +16,9 @@ public class PlanoTreinoBusiness {
 
     private Logger logger = Logger.getLogger(PlanoTreinoBusiness.class.getName());
 
-    public PlanoTreinoBusiness() {
-        this.usuarioRepository = new UsuarioCsvRepository();
-        this.planoRepository = new PlanoTreinoCsvRepository();
+    public PlanoTreinoBusiness(IUsuarioRepository usuarioRepository, PlanoTreinoCsvRepository planoRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.planoRepository = planoRepository;
     }
 
     public void cadastrarPlanoDeTreino(Usuario usuario, PlanoTreino plano) {

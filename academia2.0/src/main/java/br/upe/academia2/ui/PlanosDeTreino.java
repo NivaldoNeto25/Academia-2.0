@@ -1,6 +1,8 @@
 package br.upe.academia2.ui;
 
 import br.upe.academia2.data.beans.*;
+import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
+import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import br.upe.academia2.business.*;
 
 import java.text.ParseException;
@@ -28,7 +30,7 @@ public class PlanosDeTreino {
 
     public PlanosDeTreino(Usuario usuarioLogado) {
         this.exercicioBusiness = new ExercicioBusiness();
-        this.planoTreinoBusiness = new PlanoTreinoBusiness();
+        this.planoTreinoBusiness = new PlanoTreinoBusiness(new UsuarioCsvRepository(), new PlanoTreinoCsvRepository());
         this.secaoTreinoBusiness = new SecaoTreinoBusiness();
         this.sc = new Scanner(System.in);
         this.usuarioLogado = usuarioLogado;
