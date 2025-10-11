@@ -156,7 +156,7 @@ class ExercicioBusinessTest {
     void testDeletarExercicio_ComNomeValido_DeveChamarDelete() {
         // Arrange
         String nomeParaDeletar = "Abdominal";
-        // O método 'delete' no repositório provavelmente é void, então não precisa de 'when'.
+        // O método 'delete' é void, então não precisa de 'when'.
         // O Mockito vai aceitar a chamada por padrão.
 
         // Act
