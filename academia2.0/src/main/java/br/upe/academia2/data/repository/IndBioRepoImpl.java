@@ -16,7 +16,7 @@ public class IndBioRepoImpl implements IIndBioRepository {
     public boolean save(IndicadorBiomedico indicadorBiomedico) {
         try{
             if(indicadorBiomedico == null){
-                throw new Exception();
+                throw new IllegalArgumentException("Indicador Bio não pode ser nulo");
             }else {
                 return indicadoresBiomedicos.add(indicadorBiomedico);
             }
