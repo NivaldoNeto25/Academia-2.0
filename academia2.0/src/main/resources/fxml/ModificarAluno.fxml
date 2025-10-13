@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="br.upe.academia2.ui.controllers.ModificarAlunoController"
+            prefWidth="500" prefHeight="320">
+    <Label layoutX="150.0" layoutY="25.0" text="Modificar Aluno"/>
+    <Label layoutX="40.0" layoutY="80.0" text="Email do aluno:"/>
+    <TextField fx:id="emailField" layoutX="150.0" layoutY="80.0" prefWidth="230"/>
+    <Label layoutX="40.0" layoutY="120.0" text="Novo nome:"/>
+    <TextField fx:id="nomeField" layoutX="150.0" layoutY="120.0" prefWidth="230"/>
+    <Label layoutX="40.0" layoutY="160.0" text="Nova senha:"/>
+    <TextField fx:id="senhaField" layoutX="150.0" layoutY="160.0" prefWidth="230"/>
+    <Button layoutX="210" layoutY="210" text="Modificar" onAction="#handleModificar"/>
+    <Button fx:id="btnVoltar" layoutX="30" layoutY="250" prefWidth="100" text="Voltar" onAction="#handleVoltar"/>
+</AnchorPane>

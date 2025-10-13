@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="br.upe.academia2.ui.controllers.IndicadoresAlunoController"
+            prefWidth="600" prefHeight="400">
+    <Label layoutX="210" layoutY="40" text="Indicadores Biomédicos" style="-fx-font-size: 24"/>
+    <Button layoutX="220" layoutY="100" prefWidth="200" text="Cadastrar Indicadores"
+            onAction="#handleCadastrarIndicadores"/>
+    <Button layoutX="220" layoutY="150" prefWidth="200" text="Listar Indicadores" onAction="#handleListarIndicadores"/>
+    <Button layoutX="220" layoutY="200" prefWidth="200" text="Importar Indicadores CSV"
+            onAction="#handleImportarIndicadores"/>
+    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" prefWidth="100" text="Voltar" onAction="#handleVoltar"/>
+</AnchorPane>
