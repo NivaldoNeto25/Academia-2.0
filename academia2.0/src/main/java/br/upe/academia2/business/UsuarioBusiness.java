@@ -11,44 +11,33 @@ import java.util.logging.Logger;
 
 public class UsuarioBusiness {
 
-    private UsuarioCsvRepository usuarioRepository;
-
+    private final UsuarioCsvRepository usuarioRepository = UsuarioCsvRepository.getInstance();
     private Logger logger = Logger.getLogger(UsuarioBusiness.class.getName());
 
-    public UsuarioBusiness() {
-        this.usuarioRepository = new UsuarioCsvRepository();
-    }
+    public UsuarioBusiness() {}
 
     public String autenticar(String email, String senha) {
-        usuarioRepository.persistirNoCsv();
         Usuario usuario = usuarioRepository.findByEmail(email);
-
         if (usuario != null && usuario.getSenha().equals(senha)) {
-            if (usuario instanceof Adm) { 
+            if (usuario instanceof Adm) {
                 return "ADM";
             } else if (usuario instanceof Comum) {
                 return "COMUM";
             }
         }
-        return null; 
+        return null;
     }
 
     public void cadastrarUsuario(Usuario usuario) {
-        usuarioRepository.persistirNoCsv();
-        
         usuarioRepository.create(usuario);
         logger.info("Usuário cadastrado com sucesso!");
     }
 
     public List<Usuario> listarUsuarios() {
-        usuarioRepository.persistirNoCsv();
-        
         return usuarioRepository.listarTodos();
     }
 
     public List<Comum> listarUsuariosComuns() {
-        usuarioRepository.persistirNoCsv();
-       
         List<Comum> comuns = new ArrayList<>();
         for (Usuario u : usuarioRepository.listarTodos()) {
             if (u instanceof Comum comum) {
@@ -59,8 +48,6 @@ public class UsuarioBusiness {
     }
 
     public void deletarUsuario(String email) {
-        usuarioRepository.persistirNoCsv();
-
         boolean deletado = usuarioRepository.delete(email);
         if (deletado) {
             logger.info("Usuário removido com sucesso!");
@@ -68,10 +55,8 @@ public class UsuarioBusiness {
             logger.warning("Usuário não encontrado.");
         }
     }
-    
+
     public void atualizarUsuario(Usuario usuario) {
-        usuarioRepository.persistirNoCsv();
-        
         Usuario atualizado = usuarioRepository.update(usuario);
         if (atualizado != null) {
             logger.info("Dados do usuário atualizados com sucesso!");
