@@ -39,6 +39,7 @@ public class ModificarAlunoController {
         if (!senha.isBlank()) existente.setSenha(senha);
 
         usuarioBusiness.atualizarUsuario(existente);
+        usuarioBusiness.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Aluno modificado com sucesso!");
         nomeField.clear(); senhaField.clear();
     }

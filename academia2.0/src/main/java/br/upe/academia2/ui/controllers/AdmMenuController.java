@@ -24,7 +24,7 @@ public class AdmMenuController {
         // Aqui pode adicionar código para atualizar alguma info na UI usando o adm, se desejar
     }
 
-    @FXML private void handleCadastrarAluno() { irParaTela("/fxml/CadastrarAluno.fxml", "Cadastrar Aluno", btnCadastrar); }
+    @FXML private void handleCadastrarAluno() { irParaTela("/fxml/CadastroAluno.fxml", "Cadastrar Aluno", btnCadastrar); }
     @FXML private void handleListarAlunos()    { irParaTela("/fxml/ListarAlunos.fxml", "Listar Alunos", btnListar); }
     @FXML private void handleModificarAluno()  { irParaTela("/fxml/ModificarAluno.fxml", "Modificar Aluno", btnModificar); }
     @FXML private void handleExcluirAluno()    { irParaTela("/fxml/ExcluirAluno.fxml", "Excluir Aluno", btnExcluir); }

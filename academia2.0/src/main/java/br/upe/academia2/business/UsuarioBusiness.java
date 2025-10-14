@@ -79,4 +79,10 @@ public class UsuarioBusiness {
             logger.warning("Falha ao atualizar: usuário não encontrado.");
         }
     }
+
+    public void salvarAlteracoesNoCsv() {
+        usuarioRepository.persistirNoCsv();
+        logger.info("Dados de usuario foram salvos no CSV."); //debug
+    }
+
 }

@@ -26,6 +26,7 @@ public class ExcluirAlunoController {
         }
 
         UsuarioBusiness.ResultadoExclusao resultado = usuarioBusiness.deletarUsuario(email);
+        usuarioBusiness.salvarAlteracoesNoCsv();
 
         switch (resultado) {
             case SUCESSO -> mensagemLabel.setText("Aluno excluído com sucesso!");

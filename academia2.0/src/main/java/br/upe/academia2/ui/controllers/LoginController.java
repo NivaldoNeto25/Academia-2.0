@@ -7,6 +7,7 @@ import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
@@ -22,7 +23,7 @@ public class LoginController {
 
     @FXML
     private Label mensagemLabel;
-
+    public Button btnVoltar;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
 
     @FXML
@@ -64,4 +65,11 @@ public class LoginController {
             mensagemLabel.setText("Usuário ou senha incorretos.");
         }
     }
+
+    @FXML
+    private void handleSair() {
+        Stage stageAtual = (Stage) btnVoltar.getScene().getWindow();
+        stageAtual.close();
+    }
+
 }

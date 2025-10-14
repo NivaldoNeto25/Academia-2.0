@@ -40,6 +40,7 @@ public class ModificarExercicioController {
         if (!descricao.isBlank()) existente.setCaminhoGif(gif);
 
         exercicio.atualizarExercicio(existente);
+        exercicio.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Exercicio modificado com sucesso!");
         nomeField.clear(); descricaoField.clear(); caminhoGifField.clear();
     }

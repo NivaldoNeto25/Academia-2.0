@@ -17,7 +17,7 @@ public class CadastrarExercicioController {
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
-    private final ExercicioBusiness exercicioBusiness = new ExercicioBusiness();
+    private final ExercicioBusiness exercicio = new ExercicioBusiness();
 
     public void setStageAnterior(Stage stageAnterior) {
         this.stageAnterior = stageAnterior;
@@ -34,12 +34,13 @@ public class CadastrarExercicioController {
             return;
         }
 
-        if (exercicioBusiness.listarExercicios().stream().anyMatch(u -> u.getNome().equalsIgnoreCase(nome))) {
+        if (exercicio.listarExercicios().stream().anyMatch(u -> u.getNome().equalsIgnoreCase(nome))) {
             mensagemLabel.setText("Este exercício já existe");
             return;}
         try {
             Exercicio novoExercicio = new Exercicio(nome, descricao, caminhoGif);
-            exercicioBusiness.salvar(novoExercicio);
+            exercicio.salvar(novoExercicio);
+            exercicio.salvarAlteracoesNoCsv();
             mensagemLabel.setText("Exercicio cadastrado com sucesso!");
         } catch (Exception e) {
             e.printStackTrace(); // É bom manter o log do erro no console para depuração
