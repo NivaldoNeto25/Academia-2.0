@@ -29,7 +29,7 @@ public class AlunoMenuController {
     @FXML
     private void handleExercicios() {
         Stage stageAtual = (Stage) btnExercicios.getScene().getWindow();
-        trocarTela("/fxml/ExerciciosAluno.fxml", "Exercícios", stageAtual);
+        trocarTela("/fxml/ExercicioMenu.fxml", "Exercícios", stageAtual);
     }
 
     @FXML

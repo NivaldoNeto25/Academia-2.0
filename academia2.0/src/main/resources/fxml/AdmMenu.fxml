@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="br.upe.academia2.ui.controllers.AdmMenuController"
-            prefWidth="600" prefHeight="400">
-    <Label layoutX="220" layoutY="40" text="Menu Administrador" style="-fx-font-size: 24"/>
-    <Button fx:id="btnCadastrar" layoutX="200" layoutY="100" prefWidth="200" text="Cadastrar Aluno"
-            onAction="#handleCadastrarAluno"/>
-    <Button fx:id="btnListar" layoutX="200" layoutY="150" prefWidth="200" text="Listar Alunos"
-            onAction="#handleListarAlunos"/>
-    <Button fx:id="btnModificar" layoutX="200" layoutY="200" prefWidth="200" text="Modificar Aluno"
-            onAction="#handleModificarAluno"/>
-    <Button fx:id="btnExcluir" layoutX="200" layoutY="250" prefWidth="200" text="Excluir Aluno"
-            onAction="#handleExcluirAluno"/>
-    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" prefWidth="100" text="Sair" onAction="#handleVoltar"/>
+<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.AdmMenuController">
+    <Label layoutX="190.0" layoutY="41.0" style="-fx-font-size: 24" text="Menu Administrador" />
+    <Button fx:id="btnCadastrar" layoutX="200" layoutY="100" onAction="#handleCadastrarAluno" prefWidth="200" text="Cadastrar Aluno" />
+    <Button fx:id="btnListar" layoutX="200" layoutY="150" onAction="#handleListarAlunos" prefWidth="200" text="Listar Alunos" />
+    <Button fx:id="btnModificar" layoutX="200" layoutY="200" onAction="#handleModificarAluno" prefWidth="200" text="Modificar Aluno" />
+    <Button fx:id="btnExcluir" layoutX="200" layoutY="250" onAction="#handleExcluirAluno" prefWidth="200" text="Excluir Aluno" />
+    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Sair" />
 </AnchorPane>

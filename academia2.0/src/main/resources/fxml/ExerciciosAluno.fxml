@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="br.upe.academia2.ui.controllers.ExerciciosAlunoController" prefWidth="600" prefHeight="400">
-    <Label text="Menu de Exercícios" layoutX="230" layoutY="40" style="-fx-font-size: 24px;"/>
-    <Button text="Cadastrar Exercício" layoutX="200" layoutY="100" prefWidth="200" onAction="#handleCadastrarExercicio"/>
-    <Button text="Listar Exercícios" layoutX="200" layoutY="150" prefWidth="200" onAction="#handleListarExercicios"/>
-    <Button text="Excluir Exercício" layoutX="200" layoutY="200" prefWidth="200" onAction="#handleExcluirExercicio"/>
-    <Button text="Modificar Exercício" layoutX="200" layoutY="250" prefWidth="200" onAction="#handleModificarExercicio"/>
-    <Button text="Voltar" layoutX="30" layoutY="350" prefWidth="100" onAction="#handleVoltar"/>
+<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.ExerciciosAlunoController">
+    <Label layoutX="198.0" layoutY="38.0" style="-fx-font-size: 24px;" text="Menu de Exercícios" />
+    <Button layoutX="200" layoutY="100" onAction="#handleCadastrarExercicio" prefWidth="200" text="Cadastrar Exercício" />
+    <Button layoutX="200" layoutY="150" onAction="#handleListarExercicios" prefWidth="200" text="Listar Exercícios" />
+    <Button layoutX="200" layoutY="200" onAction="#handleExcluirExercicio" prefWidth="200" text="Excluir Exercício" />
+    <Button layoutX="200" layoutY="250" onAction="#handleModificarExercicio" prefWidth="200" text="Modificar Exercício" />
+    <Button layoutX="30" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
 </AnchorPane>
