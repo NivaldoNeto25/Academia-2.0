@@ -24,8 +24,15 @@ public class ExcluirAlunoController {
             mensagemLabel.setText("Informe o e-mail.");
             return;
         }
-        usuarioBusiness.deletarUsuario(email);
-        mensagemLabel.setText("Aluno excluído (se existia)!");
+
+        UsuarioBusiness.ResultadoExclusao resultado = usuarioBusiness.deletarUsuario(email);
+
+        switch (resultado) {
+            case SUCESSO -> mensagemLabel.setText("Aluno excluído com sucesso!");
+            case NAO_ENCONTRADO -> mensagemLabel.setText("Usuário não encontrado.");
+            case NAO_PERMITIDO_ADM -> mensagemLabel.setText("Não é possível excluir usuário ADM.");
+        }
+
         emailField.clear();
     }
 

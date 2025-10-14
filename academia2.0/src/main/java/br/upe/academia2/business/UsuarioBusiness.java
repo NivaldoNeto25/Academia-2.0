@@ -14,6 +14,12 @@ public class UsuarioBusiness {
     private final UsuarioCsvRepository usuarioRepository = UsuarioCsvRepository.getInstance();
     private Logger logger = Logger.getLogger(UsuarioBusiness.class.getName());
 
+    public enum ResultadoExclusao {
+        SUCESSO,
+        NAO_ENCONTRADO,
+        NAO_PERMITIDO_ADM
+    }
+
     public UsuarioBusiness() {}
 
     public String autenticar(String email, String senha) {
@@ -47,12 +53,21 @@ public class UsuarioBusiness {
         return comuns;
     }
 
-    public void deletarUsuario(String email) {
+    public ResultadoExclusao deletarUsuario(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null) {
+            return ResultadoExclusao.NAO_ENCONTRADO;
+        }
+        if (usuario instanceof Adm) {
+            return ResultadoExclusao.NAO_PERMITIDO_ADM;
+        }
         boolean deletado = usuarioRepository.delete(email);
         if (deletado) {
             logger.info("Usuário removido com sucesso!");
+            return ResultadoExclusao.SUCESSO;
         } else {
-            logger.warning("Usuário não encontrado.");
+            logger.warning("Falha ao remover usuário.");
+            return ResultadoExclusao.NAO_ENCONTRADO;
         }
     }
 
