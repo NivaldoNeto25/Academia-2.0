@@ -4,6 +4,8 @@ import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +29,18 @@ class UsuarioBusinessTest {
     private UsuarioCsvRepository usuarioRepository;
 
     // Injeta o mock 'usuarioRepository' na instância de UsuarioBusiness.
-    @InjectMocks
     private UsuarioBusiness usuarioBusiness;
+
+    @BeforeEach
+    void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        usuarioBusiness = new UsuarioBusiness();
+
+        Field field = UsuarioBusiness.class.getDeclaredField("usuarioRepository");
+        field.setAccessible(true);
+
+        field.setAccessible(true);
+        field.set(usuarioBusiness, usuarioRepository);
+    }
 
     @Test
     @DisplayName("Deve autenticar e retornar 'ADM' para um usuário administrador válido")
