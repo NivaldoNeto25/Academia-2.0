@@ -55,7 +55,7 @@ public class Relatorios {
         }
     }
 
-    private void relatorioGeral(Usuario usuario) {
+    public void relatorioGeral(Usuario usuario) {
         List<IndicadorBiomedico> lista = carregarIndicadores(usuario.getEmail());
 
         if (lista.isEmpty()) {
@@ -84,7 +84,7 @@ public class Relatorios {
                 dadosParaCSV);
     }
 
-    private void relatorioComparativo(Usuario usuario) {
+    public void relatorioComparativo(Usuario usuario) {
         List<IndicadorBiomedico> lista = carregarIndicadores(usuario.getEmail());
 
         if (lista.isEmpty()) {
