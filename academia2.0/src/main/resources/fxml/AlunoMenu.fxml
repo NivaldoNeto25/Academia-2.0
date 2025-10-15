@@ -11,7 +11,7 @@
         </font>
     </Label>
     <Button fx:id="btnExercicios" layoutX="266.0" layoutY="127.0" onAction="#handleExercicios" text="Exercícios" />
-    <Button fx:id="btnIndicadores" layoutX="261.0" layoutY="174.0" onAction="#handleIndicadores" text="Indicadores" />
+    <Button layoutX="261.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleIndicadores" text="Indicadores" />
     <Button layoutX="250.0" layoutY="223.0" mnemonicParsing="false" onAction="#handlePlanoTreino" text="Plano de Treino" />
     <Button layoutX="268.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleRelatorio" text="Relatório" />
     <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSair" text="Sair" />

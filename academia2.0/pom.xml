@@ -3,12 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>br.upe</groupId>
   <artifactId>academia2.0</artifactId>
   <version>1.0-SNAPSHOT</version>
-
   <name>academia2.0</name>
   <url>https://github.com/NivaldoNeto25/Academia-2.0</url>
 
@@ -17,42 +17,47 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.release>21</maven.compiler.release>
-    <javafx.version>21</javafx.version>
+    <javafx.version>21.0.2</javafx.version>
   </properties>
 
   <dependencies>
-    <!-- JUnit para testes -->
+    <!-- JUnit -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.11.0</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <version>5.11.0</version>
       <scope>test</scope>
     </dependency>
-    <!-- Jacoco para cobertura de testes -->
+
+    <!-- Jacoco -->
     <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
       <version>0.8.12</version>
       <scope>test</scope>
     </dependency>
-    <!-- JavaFX dependencies -->
+
+    <!-- JavaFX -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>${javafx.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
       <version>${javafx.version}</version>
     </dependency>
-    <!--mockito -->
+
+    <!-- Mockito -->
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
@@ -63,7 +68,7 @@
 
   <build>
     <plugins>
-      <!-- Plugin para compilar usando Java 21 -->
+      <!-- Compilação Java -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -73,24 +78,31 @@
         </configuration>
       </plugin>
 
-      <!-- Plugin do JavaFX -->
+      <!-- Execução de testes -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+
+      <!-- JavaFX Plugin (permite rodar com "mvn javafx:run") -->
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
           <mainClass>br.upe.academia2.Main</mainClass>
+          <launcher>app</launcher>
+          <jlinkZipName>app-image</jlinkZipName>
+          <jlinkImageName>app-image</jlinkImageName>
+          <stripDebug>true</stripDebug>
+          <noHeaderFiles>true</noHeaderFiles>
+          <noManPages>true</noManPages>
+          <compress>2</compress>
         </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 
-      <!-- Jacoco para cobertura de teste -->
+      <!-- Jacoco -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
