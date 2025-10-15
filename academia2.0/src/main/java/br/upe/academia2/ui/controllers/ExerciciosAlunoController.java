@@ -2,8 +2,8 @@ package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class ExerciciosAlunoController {
 
@@ -23,7 +23,7 @@ public class ExerciciosAlunoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         // Fecha a tela de exercícios
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
