@@ -20,16 +20,7 @@ public class InterfaceBiomedico {
         indicadorBiomedicoBusiness = new IndicadorBiomedicoBusiness();
     }
 
-    public void exibirMenuIndicadores(Usuario aluno) {
-        usuarioLogado = new Comum(
-                aluno.getNome(),
-                aluno.getTelefone(),
-                aluno.getEmail(),
-                aluno.getSenha(),
-                aluno.getPesoAtual(),
-                aluno.getAlturaAtual(),
-                aluno.getPercGorduraAtual()
-        );
+    public void exibirMenuIndicadores() {
         boolean voltar = false;
         while (!voltar) {
             logger.info("\n=== INDICADORES BIOMÉDICOS ===");
