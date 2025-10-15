@@ -3,31 +3,49 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600"
+<AnchorPane prefHeight="420" prefWidth="650"
             xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="br.upe.academia2.ui.controllers.AtualizarIndicadoresController"
             style="-fx-background-color: #f0f0f0;">
 
-    <Label layoutX="220" layoutY="15" text="Atualizar Indicadores" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <Label layoutX="235" layoutY="20" text="Atualizar Indicadores" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-    <ListView fx:id="listaIndicadores" layoutX="25" layoutY="50" prefWidth="550" prefHeight="150"/>
+    <ListView fx:id="listaIndicadores" layoutX="25" layoutY="60" prefWidth="600" prefHeight="150"/>
 
-    <Label layoutX="25" layoutY="210" text="Peso (kg):"/>
-    <TextField fx:id="tfPeso" layoutX="120" layoutY="205" prefWidth="150"/>
+    <GridPane layoutX="25" layoutY="220" hgap="15" vgap="10" prefWidth="600">
+        <columnConstraints>
+            <ColumnConstraints minWidth="150"/>
+            <ColumnConstraints minWidth="200"/>
+            <ColumnConstraints minWidth="150"/>
+            <ColumnConstraints minWidth="200"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="30"/>
+            <RowConstraints minHeight="30"/>
+            <RowConstraints minHeight="30"/>
+        </rowConstraints>
+        <children>
+            <Label text="Peso (kg):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfPeso" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-    <Label layoutX="300" layoutY="210" text="Altura (m):"/>
-    <TextField fx:id="tfAltura" layoutX="380" layoutY="205" prefWidth="150"/>
+            <Label text="Altura (m):" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfAltura" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
 
-    <Label layoutX="25" layoutY="250" text="% Gordura:"/>
-    <TextField fx:id="tfGordura" layoutX="120" layoutY="245" prefWidth="150"/>
+            <Label text="Percentual de Gordura (%):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfGordura" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-    <Label layoutX="300" layoutY="250" text="% Massa Magra:"/>
-    <TextField fx:id="tfMassaMagra" layoutX="380" layoutY="245" prefWidth="150"/>
+            <Label text="Percentual de Massa Magra (%):" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <TextField fx:id="tfMassaMagra" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
 
-    <Label layoutX="25" layoutY="290" text="IMC:"/>
-    <TextField fx:id="tfIMC" layoutX="120" layoutY="285" prefWidth="150"/>
+            <Label text="IMC:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfIMC" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </children>
+    </GridPane>
 
-    <Button fx:id="btnSalvar" layoutX="170" layoutY="340" text="Salvar" onAction="#handleSalvar" prefWidth="100"/>
-    <Button fx:id="btnFechar" layoutX="320" layoutY="340" text="Fechar" onAction="#handleFechar" prefWidth="100"/>
+    <HBox layoutX="200" layoutY="370" spacing="20">
+        <Button fx:id="btnSalvar" text="Salvar" onAction="#handleSalvar" minWidth="100"/>
+        <Button fx:id="btnFechar" text="Fechar" onAction="#handleFechar" minWidth="100"/>
+    </HBox>
+
 </AnchorPane>
