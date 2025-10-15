@@ -17,6 +17,7 @@ public class IndicadoresAlunoController {
     @FXML private Button btnCadastrar;
     @FXML private Button btnListar;
     @FXML private Button btnImportar;
+    @FXML private Button btnAtualizar;
 
 
     public void setUsuario(Usuario usuario) {
@@ -35,6 +36,11 @@ public class IndicadoresAlunoController {
     @FXML
     private void handleListarIndicadores() {
         abrirTela("/fxml/ListarIndicadoresBio.fxml", "Listar Indicadores", btnListar);
+    }
+
+    @FXML
+    private void handleAtualizarIndicadores() {
+        abrirTela("/fxml/AtualizarIndicadores.fxml", "Atualizar Indicadores", btnAtualizar);
     }
 
     @FXML

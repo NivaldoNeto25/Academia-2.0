@@ -11,8 +11,6 @@ import javafx.stage.Stage;
 public class AlunoMenuController {
 
     private Usuario aluno;
-
-    // Componentes da tela, um de cada botão principal deve ter fx:‘id’ definido no FXML.
     @FXML
     private Button btnExercicios;
     @FXML
@@ -21,6 +19,8 @@ public class AlunoMenuController {
     private Button btnPlanoTreino;
     @FXML
     private Button btnRelatorios;
+    @FXML
+    private Button btnSair;
 
     public void setAluno(Usuario aluno) {
         this.aluno = aluno;
@@ -52,7 +52,7 @@ public class AlunoMenuController {
 
     @FXML
     private void handleSair() {
-        Stage stageAtual = (Stage) btnExercicios.getScene().getWindow();
+        Stage stageAtual = (Stage) btnSair.getScene().getWindow();
         stageAtual.close();
     }
 
