@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ModificarPlanoTreinoController">
+    <Label layoutX="242.0" layoutY="43.0" style="-fx-font-size: 24" text="Modificar" />
+    <Button layoutX="200" layoutY="100" prefWidth="200" text="Alterar Nome do Plano" />
+    <Button layoutX="200" layoutY="150" prefWidth="200" text="Alterar Datas" />
+    <Button layoutX="200" layoutY="200" prefWidth="200" text="Adicionar Exercicio a uma seção" />
+    <Button layoutX="200" layoutY="250" prefWidth="200" text="Remover exercício de uma seção" />
+    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+</AnchorPane>

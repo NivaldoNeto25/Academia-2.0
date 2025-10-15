@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="br.upe.academia2.ui.controllers.ListarPlanoTreinoController"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label layoutX="161.0" layoutY="14.0" style="-fx-font-size: 20px;" text="Lista de Plano de Treinos" />
+    <ListView layoutX="35" layoutY="60" prefHeight="230" prefWidth="410" />
+    <Button fx:id="fechar" layoutX="400" layoutY="300" onAction="#handleFechar" text="Fechar" />
+</AnchorPane>
