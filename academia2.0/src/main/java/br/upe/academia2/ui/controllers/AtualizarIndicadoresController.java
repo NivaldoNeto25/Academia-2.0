@@ -39,6 +39,8 @@ public class AtualizarIndicadoresController {
             int idx = newVal.intValue();
             if (idx >= 0 && idx < indicadores.size()) {
                 indicadorSelecionado = indicadores.get(idx);
+                // Preserva a data original para update, importante!
+                indicadorSelecionado.setDataRegistroOriginal(indicadorSelecionado.getDataRegistro());
                 carregarIndicadorNaTela(indicadorSelecionado);
             }
         });
@@ -78,6 +80,7 @@ public class AtualizarIndicadoresController {
     @FXML
     private void handleSalvar() {
         if (indicadorSelecionado == null) return;
+
         try {
             double peso = Double.parseDouble(tfPeso.getText());
             double altura = Double.parseDouble(tfAltura.getText());
@@ -85,12 +88,18 @@ public class AtualizarIndicadoresController {
             double massa = Double.parseDouble(tfMassaMagra.getText());
             double imc = Double.parseDouble(tfIMC.getText());
 
-            // Atualiza o indicador existente com novos valores e data atual
+            // Atualiza os valores
             indicadorSelecionado.setPeso(peso);
             indicadorSelecionado.setAltura(altura);
             indicadorSelecionado.setPercentualGordura(gordura);
             indicadorSelecionado.setPercentualMassaMagra(massa);
             indicadorSelecionado.setImc(imc);
+
+            // Mantenha a data original para comparação
+            if (indicadorSelecionado.getDataRegistroOriginal() == null) {
+                indicadorSelecionado.setDataRegistroOriginal(indicadorSelecionado.getDataRegistro());
+            }
+            // Atualiza a data de registro para a nova
             indicadorSelecionado.setDataRegistro(new Date());
 
             boolean sucesso = indicadorBusiness.atualizarIndicador(indicadorSelecionado);

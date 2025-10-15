@@ -10,6 +10,7 @@ public class IndicadorBiomedico {
     private Double percentualMassaMagra;
     private Double imc;
     private Date dataRegistro;
+    private Date dataRegistroOriginal; // Novo campo para data original
 
     public IndicadorBiomedico(String email, Double peso, Double altura, Double percentualGordura, Double percentualMassaMagra, Double imc, Date dataRegistro) {
         this.email = email;
@@ -19,8 +20,8 @@ public class IndicadorBiomedico {
         this.percentualMassaMagra = percentualMassaMagra;
         this.imc = imc;
         this.dataRegistro = dataRegistro;
+        this.dataRegistroOriginal = dataRegistro; // Inicializa original com a data do registro
     }
-
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -42,4 +43,7 @@ public class IndicadorBiomedico {
 
     public Date getDataRegistro() { return dataRegistro; }
     public void setDataRegistro(Date dataRegistro) { this.dataRegistro = dataRegistro; }
+
+    public Date getDataRegistroOriginal() { return dataRegistroOriginal; }
+    public void setDataRegistroOriginal(Date dataRegistroOriginal) { this.dataRegistroOriginal = dataRegistroOriginal; }
 }

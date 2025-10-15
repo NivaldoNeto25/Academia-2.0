@@ -2,7 +2,6 @@ package br.upe.academia2.data.repository;
 
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.repository.interfaces.IIndBioRepository;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
@@ -13,9 +12,7 @@ public class IndBioRepoImpl implements IIndBioRepository {
 
     private List<IndicadorBiomedico> indicadoresBiomedicos = new ArrayList<>();
     private Logger logger = Logger.getLogger(IndBioRepoImpl.class.getName());
-
     private static final String CAMINHO_ARQUIVO = "db/usuario.csv";
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public IndBioRepoImpl() {
         loadFromCSV();
@@ -23,8 +20,8 @@ public class IndBioRepoImpl implements IIndBioRepository {
 
     @Override
     public boolean save(IndicadorBiomedico indicadorBiomedico) {
-        try{
-            if(indicadorBiomedico == null){
+        try {
+            if (indicadorBiomedico == null) {
                 throw new IllegalArgumentException("Indicador Bio não pode ser nulo");
             } else {
                 return indicadoresBiomedicos.add(indicadorBiomedico);
@@ -42,28 +39,29 @@ public class IndBioRepoImpl implements IIndBioRepository {
 
     @Override
     public boolean update(IndicadorBiomedico indicadorBiomedico) {
-        try {
-            for (int i = 0; i < indicadoresBiomedicos.size(); i++) {
-                IndicadorBiomedico atual = indicadoresBiomedicos.get(i);
-                if (atual.getEmail().equals(indicadorBiomedico.getEmail())) {
-                    // Critério para substituir - usar dataRegistro igual ou estratégia desejada
-                    // Aqui substituímos o indicador com dataRegistro mais antiga
-                    if (atual.getDataRegistro().before(indicadorBiomedico.getDataRegistro())) {
-                        indicadoresBiomedicos.set(i, indicadorBiomedico);
-                        return true;
-                    }
-                }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for (int i = 0; i < indicadoresBiomedicos.size(); i++) {
+            IndicadorBiomedico atual = indicadoresBiomedicos.get(i);
+            boolean emailIgual = atual.getEmail().equals(indicadorBiomedico.getEmail());
+            boolean dataIgual = false;
+            if (atual.getDataRegistro() != null && indicadorBiomedico.getDataRegistroOriginal() != null) {
+                String dataAtualStr = sdf.format(atual.getDataRegistro());
+                String dataOriginalStr = sdf.format(indicadorBiomedico.getDataRegistroOriginal());
+                dataIgual = dataAtualStr.equals(dataOriginalStr);
             }
-        } catch (Exception e) {
-            logger.warning("Falha ao atualizar indicador: " + e.getMessage());
+            if (emailIgual && dataIgual) {
+                indicadoresBiomedicos.set(i, indicadorBiomedico);
+                return true;
+            }
         }
         return false;
     }
 
     public void loadFromCSV() {
         indicadoresBiomedicos.clear();
-        try(BufferedReader reader = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
             String linha;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(",");
                 if (dados.length < 7) continue;
