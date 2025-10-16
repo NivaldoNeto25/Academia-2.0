@@ -15,6 +15,7 @@ public class CadastrarExercicioController {
     @FXML private TextField caminhoGifField;
     @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
+    @FXML private Button btnCadastrar;
 
     private Stage stageAnterior;
     private final ExercicioBusiness exercicio = new ExercicioBusiness();
