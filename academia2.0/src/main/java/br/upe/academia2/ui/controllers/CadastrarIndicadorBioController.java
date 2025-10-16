@@ -1,5 +1,7 @@
 package br.upe.academia2.ui.controllers;
 
+import java.io.IOException;
+
 import br.upe.academia2.business.IndicadorBiomedicoBusiness;
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
@@ -10,10 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class CadastrarIndicadorBioController {
-    @FXML private TextField Altura;
-    @FXML private TextField Peso;
-    @FXML private TextField MassaMagra;
-    @FXML private TextField PercGordura;
+    @FXML private TextField alturaField;
+    @FXML private TextField pesoField;
+    @FXML private TextField massaMagraField;
+    @FXML private TextField percGorduraField;
     @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
@@ -31,7 +33,7 @@ public class CadastrarIndicadorBioController {
     }
 
     @FXML
-    public void handleCadastrarIndicadores() {
+    public void handleCadastrarIndicadores() throws IOException {
 
         try {
             if (usuarioLogado == null) {
@@ -39,10 +41,10 @@ public class CadastrarIndicadorBioController {
                 return;
             }
 
-            double altura = Double.parseDouble(Altura.getText());
-            double peso = Double.parseDouble(Peso.getText());
-            double percGordura = Double.parseDouble(PercGordura.getText());
-            double percMassaMagra = Double.parseDouble(MassaMagra.getText());
+            double altura = Double.parseDouble(alturaField.getText());
+            double peso = Double.parseDouble(pesoField.getText());
+            double percGordura = Double.parseDouble(percGorduraField.getText());
+            double percMassaMagra = Double.parseDouble(massaMagraField.getText());
 
             if (altura <= 0 || peso <= 0) {
                 mensagemLabel.setText("Peso e altura devem ser maiores que zero.");
@@ -61,17 +63,14 @@ public class CadastrarIndicadorBioController {
 
         } catch (NumberFormatException e) {
             mensagemLabel.setText("Digite valores numéricos válidos.");
-        } catch (Exception e) {
-            mensagemLabel.setText("Erro ao cadastrar indicador: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     public void limparCampos() {
-        Altura.clear();
-        Peso.clear();
-        PercGordura.clear();
-        MassaMagra.clear();
+        alturaField.clear();
+        pesoField.clear();
+        percGorduraField.clear();
+        massaMagraField.clear();
     }
 
     @FXML

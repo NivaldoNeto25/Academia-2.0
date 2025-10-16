@@ -1,8 +1,14 @@
 package br.upe.academia2.ui.controllers;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,6 +27,8 @@ public class AlunoMenuController {
     private Button btnRelatorios;
     @FXML
     private Button btnSair;
+
+    private Logger logger = Logger.getLogger(AlunoMenuController.class.getName());
 
     public void setAluno(Usuario aluno) {
         this.aluno = aluno;
@@ -65,12 +73,16 @@ public class AlunoMenuController {
             try {
                 var setUser = controller.getClass().getMethod("setUsuario", Usuario.class);
                 setUser.invoke(controller, aluno);
-            } catch (NoSuchMethodException ignored) {}
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored){
+                logger.log(Level.WARNING,"Método não encontrado !!!", ignored);
+            }
 
             try {
                 var setStageAnt = controller.getClass().getMethod("setStageAnterior", Stage.class);
                 setStageAnt.invoke(controller, stageAtual);
-            } catch (NoSuchMethodException ignored) {}
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
+                logger.log(Level.WARNING,"Método não encontrado, ou acesso ilegal !!!", ignored);
+            } 
 
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
@@ -78,8 +90,8 @@ public class AlunoMenuController {
             stageAtual.close();
             novaStage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro ao carregar", e);
         }
     }
 }
