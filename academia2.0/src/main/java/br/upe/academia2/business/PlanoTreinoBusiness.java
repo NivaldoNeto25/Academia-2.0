@@ -5,6 +5,7 @@ import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,8 +14,7 @@ public class PlanoTreinoBusiness {
 
     private final IUsuarioRepository usuarioRepository;
     private final PlanoTreinoCsvRepository planoRepository;
-
-    private Logger logger = Logger.getLogger(PlanoTreinoBusiness.class.getName());
+    private final Logger logger = Logger.getLogger(PlanoTreinoBusiness.class.getName());
 
     public PlanoTreinoBusiness(IUsuarioRepository usuarioRepository, PlanoTreinoCsvRepository planoRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -68,16 +68,36 @@ public class PlanoTreinoBusiness {
             logger.info(" - Seção: " + secao.getNomeTreino());
             for (var item : secao.getItensPlano()) {
                 if (logger.isLoggable(Level.INFO)){
-                logger.info(String.format(
-                        "     - %s: %d séries x %d reps (carga: %dkg)",
-                                item.getExercicio().getNome(),
-                                item.getSeries(),
-                                item.getRepeticoes(),
-                                item.getCarga()
-                        )
-                );
+                    logger.info(String.format(
+                            "     - %s: %d séries x %d reps (carga: %dkg)",
+                            item.getExercicio().getNome(),
+                            item.getSeries(),
+                            item.getRepeticoes(),
+                            item.getCarga()
+                    ));
                 }
             }
         }
+    }
+
+    public List<PlanoTreino> listarPlanosPorUsuario(Usuario usuario) {
+        if (usuario == null) {
+            logger.warning("Usuário nulo ao tentar listar planos.");
+            return new ArrayList<>();
+        }
+
+        List<PlanoTreino> planos = planoRepository.listarPlanosPorUsuario(usuario);
+
+        if (planos == null || planos.isEmpty()) {
+            logger.info("Nenhum plano encontrado para o usuário " + usuario.getNome());
+            return new ArrayList<>();
+        }
+
+        for (PlanoTreino plano : planos) {
+            plano.setUsuario(usuario);
+        }
+
+        logger.info("Listagem de planos concluída. Total: " + planos.size());
+        return planos;
     }
 }

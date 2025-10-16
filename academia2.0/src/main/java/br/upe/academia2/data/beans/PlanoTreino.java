@@ -13,7 +13,6 @@ public class PlanoTreino {
     private Usuario usuario;
     private List<SecaoTreino> secoes;
 
-
     public PlanoTreino(int id, String nomePlano, Date inicioPlano, Date fimPlano, Usuario usuario) {
         this.id = id;
         this.nomePlano = nomePlano;
@@ -43,7 +42,7 @@ public class PlanoTreino {
     public void setFimPlano(Date fimPlano) { this.fimPlano = fimPlano; }
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
-    
+
     public List<SecaoTreino> getSecoes() { return secoes; }
     public void setSecoes(List<SecaoTreino> secoes) { this.secoes = secoes; }
 
@@ -53,11 +52,20 @@ public class PlanoTreino {
                 return secao;
             }
         }
-    
+
         String novoId = "sec_" + System.currentTimeMillis();
-        SecaoTreino nova = new SecaoTreino(novoId, nomeSecao, this); 
-    
+        SecaoTreino nova = new SecaoTreino(novoId, nomeSecao, this);
+
         secoes.add(nova);
         return nova;
+    }
+
+    public SecaoTreino getSecaoPorNome(String nomeSecao) {
+        for (SecaoTreino secao : secoes) {
+            if (secao.getNomeTreino().equalsIgnoreCase(nomeSecao)) {
+                return secao;
+            }
+        }
+        return null;
     }
 }
