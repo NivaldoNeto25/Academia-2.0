@@ -30,18 +30,18 @@ public class ModificarPlanoTreinoController {
     }
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         btnAlterarNome.setOnAction(e -> abrirTelaAlterarNomePlano());
         btnAlterarDatas.setOnAction(e -> abrirTelaAlterarDatasPlano());
         btnAdicionarExercicio.setOnAction(e -> abrirTelaAdicionarExercicio());
         btnRemoverExercicio.setOnAction(e -> abrirTelaRemoverExercicio());
     }
 
-    private void abrirTelaAlterarNomePlano() {
+    public void abrirTelaAlterarNomePlano() {
         abrirTela("/fxml/ModificarNomePlano.fxml", "Alterar Nome do Plano");
     }
 
-    private void abrirTelaAlterarDatasPlano() {
+    public void abrirTelaAlterarDatasPlano() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AlterarDatas.fxml"));
             Parent root = loader.load();
@@ -60,15 +60,15 @@ public class ModificarPlanoTreinoController {
         }
     }
 
-    private void abrirTelaAdicionarExercicio() {
+    public void abrirTelaAdicionarExercicio() {
         abrirTela("/fxml/AdicionarExercicioSecao.fxml", "Adicionar Exercício");
     }
 
-    private void abrirTelaRemoverExercicio() {
+    public void abrirTelaRemoverExercicio() {
         abrirTela("/fxml/RemoverExercicioSecao.fxml", "Remover Exercício");
     }
 
-    private void abrirTela(String fxmlPath, String titulo) {
+    public void abrirTela(String fxmlPath, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
@@ -94,7 +94,7 @@ public class ModificarPlanoTreinoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

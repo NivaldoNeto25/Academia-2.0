@@ -45,7 +45,7 @@ public class RemoverExercicioSecaoController {
         this.stageAnterior = stage;
     }
 
-    private void atualizarListaExercicios(String nomeSecao) {
+    public void atualizarListaExercicios(String nomeSecao) {
         exerciciosComboBox.getItems().clear();
 
         if (nomeSecao == null || nomeSecao.trim().isEmpty()) {
@@ -69,7 +69,7 @@ public class RemoverExercicioSecaoController {
         }
     }
 
-    private void removerExercicio() {
+    public void removerExercicio() {
         String nomeSecao = secaoField.getText().trim();
         String nomeExercicio = exerciciosComboBox.getValue();
 
@@ -101,15 +101,15 @@ public class RemoverExercicioSecaoController {
         }
     }
 
-    private void voltar() {
+    public void voltar(){
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) {
+        if(stageAnterior != null){
             stageAnterior.show();
         }
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

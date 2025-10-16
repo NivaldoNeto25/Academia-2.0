@@ -20,7 +20,7 @@ public class ExcluirExercicioController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void handleExcluir() {
+    public void handleExcluir() {
         String nome = nomeField.getText();
         if (nome.isBlank()) {
             mensagemLabel.setText("Informe o nome.");
@@ -37,7 +37,7 @@ public class ExcluirExercicioController {
     }}
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ImportarIndicadoresBioController">
+
+    <Label layoutX="135.0" layoutY="28.0" prefHeight="84.0" prefWidth="331.0" style="-fx-font-size: 22px;" text="Importar Indicadores Biomédicos" />
+    <Label layoutX="63.0" layoutY="150.0" text="Arquivo CSV:" />
+    <TextField fx:id="campoArquivo" layoutX="151.0" layoutY="146.0" prefHeight="28.0" prefWidth="300.0"
+               onMouseClicked="#handleSelecionarArquivo"
+               promptText="Clique para selecionar o arquivo..." />
+    <Button fx:id="btnImportar" layoutX="256.0" layoutY="210.0" prefHeight="32.0" prefWidth="88.0"
+            onAction="#handleImportar" text="Importar" style="-fx-font-size: 15px;" />
+    <Button fx:id="btnVoltar" layoutX="14.0" layoutY="354.0" prefHeight="32.0" prefWidth="56.0"
+            onAction="#handleVoltar" text="Voltar" />
+    <Label fx:id="mensagemLabel" layoutX="63.0" layoutY="260.0" prefHeight="25.0" prefWidth="470.0" text="" />
+
+</AnchorPane>
+

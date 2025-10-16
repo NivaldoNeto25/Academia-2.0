@@ -48,7 +48,7 @@ public class AdicionarExercicioSecaoController {
         this.stageAnterior = stageAnterior;
     }
 
-    private void adicionarExercicio() {
+    public void adicionarExercicio() {
         String nomeSecao = secaoField.getText().trim();
         String nomeExercicio = exercicioField.getText().trim();
         String seriesStr = seriesField.getText().trim();
@@ -92,7 +92,7 @@ public class AdicionarExercicioSecaoController {
         }
     }
 
-    private void limparCampos() {
+    public void limparCampos() {
         secaoField.clear();
         exercicioField.clear();
         seriesField.clear();
@@ -100,7 +100,7 @@ public class AdicionarExercicioSecaoController {
         cargaField.clear();
     }
 
-    private void voltar() {
+    public void voltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) {
@@ -108,7 +108,7 @@ public class AdicionarExercicioSecaoController {
         }
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

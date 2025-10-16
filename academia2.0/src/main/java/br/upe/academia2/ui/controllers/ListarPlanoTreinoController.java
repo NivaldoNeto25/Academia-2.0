@@ -40,7 +40,7 @@ public class ListarPlanoTreinoController {
         this.stageAnterior = stageAnterior;
     }
 
-    private void carregarPlanosDoUsuario() {
+    public void carregarPlanosDoUsuario() {
         if (usuarioLogado == null) {
             mostrarAlerta("Erro", "Usuário não logado. Não é possível listar os planos.", Alert.AlertType.ERROR);
             return;
@@ -69,13 +69,13 @@ public class ListarPlanoTreinoController {
     }
 
     @FXML
-    private void handleFechar() {
+    public void handleFechar() {
         Stage atual = (Stage) fechar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

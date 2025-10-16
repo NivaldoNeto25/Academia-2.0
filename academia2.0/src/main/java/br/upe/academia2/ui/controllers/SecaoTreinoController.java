@@ -45,7 +45,7 @@ public class SecaoTreinoController {
         this.stageAnterior = stage;
     }
 
-    private void carregarDadosPlano() {
+    public void carregarDadosPlano() {
         PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
         if (plano != null) {
             labelPlanoNome.setText(plano.getNomePlano());
@@ -56,7 +56,7 @@ public class SecaoTreinoController {
         }
     }
 
-    private void iniciarSessao() {
+    public void iniciarSessao() {
         PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
         if (plano == null) {
             mostrarAlerta("Erro", "Nenhum plano de treino encontrado.", Alert.AlertType.WARNING);
@@ -71,13 +71,13 @@ public class SecaoTreinoController {
         mostrarAlerta("Sessão Iniciada", "A sessão de treino foi iniciada com sucesso.", Alert.AlertType.INFORMATION);
     }
 
-    private void voltar() {
+    public void voltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

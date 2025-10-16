@@ -22,7 +22,7 @@ public class ModificarAlunoController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void handleModificar() {
+    public void handleModificar() {
         String email = emailField.getText();
         Usuario existente = usuarioBusiness.listarUsuarios().stream()
                 .filter(u -> u.getEmail().equalsIgnoreCase(email))
@@ -46,7 +46,7 @@ public class ModificarAlunoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

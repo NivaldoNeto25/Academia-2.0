@@ -31,7 +31,7 @@ public class CadastrarIndicadorBioController {
     }
 
     @FXML
-    private void handleCadastrarIndicadores() {
+    public void handleCadastrarIndicadores() {
 
         try {
             if (usuarioLogado == null) {
@@ -67,7 +67,7 @@ public class CadastrarIndicadorBioController {
         }
     }
 
-    private void limparCampos() {
+    public void limparCampos() {
         Altura.clear();
         Peso.clear();
         PercGordura.clear();
@@ -75,7 +75,7 @@ public class CadastrarIndicadorBioController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

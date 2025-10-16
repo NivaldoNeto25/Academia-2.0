@@ -25,7 +25,7 @@ public class CadastrarExercicioController {
     }
 
     @FXML
-    private void handleCadastrar() {
+    public void handleCadastrar() {
         String nome = nomeField.getText();
         String descricao = descricaoField.getText();
         String caminhoGif = caminhoGifField.getText();
@@ -48,7 +48,7 @@ public class CadastrarExercicioController {
         }
     }
         @FXML
-        private void handleVoltar() {
+        public void handleVoltar() {
             Stage atual = (Stage) btnVoltar.getScene().getWindow();
             atual.close();
             if (stageAnterior != null) stageAnterior.show();

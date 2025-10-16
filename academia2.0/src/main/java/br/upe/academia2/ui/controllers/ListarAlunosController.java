@@ -19,7 +19,7 @@ public class ListarAlunosController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         var alunos = usuarioBusiness.listarUsuariosComuns();
         var nomes = alunos.stream()
                 .map(a -> a.getNome() + " | " + a.getEmail())
@@ -28,7 +28,7 @@ public class ListarAlunosController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

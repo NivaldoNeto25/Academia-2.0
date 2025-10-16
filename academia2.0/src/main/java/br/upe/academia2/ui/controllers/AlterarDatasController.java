@@ -41,7 +41,7 @@ public class AlterarDatasController {
         this.stageAnterior = stage;
     }
 
-    private void carregarDatasAtuais() {
+    public void carregarDatasAtuais() {
         PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
         if (plano != null) {
             if (plano.getInicioPlano() != null)
@@ -52,7 +52,7 @@ public class AlterarDatasController {
     }
 
     @FXML
-    private void handleSalvar() {
+    public void handleSalvar() {
         if (dataInicioPicker.getValue() == null || dataFimPicker.getValue() == null) {
             mostrarAlerta("Erro", "Selecione as duas datas para prosseguir.", Alert.AlertType.WARNING);
             return;
@@ -75,7 +75,7 @@ public class AlterarDatasController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) {
@@ -83,7 +83,7 @@ public class AlterarDatasController {
         }
     }
 
-    private void mostrarAlerta(String titulo, String conteudo, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String conteudo, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

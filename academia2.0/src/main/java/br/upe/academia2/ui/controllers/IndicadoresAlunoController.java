@@ -28,28 +28,28 @@ public class IndicadoresAlunoController {
     }
 
     @FXML
-    private void handleCadastrarIndicadores() {
+    public void handleCadastrarIndicadores() {
         abrirTela("/fxml/CadastrarIndicadoresBio.fxml", "Cadastrar Indicadores", btnCadastrar);
     }
 
     @FXML
-    private void handleListarIndicadores() {
+    public void handleListarIndicadores() {
         abrirTela("/fxml/ListarIndicadoresBio.fxml", "Listar Indicadores", btnListar);
     }
 
     @FXML
-    private void handleImportarIndicadores() {
+    public void handleImportarIndicadores() {
         abrirTela("/fxml/ImportarIndicadoresBio.fxml", "Importar Indicadores", btnImportar);
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();
     }
 
-    private void abrirTela(String caminhoFxml, String titulo, Button origem) {
+    public void abrirTela(String caminhoFxml, String titulo, Button origem) {
         try {
             Stage stageAtual = (Stage) origem.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));

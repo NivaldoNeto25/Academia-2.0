@@ -37,7 +37,7 @@ public class ModificarNomePlanoController {
         this.stageAnterior = stage;
     }
 
-    private void carregarNomeAtual() {
+    public void carregarNomeAtual() {
         PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
         if (plano != null) {
             nomePlanoField.setText(plano.getNomePlano());
@@ -47,7 +47,7 @@ public class ModificarNomePlanoController {
     }
 
     @FXML
-    private void handleAlterar() {
+    public void handleAlterar() {
         String novoNome = nomePlanoField.getText().trim();
 
         if (novoNome.isEmpty()) {
@@ -68,7 +68,7 @@ public class ModificarNomePlanoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) {
@@ -76,7 +76,7 @@ public class ModificarNomePlanoController {
         }
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

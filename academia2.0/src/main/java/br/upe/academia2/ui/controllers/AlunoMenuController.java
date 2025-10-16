@@ -27,36 +27,36 @@ public class AlunoMenuController {
     }
 
     @FXML
-    private void handleExercicios() {
+    public void handleExercicios() {
         Stage stageAtual = (Stage) btnExercicios.getScene().getWindow();
         trocarTela("/fxml/ExercicioMenu.fxml", "Exercícios", stageAtual);
     }
 
     @FXML
-    private void handleIndicadores() {
+    public void handleIndicadores() {
         Stage stageAtual = (Stage) btnIndicadores.getScene().getWindow();
         trocarTela("/fxml/IndicadoresAluno.fxml", "Indicadores Biomédicos", stageAtual);
     }
 
     @FXML
-    private void handlePlanoTreino() {
+    public void handlePlanoTreino() {
         Stage stageAtual = (Stage) btnPlanoTreino.getScene().getWindow();
         trocarTela("/fxml/PlanoTreinoAluno.fxml", "Plano de Treino", stageAtual);
     }
 
     @FXML
-    private void handleRelatorio() {
+    public void handleRelatorio() {
         Stage stageAtual = (Stage) btnRelatorios.getScene().getWindow();
         trocarTela("/fxml/RelatorioAluno.fxml", "Relatórios", stageAtual);
     }
 
     @FXML
-    private void handleSair() {
+    public void handleSair() {
         Stage stageAtual = (Stage) btnSair.getScene().getWindow();
         stageAtual.close();
     }
 
-    private void trocarTela(String caminhoFxml, String titulo, Stage stageAtual) {
+    public void trocarTela(String caminhoFxml, String titulo, Stage stageAtual) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
             Parent root = loader.load();

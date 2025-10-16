@@ -26,7 +26,7 @@ public class ExercicioMenuController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         if (stageAnterior != null) {
             stageAnterior.show();
         }
@@ -34,7 +34,7 @@ public class ExercicioMenuController {
         stageAtual.close();
     }
 
-    private void irParaTela(String caminhoFxml, String titulo, Button origem) {
+    public void irParaTela(String caminhoFxml, String titulo, Button origem) {
         try {
             Stage stageAtual = (Stage) origem.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));

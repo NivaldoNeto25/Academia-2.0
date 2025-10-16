@@ -26,13 +26,13 @@ public class PlanoTreinoAlunoController {
     @FXML private void handleSecaoTreino() {irParaTela("/fxml/SecaoTreino.fxml", "Cadastrar Plano de Treino", btnSecaoTreino);}
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();
     }
 
-    private void irParaTela(String caminhoFxml, String titulo, Button origem) {
+    public void irParaTela(String caminhoFxml, String titulo, Button origem) {
         try {
             Stage stageAtual = (Stage) origem.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));

@@ -30,12 +30,12 @@ public class AdmMenuController {
     @FXML private void handleExcluirAluno()    { irParaTela("/fxml/ExcluirAluno.fxml", "Excluir Aluno", btnExcluir); }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage stageAtual = (Stage) btnVoltar.getScene().getWindow();
         stageAtual.close();
     }
 
-    private void irParaTela(String caminhoFxml, String titulo, Button origem) {
+    public void irParaTela(String caminhoFxml, String titulo, Button origem) {
         try {
             Stage stageAtual = (Stage) origem.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));

@@ -27,7 +27,7 @@ public class LoginController {
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     @FXML
-    private void handleEntrar() {
+    public void handleEntrar() {
         String usuario = usuarioField.getText();
         String senha = senhaField.getText();
         String tipoUsuario = usuarioBusiness.autenticar(usuario, senha);
@@ -67,7 +67,7 @@ public class LoginController {
     }
 
     @FXML
-    private void handleSair() {
+    public void handleSair() {
         Stage stageAtual = (Stage) btnVoltar.getScene().getWindow();
         stageAtual.close();
     }

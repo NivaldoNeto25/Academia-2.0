@@ -21,7 +21,7 @@ public class ModificarExercicioController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void handleModificar() {
+    public void handleModificar() {
         String nome = nomeField.getText();
         Exercicio existente = exercicio.listarExercicios().stream()
                 .filter(u -> u.getNome().equalsIgnoreCase(nome))
@@ -46,7 +46,7 @@ public class ModificarExercicioController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

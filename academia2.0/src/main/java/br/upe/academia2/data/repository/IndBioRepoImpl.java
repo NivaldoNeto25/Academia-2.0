@@ -2,8 +2,8 @@ package br.upe.academia2.data.repository;
 
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.repository.interfaces.IIndBioRepository;
-import java.io.BufferedReader;
-import java.io.FileReader;
+
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -12,29 +12,31 @@ public class IndBioRepoImpl implements IIndBioRepository {
 
     private List<IndicadorBiomedico> indicadoresBiomedicos = new ArrayList<>();
     private Logger logger = Logger.getLogger(IndBioRepoImpl.class.getName());
-    private static final String CAMINHO_ARQUIVO = "db/usuario.csv";
+    private final String caminhoArquivo;
 
     public IndBioRepoImpl() {
+        this("db/usuario.csv");
+    }
+
+    public IndBioRepoImpl(String caminhoArquivo) {
+        this.caminhoArquivo = caminhoArquivo;
         loadFromCSV();
     }
 
     @Override
     public boolean save(IndicadorBiomedico indicadorBiomedico) {
-        try {
-            if (indicadorBiomedico == null) {
-                throw new IllegalArgumentException("Indicador Bio não pode ser nulo");
-            } else {
-                return indicadoresBiomedicos.add(indicadorBiomedico);
-            }
-        } catch (Exception e) {
-            logger.warning("Método salvar falhou: " + e.getMessage());
+        if (indicadorBiomedico == null) {
+            logger.warning("Indicador Biomedico não pode ser nulo");
+            return false;
         }
-        return false;
+
+        indicadoresBiomedicos.add(indicadorBiomedico);
+        return salvarCSV();  
     }
 
     @Override
     public List<IndicadorBiomedico> findAll() {
-        return indicadoresBiomedicos;
+        return new ArrayList<>(indicadoresBiomedicos);  
     }
 
     @Override
@@ -51,7 +53,7 @@ public class IndBioRepoImpl implements IIndBioRepository {
             }
             if (emailIgual && dataIgual) {
                 indicadoresBiomedicos.set(i, indicadorBiomedico);
-                return true;
+                return salvarCSV();
             }
         }
         return false;
@@ -59,7 +61,12 @@ public class IndBioRepoImpl implements IIndBioRepository {
 
     public void loadFromCSV() {
         indicadoresBiomedicos.clear();
-        try (BufferedReader reader = new BufferedReader(new FileReader(CAMINHO_ARQUIVO))) {
+        File arquivo = new File(caminhoArquivo);
+        if (!arquivo.exists()) {
+            logger.info("Arquivo não existe: " + caminhoArquivo);
+            return;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             while ((linha = reader.readLine()) != null) {
@@ -78,6 +85,38 @@ public class IndBioRepoImpl implements IIndBioRepository {
             logger.info("Dados carregados: " + indicadoresBiomedicos.size());
         } catch (Exception e) {
             logger.warning("Erro ao carregar CSV: " + e.getMessage());
+        }
+    }
+
+    private boolean salvarCSV() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoArquivo))) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            for (IndicadorBiomedico ind : indicadoresBiomedicos) {
+                String linha = String.join(",",
+                        ind.getEmail(),
+                        String.valueOf(ind.getPeso()),
+                        String.valueOf(ind.getAltura()),
+                        String.valueOf(ind.getPercentualGordura()),    
+                        String.valueOf(ind.getPercentualMassaMagra()),      
+                        String.valueOf(ind.getImc()),
+                        sdf.format(ind.getDataRegistro())
+                );
+                writer.write(linha);
+                writer.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            logger.warning("Erro ao salvar CSV: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // limpa lista e arquivo pra n dar erro
+    public void limparDados() {
+        indicadoresBiomedicos.clear();
+        File arquivo = new File(caminhoArquivo);
+        if (arquivo.exists()) {
+            arquivo.delete();
         }
     }
 }

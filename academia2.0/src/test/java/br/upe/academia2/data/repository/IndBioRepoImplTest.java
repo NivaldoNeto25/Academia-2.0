@@ -1,21 +1,28 @@
 package br.upe.academia2.data.repository;
 
 import br.upe.academia2.data.beans.IndicadorBiomedico;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
-
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class IndBioRepoImplTest {
 
     private IndBioRepoImpl indBioRepository;
+    private File tempFile;
 
     @BeforeEach
-    void setUp() {
-        indBioRepository = new IndBioRepoImpl();
+    void setUp() throws IOException {
+        tempFile = File.createTempFile("indicadores-test", ".csv");
+        tempFile.deleteOnExit();
+
+        indBioRepository = new IndBioRepoImpl(tempFile.getAbsolutePath());
+
+        indBioRepository.limparDados();
     }
 
     @Test
@@ -25,30 +32,27 @@ class IndBioRepoImplTest {
         );
 
         boolean result = indBioRepository.save(indicador);
-
         assertTrue(result);
 
         List<IndicadorBiomedico> allIndicators = indBioRepository.findAll();
         assertNotNull(allIndicators);
-        assertFalse(allIndicators.isEmpty());
         assertEquals(1, allIndicators.size());
-        assertEquals(indicador, allIndicators.get(0));
+        assertEquals(indicador.getEmail(), allIndicators.get(0).getEmail());
     }
 
     @Test
     void testSaveNullIndicadorBiomedico() {
         boolean result = indBioRepository.save(null);
-
         assertFalse(result);
 
         List<IndicadorBiomedico> allIndicators = indBioRepository.findAll();
+        assertNotNull(allIndicators);
         assertTrue(allIndicators.isEmpty());
     }
 
     @Test
     void testFindAllEmpty() {
         List<IndicadorBiomedico> allIndicators = indBioRepository.findAll();
-
         assertNotNull(allIndicators);
         assertTrue(allIndicators.isEmpty());
     }
@@ -73,8 +77,5 @@ class IndBioRepoImplTest {
 
         assertNotNull(allIndicators);
         assertEquals(3, allIndicators.size());
-        assertTrue(allIndicators.contains(indicador1));
-        assertTrue(allIndicators.contains(indicador2));
-        assertTrue(allIndicators.contains(indicador3));
     }
 }

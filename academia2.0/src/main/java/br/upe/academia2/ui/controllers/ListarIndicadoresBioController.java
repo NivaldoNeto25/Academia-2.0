@@ -42,7 +42,7 @@ public class ListarIndicadoresBioController {
     }
 
     @FXML
-    private void handleFechar() {
+    public void handleFechar() {
         Stage atual = (Stage) fechar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

@@ -23,7 +23,7 @@ public class CadastroAlunoController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void handleCadastrar() {
+    public void handleCadastrar() {
         String nome = nomeField.getText();
         String email = emailField.getText();
         String senha = senhaField.getText();
@@ -43,7 +43,7 @@ public class CadastroAlunoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

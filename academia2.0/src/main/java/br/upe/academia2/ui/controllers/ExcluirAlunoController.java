@@ -19,7 +19,7 @@ public class ExcluirAlunoController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void handleExcluir() {
+    public void handleExcluir() {
         String email = emailField.getText();
         if (email.isBlank()) {
             mensagemLabel.setText("Informe o e-mail.");
@@ -39,7 +39,7 @@ public class ExcluirAlunoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();

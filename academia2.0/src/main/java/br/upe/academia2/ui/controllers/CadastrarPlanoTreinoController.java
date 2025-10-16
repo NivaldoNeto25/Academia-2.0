@@ -44,7 +44,7 @@ public class CadastrarPlanoTreinoController {
     }
 
     @FXML
-    private void handleCadastrar() {
+    public void handleCadastrar() {
         String nome = nomeField.getText().trim();
         String dataInicioStr = dataInicioField.getText().trim();
         String dataFimStr = dataFimField.getText().trim();
@@ -73,19 +73,19 @@ public class CadastrarPlanoTreinoController {
     }
 
     @FXML
-    private void handleVoltar() {
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();
     }
 
-    private void limparCampos() {
+    public void limparCampos() {
         nomeField.clear();
         dataInicioField.clear();
         dataFimField.clear();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+    public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

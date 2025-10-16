@@ -40,7 +40,7 @@ public class RelatoriosAlunoController {
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
-    private void handleRelatorioGeral(ActionEvent event) {
+    public void handleRelatorioGeral(ActionEvent event) {
         if (usuario == null) {
             txtSaida.setText(" Usuário não definido! Faça login novamente.");
             return;
@@ -64,7 +64,7 @@ public class RelatoriosAlunoController {
     }
 
     @FXML
-    private void handleRelatorioComparativo(ActionEvent event) {
+    public void handleRelatorioComparativo(ActionEvent event) {
         if (usuario == null) {
             txtSaida.setText(" Usuário não definido! Faça login novamente.");
             return;
@@ -96,7 +96,7 @@ public class RelatoriosAlunoController {
     }
 
     @FXML
-    private void handleVoltar() throws Exception {
+    public void handleVoltar() throws Exception {
         URL fxml = Objects.requireNonNull(
                 getClass().getResource("/fxml/AlunoMenu.fxml"),
                 "FXML /fxml/AlunoMenu.fxml não encontrado"
@@ -111,7 +111,7 @@ public class RelatoriosAlunoController {
         nova.show();
     }
 
-    private String formatarIndicador(IndicadorBiomedico ind) {
+    public String formatarIndicador(IndicadorBiomedico ind) {
         return String.format(
                 "------------------------------\n" +
                         "Data: %s\n" +
