@@ -57,13 +57,8 @@ public class IndicadoresAlunoController {
 
             Object controller = loader.getController();
 
-            try {
-                controller.getClass().getMethod("setUsuarioLogado", Usuario.class).invoke(controller, usuarioLogado);
-            } catch (NoSuchMethodException ignored) {}
-
-            try {
-                controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAtual);
-            } catch (NoSuchMethodException ignored) {}
+            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, usuarioLogado);
+            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAtual);
 
             Stage novaStage = new Stage();
             novaStage.setTitle(titulo);
@@ -71,6 +66,17 @@ public class IndicadoresAlunoController {
             novaStage.show();
 
             stageAtual.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void invocarMetodoSeExiste(Object objeto, String metodoNome, Class<?> parametroClass, Object parametro) {
+        try {
+            var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
+            metodo.invoke(objeto, parametro);
+        } catch (NoSuchMethodException ignored) {
 
         } catch (Exception e) {
             e.printStackTrace();

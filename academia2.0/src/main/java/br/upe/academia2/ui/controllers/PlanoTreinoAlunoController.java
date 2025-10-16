@@ -39,22 +39,40 @@ public class PlanoTreinoAlunoController {
             Parent root = loader.load();
             Object controller = loader.getController();
 
-            controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAtual);
-
-            try {
-                controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, this.usuario);
-            } catch (NoSuchMethodException e1) {
-                try {
-                    controller.getClass().getMethod("setUsuarioLogado", Usuario.class).invoke(controller, this.usuario);
-                } catch (NoSuchMethodException e2) {
-                }
-            }
+            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAtual);
+            invocarMetodoUsuario(controller);
 
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
             novaStage.setTitle(titulo);
             stageAtual.close();
             novaStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void invocarMetodoSeExiste(Object objeto, String metodoNome, Class<?> parametroClass, Object parametro) {
+        try {
+            var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
+            metodo.invoke(objeto, parametro);
+        } catch (NoSuchMethodException ignored) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void invocarMetodoUsuario(Object controller) {
+        try {
+            controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, this.usuario);
+        } catch (NoSuchMethodException e1) {
+            try {
+                controller.getClass().getMethod("setUsuarioLogado", Usuario.class).invoke(controller, this.usuario);
+            } catch (NoSuchMethodException ignored) {
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

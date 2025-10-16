@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class ModificarPlanoTreinoController {
 
@@ -75,13 +76,8 @@ public class ModificarPlanoTreinoController {
 
             Object controller = loader.getController();
 
-            try {
-                controller.getClass().getMethod("setUsuarioLogado", Usuario.class).invoke(controller, usuarioLogado);
-            } catch (NoSuchMethodException ignored) {}
-
-            try {
-                controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAnterior);
-            } catch (NoSuchMethodException ignored) {}
+            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, usuarioLogado);
+            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAnterior);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -90,6 +86,17 @@ public class ModificarPlanoTreinoController {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void invocarMetodoSeExiste(Object objeto, String metodoNome, Class<?> parametroClass, Object parametro) {
+        try {
+            Method metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
+            metodo.invoke(objeto, parametro);
+        } catch (NoSuchMethodException ignored) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

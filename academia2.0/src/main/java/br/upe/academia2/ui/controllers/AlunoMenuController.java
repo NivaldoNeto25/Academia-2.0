@@ -62,15 +62,8 @@ public class AlunoMenuController {
             Parent root = loader.load();
 
             Object controller = loader.getController();
-            try {
-                var setUser = controller.getClass().getMethod("setUsuario", Usuario.class);
-                setUser.invoke(controller, aluno);
-            } catch (NoSuchMethodException ignored) {}
-
-            try {
-                var setStageAnt = controller.getClass().getMethod("setStageAnterior", Stage.class);
-                setStageAnt.invoke(controller, stageAtual);
-            } catch (NoSuchMethodException ignored) {}
+            invocarMetodoSeExiste(controller, "setUsuario", Usuario.class, aluno);
+            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAtual);
 
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
@@ -78,6 +71,17 @@ public class AlunoMenuController {
             stageAtual.close();
             novaStage.show();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void invocarMetodoSeExiste(Object objeto, String metodoNome, Class<?> parametroClass, Object parametro) {
+        try {
+            var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
+            metodo.invoke(objeto, parametro);
+        } catch (NoSuchMethodException ignored) {
+            // Método não existe, ignora
         } catch (Exception e) {
             e.printStackTrace();
         }
