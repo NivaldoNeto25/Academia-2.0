@@ -11,8 +11,11 @@ import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ListarIndicadoresBioController {
+
+    private static final Logger logger = Logger.getLogger(ListarIndicadoresBioController.class.getName());
 
     @FXML private ListView<String> listaIndicadores;
     @FXML private Button fechar;
@@ -25,7 +28,7 @@ public class ListarIndicadoresBioController {
         this.usuarioLogado = usuario;
 
         List<IndicadorBiomedico> indicadores = indicadorBusiness.listarIndicadores(usuarioLogado);
-        System.out.println("Total de indicadores encontrados: " + indicadores.size());
+        logger.info(() -> "Total de indicadores encontrados: " + indicadores.size());
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -48,5 +51,3 @@ public class ListarIndicadoresBioController {
         if (stageAnterior != null) stageAnterior.show();
     }
 }
-
-

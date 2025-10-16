@@ -30,7 +30,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
 
     private UsuarioCsvRepository() {
         this.filePath = obterCaminhoCsv("/db/usuarios.csv");
-        System.out.println("CAMINHO CSV CARREGADO: " + this.filePath);
+        logger.log(Level.INFO, "CAMINHO CSV CARREGADO: {0}", this.filePath);
         criarDiretorioSeNecessario();
         this.usuarios = new ArrayList<>();
         carregarDoCsv();

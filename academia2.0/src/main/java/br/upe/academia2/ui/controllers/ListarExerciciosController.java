@@ -7,7 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+import java.util.logging.Logger;
+
 public class ListarExerciciosController {
+    private static final Logger logger = Logger.getLogger(ListarExerciciosController.class.getName());
+
     @FXML private ListView<String> listaExercicios;
     @FXML private Button fechar;
 
@@ -18,7 +22,7 @@ public class ListarExerciciosController {
 
     @FXML
     public void initialize() {
-        System.out.println(exercicio.listarExercicios());
+        logger.info(() -> "Exercícios listados: " + exercicio.listarExercicios());
         var exercicios = exercicio.listarExercicios();
         var nomes = exercicios.stream()
                 .map(a -> a.getNome() + " | " + a.getDescricao())
