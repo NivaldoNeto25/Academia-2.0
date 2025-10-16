@@ -9,7 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModificarPlanoTreinoController {
 
@@ -29,6 +32,8 @@ public class ModificarPlanoTreinoController {
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
     }
+
+    Logger logger = Logger.getLogger(ModificarPlanoTreinoController.class.getName());
 
     @FXML
     public void initialize() {
@@ -57,7 +62,7 @@ public class ModificarPlanoTreinoController {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Erro ao carregar a tela", e);
         }
     }
 
@@ -84,8 +89,8 @@ public class ModificarPlanoTreinoController {
             stage.setTitle(titulo);
             stage.show();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (IOException ex) {
+            logger.log(Level.WARNING, "Erro ao carregar a tela", ex);
         }
     }
 
@@ -93,10 +98,10 @@ public class ModificarPlanoTreinoController {
         try {
             Method metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
             metodo.invoke(objeto, parametro);
-        } catch (NoSuchMethodException ignored) {
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException | IllegalAccessException ignored) {
+            logger.log(Level.WARNING, "Método não encontrado", ignored);
+        } catch (InvocationTargetException e){
+            logger.log(Level.WARNING, "Erro ao chamar o método", e);
         }
     }
 

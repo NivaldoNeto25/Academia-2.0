@@ -1,5 +1,9 @@
 package br.upe.academia2.ui.controllers;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Usuario;
@@ -23,8 +27,10 @@ public class LoginController {
 
     @FXML
     private Label mensagemLabel;
-    public Button btnVoltar;
+    private Button btnVoltar;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
+
+    Logger logger = Logger.getLogger(LoginController.class.getName());
 
     @FXML
     public void handleEntrar() {
@@ -57,9 +63,8 @@ public class LoginController {
                     controller.setAluno(usuarioLogado);
                     stage.setScene(cena);
                 }
-            } catch (Exception e) {
-                mensagemLabel.setText("Erro: " + e.getMessage());
-                e.printStackTrace();
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Erro ao carregar FXML", e);
             }
         } else {
             mensagemLabel.setText("Usuário ou senha incorretos.");
