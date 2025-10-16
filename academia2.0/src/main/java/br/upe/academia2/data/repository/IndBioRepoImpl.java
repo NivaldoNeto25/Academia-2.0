@@ -4,6 +4,9 @@ import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.repository.interfaces.IIndBioRepository;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -118,9 +121,13 @@ public class IndBioRepoImpl implements IIndBioRepository {
 
     public void limparDados() {
         indicadoresBiomedicos.clear();
-        File arquivo = new File(caminhoArquivo);
-        if (arquivo.exists()) {
-            arquivo.delete();
+        Path caminho = Paths.get(caminhoArquivo);
+        if (Files.exists(caminho)) {
+            try {
+                Files.delete(caminho);
+            } catch (IOException e) {
+                logger.warning("Erro ao deletar arquivo: " + e.getMessage());
+            }
         }
     }
 }
