@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.upe.academia2.ui.controllers.AdicionarExercicioSecaoController"
+            prefWidth="600.0" prefHeight="400.0">
+
+    <Label layoutX="50.0" layoutY="30.0" text="Adicionar Exercício à Seção" style="-fx-font-size: 20px;"/>
+
+    <Label layoutX="50.0" layoutY="80.0" text="Nome da Seção:" />
+    <TextField fx:id="secaoField" layoutX="200.0" layoutY="75.0" prefWidth="300.0" />
+
+    <Label layoutX="50.0" layoutY="120.0" text="Nome do Exercício:" />
+    <TextField fx:id="exercicioField" layoutX="200.0" layoutY="115.0" prefWidth="300.0" />
+
+    <Label layoutX="50.0" layoutY="160.0" text="Número de Séries:" />
+    <TextField fx:id="seriesField" layoutX="200.0" layoutY="155.0" prefWidth="100.0" />
+
+    <Label layoutX="50.0" layoutY="200.0" text="Número de Repetições:" />
+    <TextField fx:id="repeticoesField" layoutX="200.0" layoutY="195.0" prefWidth="100.0" />
+
+    <Label layoutX="50.0" layoutY="240.0" text="Carga (kg):" />
+    <TextField fx:id="cargaField" layoutX="200.0" layoutY="235.0" prefWidth="100.0" />
+
+    <Button fx:id="btnAdicionar" text="Adicionar" layoutX="200.0" layoutY="290.0" prefWidth="120.0" />
+    <Button fx:id="btnVoltar" text="Voltar" layoutX="350.0" layoutY="290.0" prefWidth="120.0" />
+
+</AnchorPane>
