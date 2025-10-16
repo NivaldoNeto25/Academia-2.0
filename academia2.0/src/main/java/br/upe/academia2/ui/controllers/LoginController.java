@@ -24,7 +24,7 @@ public class LoginController {
     @FXML
     private Label mensagemLabel;
     public Button btnVoltar;
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     @FXML
     private void handleEntrar() {

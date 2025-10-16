@@ -3,6 +3,7 @@ package br.upe.academia2.ui;
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
+import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
 import java.util.logging.Level;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 public class InterfaceAdm {
     private final Scanner sc = new Scanner(System.in);
     private final Usuario adm;
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
     private static final Logger logger = Logger.getLogger(InterfaceAdm.class.getName());
 
     public InterfaceAdm(Usuario adm) {

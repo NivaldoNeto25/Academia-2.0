@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class UsuarioBusiness {
 
-    private final UsuarioCsvRepository usuarioRepository = UsuarioCsvRepository.getInstance();
+    private UsuarioCsvRepository usuarioRepository = UsuarioCsvRepository.getInstance();
     private Logger logger = Logger.getLogger(UsuarioBusiness.class.getName());
 
     public enum ResultadoExclusao {
@@ -20,7 +20,9 @@ public class UsuarioBusiness {
         NAO_PERMITIDO_ADM
     }
 
-    public UsuarioBusiness() {}
+    public UsuarioBusiness(UsuarioCsvRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     public String autenticar(String email, String senha) {
         Usuario usuario = usuarioRepository.findByEmail(email);

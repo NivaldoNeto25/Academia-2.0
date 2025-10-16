@@ -3,6 +3,7 @@ package br.upe.academia2.ui.controllers;
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
+import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,7 +18,7 @@ public class CadastroAlunoController {
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
