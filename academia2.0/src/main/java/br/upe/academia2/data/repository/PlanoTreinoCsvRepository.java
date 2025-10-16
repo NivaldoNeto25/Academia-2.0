@@ -6,7 +6,9 @@ import br.upe.academia2.data.beans.*;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,6 +123,15 @@ public class PlanoTreinoCsvRepository {
             logger.log(Level.SEVERE, "Erro ao carregar plano de treino: " + e.getMessage(), e);
             return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
         }
+    }
+
+    public List<PlanoTreino> listarPlanosPorUsuario(Usuario usuario) {
+        List<PlanoTreino> lista = new ArrayList<>();
+        PlanoTreino plano = carregarPlano(usuario);
+        if (plano != null && plano.getNomePlano() != null && !plano.getNomePlano().equals(ERRO_AO_CARREGAR)) {
+            lista.add(plano);
+        }
+        return lista;
     }
 
     private String escape(String campo) {

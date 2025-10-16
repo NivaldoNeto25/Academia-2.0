@@ -6,5 +6,5 @@ import java.util.List;
 public interface IIndBioRepository {
     boolean save(IndicadorBiomedico indicadorBiomedico);
     List<IndicadorBiomedico> findAll();
+    boolean update(IndicadorBiomedico indicadorBiomedico);
 }
-

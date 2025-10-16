@@ -13,21 +13,76 @@ import java.util.logging.Logger;
 
 public class IndicadorBiomedicoBusiness {
     private IndBioRepoImpl indBioRepository = new IndBioRepoImpl();
-    private CSVManipBusiness fileManip = new CSVManipBusiness();
-    private static final String CAMINHO_ARQUIVO = "data/indicadores.csv";
+    private static final String CAMINHO_ARQUIVO = "db/usuario.csv";
 
     private Logger logger = Logger.getLogger(IndicadorBiomedicoBusiness.class.getName());
 
+    private CSVManipBusiness fileManip = new CSVManipBusiness();
+
     public IndicadorBiomedicoBusiness() {
-        //Construtor padrão necessário para inicialização padrão da classe.
+        // Construtor
     }
-    
 
     public void cadastrarIndicador(Usuario usuario, IndicadorBiomedico indicador) {
         if (usuario != null && indicador != null) {
             indicador.setEmail(usuario.getEmail());
             indBioRepository.save(indicador);
-            salvarNoCSV(indicador);
+            salvarTodosNoCSV();
+        }
+    }
+
+    public boolean atualizarIndicador(IndicadorBiomedico indicador) {
+        boolean atualizado = indBioRepository.update(indicador);
+        if (atualizado) {
+            salvarTodosNoCSV();
+        }
+        return atualizado;
+    }
+
+    private void salvarTodosNoCSV() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO, false))) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            for (IndicadorBiomedico ind : indBioRepository.findAll()) {
+                writer.append(String.format(Locale.US,
+                        "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s%n",
+                        ind.getEmail(),
+                        ind.getPeso(),
+                        ind.getAltura(),
+                        ind.getPercentualGordura(),
+                        ind.getPercentualMassaMagra(),
+                        ind.getImc(),
+                        sdf.format(ind.getDataRegistro())
+                ));
+            }
+        } catch (IOException e) {
+            logger.warning("Erro ao salvar todos no CSV: " + e.getMessage());
+        }
+    }
+
+    public boolean importarIndicadoresDeCSV(String caminhoArquivo) {
+        try {
+            List<String> linhas = fileManip.leitor(caminhoArquivo);
+
+            for (String linha : linhas) {
+                String[] dados = linha.split(",");
+                if (dados.length < 7) continue;
+
+                String email = dados[0];
+                double peso = Double.parseDouble(dados[1]);
+                double altura = Double.parseDouble(dados[2]);
+                double gordura = Double.parseDouble(dados[3]);
+                double massa = Double.parseDouble(dados[4]);
+                double imc = Double.parseDouble(dados[5]);
+                Date dataRegistro = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dados[6]);
+
+                IndicadorBiomedico ind = new IndicadorBiomedico(email, peso, altura, gordura, massa, imc, dataRegistro);
+                indBioRepository.save(ind);
+            }
+            salvarTodosNoCSV();
+            return true;
+        } catch (Exception e) {
+            logger.warning("Erro ao importar indicadores: " + e.getMessage());
+            return false;
         }
     }
 
@@ -39,81 +94,5 @@ public class IndicadorBiomedicoBusiness {
             }
         }
         return resultado;
-    }
-
-    private void salvarNoCSV(IndicadorBiomedico indicador) {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(CAMINHO_ARQUIVO, true))){
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            writer.append(String.format(Locale.US,
-                    "%s,%.2f,%.2f,%.2f,%.2f,%.2f,%s%n",
-                    indicador.getEmail(),
-                    indicador.getPeso(),
-                    indicador.getAltura(),
-                    indicador.getPercentualGordura(),
-                    indicador.getPercentualMassaMagra(),
-                    indicador.getImc(),
-                    sdf.format(indicador.getDataRegistro())
-            ));
-        } catch (IOException e) {
-            logger.warning("Erro ao salvar no CSV: " + e.getMessage());
-        }
-    }
-
-    public boolean importarIndicadoresDeCSV(String caminhoArquivo){
-        try {
-            List<String> arquivoParaImportar = fileManip.leitor(caminhoArquivo);
-            for (String linha : arquivoParaImportar) {
-                String[] dados = linha.split(",");
-                String email = dados[0];
-                double peso = Double.parseDouble(dados[1]);
-                double altura = Double.parseDouble(dados[2]);
-                double gordura = Double.parseDouble(dados[3]);
-                double massa = Double.parseDouble(dados[4]);
-                double imc = Double.parseDouble(dados[5]);
-                Date dataRegistro = new Date();
-
-                IndicadorBiomedico ind = new IndicadorBiomedico(email, peso, altura, gordura, massa, imc, dataRegistro);
-                indBioRepository.save(ind);
-            }
-            return true;
-        } catch (Exception e) {
-            logger.warning("Erro ao importar indicadores: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean exportarRelatorioEvolucao(Usuario unico, Date inicio,Date fim){
-        try{
-            String email = unico.getEmail();
-            ArrayList<String> stringParaExportacao = new ArrayList<>();
-            ArrayList<String> separado = new ArrayList<>();
-            for(int index = 0; index < indBioRepository.findAll().size(); index++){
-                if(indBioRepository.findAll().get(index).getEmail().equals(email)){
-                    separado.add(String.valueOf(indBioRepository.findAll().get(index).getPercentualGordura()));
-                    separado.add(String.valueOf(indBioRepository.findAll().get(index).getPercentualMassaMagra()));
-                    separado.add(String.valueOf(indBioRepository.findAll().get(index).getImc()));
-                    separado.add(String.valueOf(inicio));
-                    separado.add(String.valueOf(fim));
-                }
-            }
-            for(int index = 0; index < separado.size(); index += 5){
-                stringParaExportacao.add(separado.get(index) +","+ separado.get(index+1) +","+ separado.get(index+2) +","+ separado.get(index+3) +","+ separado.get(index+4));
-            }
-            ArrayList<String> nomeDosCampos = new ArrayList<>();
-            nomeDosCampos.add("Percentual de gordura");
-            nomeDosCampos.add("Percentual de massa magra");
-            nomeDosCampos.add("IMC");
-            nomeDosCampos.add("Data de início");
-            nomeDosCampos.add("Data de fim");
-
-            fileManip.escritor(nomeDosCampos,stringParaExportacao,"RelatorioDeEvolucao.CSV","src/main/java/br/upe/projetoAcademiaP2/exported");
-            return true;
-
-        } catch (Exception e) {
-            logger.warning("\nAlgo deu errado. Por favor, tente novamente");
-        }
-        return false;
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300" prefWidth="500" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.ListarAlunosController">
+    <Label layoutX="210.0" layoutY="22.0" text="Lista de Alunos" />
+    <ListView fx:id="listaAlunosView" layoutX="65.0" layoutY="44.0" prefHeight="200.0" prefWidth="370.0" />
+    <Button fx:id="btnVoltar" layoutX="30" layoutY="250" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+</AnchorPane>

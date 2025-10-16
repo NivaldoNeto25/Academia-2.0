@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.ExcluirExercicioController">
+    <Label layoutX="230.0" layoutY="31.0" style="-fx-font-size: 20px;" text="Excluir Exercício" />
+    <Label layoutX="57.0" layoutY="81.0" text="Nome do exercício:" />
+    <TextField fx:id="nomeField" layoutX="188.0" layoutY="77.0" prefHeight="26.0" prefWidth="224.0" />
+    <Button layoutX="361.0" layoutY="120.0" onAction="#handleExcluir" text="Excluir" />
+    <Label fx:id="mensagemLabel" layoutX="50" layoutY="170" prefWidth="300" />
+   <Button fx:id="btnVoltar" layoutX="50.0" layoutY="331.0" onAction="#handleVoltar" text="Voltar" />
+</AnchorPane>

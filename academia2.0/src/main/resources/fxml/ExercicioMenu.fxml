@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ExercicioMenuController">
+    <Label layoutX="254.0" layoutY="35.0" style="-fx-font-size: 24" text="Exercício" />
+    <Button fx:id="btnCadastrar" layoutX="200" layoutY="100" onAction="#handleCadastrarExercicio" prefWidth="200" text="Cadastrar Exercicio" />
+    <Button fx:id="btnListar" layoutX="200" layoutY="150" onAction="#handleListarExercicio" prefWidth="200" text="Listar Exercicio" />
+    <Button fx:id="btnModificar" layoutX="200" layoutY="200" onAction="#handleModificarExercicio" prefWidth="200" text="Modificar Exercicio" />
+    <Button fx:id="btnExcluir" layoutX="200" layoutY="250" onAction="#handleExcluirExercicio" prefWidth="200" text="Excluir Exercicio" />
+    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+</AnchorPane>

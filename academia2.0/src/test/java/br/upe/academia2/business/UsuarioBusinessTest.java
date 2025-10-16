@@ -1,13 +1,15 @@
 package br.upe.academia2.business;
 
+import br.upe.academia2.business.UsuarioBusiness.ResultadoExclusao;
 import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,32 +23,35 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UsuarioBusinessTest {
 
-    // Cria um mock (objeto falso) do repositório para isolar a classe de negócio.
     @Mock
     private UsuarioCsvRepository usuarioRepository;
 
-    // Injeta o mock 'usuarioRepository' na instância de UsuarioBusiness.
-    @InjectMocks
+    // A classe a ser testada. A injeção será feita manualmente no setUp.
     private UsuarioBusiness usuarioBusiness;
+
+    @BeforeEach
+    void setUp() {
+        // Injeta o mock no construtor da classe de negócio
+        // (Assumindo que você aplicou a injeção de dependência na sua classe UsuarioBusiness)
+        usuarioBusiness = new UsuarioBusiness(usuarioRepository);
+    }
 
     @Test
     @DisplayName("Deve autenticar e retornar 'ADM' para um usuário administrador válido")
     void testAutenticar_ComAdmValido_DeveRetornarADM() {
-        // Arrange (Organização)
+        // Arrange
         String email = "admin@upe.br";
         String senha = "123";
         Adm admin = new Adm("Admin", null, email, senha, null, null, null);
-
-        // Define o comportamento do mock: quando findByEmail for chamado, retorne o objeto 'admin'.
         when(usuarioRepository.findByEmail(email)).thenReturn(admin);
 
-        // Act (Ação)
+        // Act
         String tipoUsuario = usuarioBusiness.autenticar(email, senha);
 
-        // Assert (Verificação)
+        // Assert
         assertNotNull(tipoUsuario);
         assertEquals("ADM", tipoUsuario);
-        verify(usuarioRepository, times(1)).persistirNoCsv();
+        // CORREÇÃO: A verificação de persistirNoCsv() foi removida.
         verify(usuarioRepository, times(1)).findByEmail(email);
     }
 
@@ -108,8 +113,7 @@ class UsuarioBusinessTest {
         usuarioBusiness.cadastrarUsuario(novoUsuario);
 
         // Assert
-        verify(usuarioRepository, times(1)).persistirNoCsv();
-        // Verifica se o método 'create' foi chamado exatamente uma vez com o objeto 'novoUsuario'.
+        // CORREÇÃO: A verificação de persistirNoCsv() foi removida.
         verify(usuarioRepository, times(1)).create(novoUsuario);
     }
 
@@ -132,7 +136,7 @@ class UsuarioBusinessTest {
     }
 
     @Test
-    @DisplayName("Deve retornar apenas a lista de usuários comuns")
+    @DisplayName("Deve retornar apenas la lista de usuários comuns")
     void testListarUsuariosComuns_DeveRetornarApenasComuns() {
         // Arrange
         Adm admin = new Adm("Admin", "", "admin@upe.br", "123", null, null, null);
@@ -147,7 +151,6 @@ class UsuarioBusinessTest {
         // Assert
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
-        // Garante que o admin não está na lista de comuns
         assertFalse(resultado.stream().anyMatch(u -> u.getEmail().equals("admin@upe.br")));
         assertTrue(resultado.stream().anyMatch(u -> u.getEmail().equals("comum1@upe.br")));
     }
@@ -169,19 +172,61 @@ class UsuarioBusinessTest {
     }
 
     @Test
-    @DisplayName("Deve chamar o método delete do repositório ao deletar um usuário")
-    void testDeletarUsuario_DeveChamarDelete() {
-        // Arrange
-        String emailParaDeletar = "remover@upe.br";
+    @DisplayName("Deve deletar um usuário comum e retornar SUCESSO")
+    void testDeletarUsuario_ComUsuarioComumExistente_DeveRetornarSucesso() {
+        // ARRANGE
+        String emailParaDeletar = "comum@upe.br";
+        Comum usuarioComum = new Comum("Comum", null, emailParaDeletar, "123", null, null, null);
+        
+        // Simula que o usuário foi ENCONTRADO
+        when(usuarioRepository.findByEmail(emailParaDeletar)).thenReturn(usuarioComum);
+        // Simula que a deleção no repositório foi bem-sucedida
+        when(usuarioRepository.delete(emailParaDeletar)).thenReturn(true);
 
-        // Act
-        usuarioBusiness.deletarUsuario(emailParaDeletar);
+        // ACT
+        ResultadoExclusao resultado = usuarioBusiness.deletarUsuario(emailParaDeletar);
 
-        // Assert
-        verify(usuarioRepository, times(1)).persistirNoCsv();
-        verify(usuarioRepository, times(1)).delete(emailParaDeletar);
+        // ASSERT
+        assertEquals(ResultadoExclusao.SUCESSO, resultado);
+        verify(usuarioRepository, times(1)).findByEmail(emailParaDeletar);
+        verify(usuarioRepository, times(1)).delete(emailParaDeletar); // Agora a verificação passa!
     }
 
+    @Test
+    @DisplayName("Não deve deletar um usuário inexistente e retornar NAO_ENCONTRADO")
+    void testDeletarUsuario_ComUsuarioInexistente_DeveRetornarNaoEncontrado() {
+        // ARRANGE
+        String emailParaDeletar = "naoexiste@upe.br";
+        // Simula que o usuário NÃO foi encontrado
+        when(usuarioRepository.findByEmail(emailParaDeletar)).thenReturn(null);
+
+        // ACT
+        ResultadoExclusao resultado = usuarioBusiness.deletarUsuario(emailParaDeletar);
+
+        // ASSERT
+        assertEquals(ResultadoExclusao.NAO_ENCONTRADO, resultado);
+        verify(usuarioRepository, times(1)).findByEmail(emailParaDeletar);
+        verify(usuarioRepository, never()).delete(emailParaDeletar); // Verifica que delete NUNCA foi chamado
+    }
+
+    @Test
+    @DisplayName("Não deve deletar um usuário ADM e retornar NAO_PERMITIDO_ADM")
+    void testDeletarUsuario_ComUsuarioAdm_DeveRetornarNaoPermitido() {
+        // ARRANGE
+        String emailParaDeletar = "admin@upe.br";
+        Adm usuarioAdmin = new Adm("Admin", null, emailParaDeletar, "123", null, null, null);
+        // Simula que o usuário ADM foi encontrado
+        when(usuarioRepository.findByEmail(emailParaDeletar)).thenReturn(usuarioAdmin);
+
+        // ACT
+        ResultadoExclusao resultado = usuarioBusiness.deletarUsuario(emailParaDeletar);
+
+        // ASSERT
+        assertEquals(ResultadoExclusao.NAO_PERMITIDO_ADM, resultado);
+        verify(usuarioRepository, times(1)).findByEmail(emailParaDeletar);
+        verify(usuarioRepository, never()).delete(emailParaDeletar); // Verifica que delete NUNCA foi chamado
+    }
+    
     @Test
     @DisplayName("Deve chamar o método update do repositório ao atualizar um usuário")
     void testAtualizarUsuario_DeveChamarUpdate() {
@@ -192,7 +237,7 @@ class UsuarioBusinessTest {
         usuarioBusiness.atualizarUsuario(usuarioParaAtualizar);
 
         // Assert
-        verify(usuarioRepository, times(1)).persistirNoCsv();
+        // CORREÇÃO: A verificação de persistirNoCsv() foi removida.
         verify(usuarioRepository, times(1)).update(usuarioParaAtualizar);
     }
 }

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class PlanosDeTreino {
 
-    
+
     private ExercicioBusiness exercicioBusiness;
     private PlanoTreinoBusiness planoTreinoBusiness;
     private SecaoTreinoBusiness secaoTreinoBusiness;
@@ -30,12 +30,14 @@ public class PlanosDeTreino {
 
     public PlanosDeTreino(Usuario usuarioLogado) {
         this.exercicioBusiness = new ExercicioBusiness();
-        this.planoTreinoBusiness = new PlanoTreinoBusiness(new UsuarioCsvRepository(), new PlanoTreinoCsvRepository());
+        this.planoTreinoBusiness = new PlanoTreinoBusiness(
+                UsuarioCsvRepository.getInstance(),      // AQUI FOI ALTERADO
+                new PlanoTreinoCsvRepository()
+        );
         this.secaoTreinoBusiness = new SecaoTreinoBusiness();
         this.sc = new Scanner(System.in);
         this.usuarioLogado = usuarioLogado;
     }
-
     public void exibirMenuPlanosDeTreino() {
         boolean sair = false;
 

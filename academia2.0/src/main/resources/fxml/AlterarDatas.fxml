@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.upe.academia2.ui.controllers.AlterarDatasController"
+            prefWidth="600" prefHeight="400">
+
+    <Label layoutX="220" layoutY="40" text="Alterar Datas do Plano" style="-fx-font-size: 24px;"/>
+    <Label layoutX="50" layoutY="120" text="Data de Início:"/>
+    <DatePicker fx:id="dataInicioPicker" layoutX="150" layoutY="115"/>
+    <Label layoutX="50" layoutY="180" text="Data de Fim:"/>
+    <DatePicker fx:id="dataFimPicker" layoutX="150" layoutY="175"/>
+    <Button fx:id="btnSalvar" onAction="#handleSalvar" text="Salvar" layoutX="220" layoutY="260" prefWidth="160"/>
+    <Button fx:id="btnVoltar" onAction="#handleVoltar" text="Voltar" layoutX="50" layoutY="350" prefWidth="100"/>
+
+</AnchorPane>

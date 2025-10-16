@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400" prefWidth="600"
+            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:controller="br.upe.academia2.ui.controllers.RelatoriosAlunoController"
+            style="-fx-background-color: #f9f9f9;">
+
+    <Label layoutX="250" layoutY="40" text="Relatórios"
+           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+    <Button layoutX="210" layoutY="110" 
+            prefWidth="180" prefHeight="30"
+            text="Relatório Geral"
+            onAction="#handleRelatorioGeral"/>
+
+    <Button layoutX="210" layoutY="160"
+            prefWidth="180" prefHeight="30"
+            text="Relatório Comparativo"
+            onAction="#handleRelatorioComparativo"/>
+
+    <TextArea fx:id="txtSaida"
+              layoutX="100" layoutY="210"
+              prefWidth="400" prefHeight="120"
+              wrapText="true" editable="false"
+              style="-fx-font-family: Consolas; -fx-font-size: 12px;"/>
+
+    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+</AnchorPane>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300" prefWidth="500" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.CadastrarExercicioController">
+    <Label layoutX="200" layoutY="20" style="-fx-font-size: 20px;" text="Cadastrar Exercício" />
+    <Label layoutX="35" layoutY="70" text="Nome:" />
+    <TextField fx:id="nomeField" layoutX="140" layoutY="65" prefWidth="300" />
+    <Label layoutX="35" layoutY="110" text="Descrição:" />
+    <TextArea fx:id="descricaoField" layoutX="140" layoutY="105" prefHeight="80" prefWidth="300" />
+    <Label layoutX="35" layoutY="200" text="Caminho GIF:" />
+    <TextField fx:id="caminhoGifField" layoutX="140" layoutY="195" prefWidth="300" />
+    <Button fx:id="btnCadastrar" layoutX="266.0" layoutY="246.0" onAction="#handleCadastrar" text="Salvar" />
+    <Button fx:id="btnVoltar" layoutX="35.0" layoutY="246.0" onAction="#handleVoltar" text="Voltar" />
+</AnchorPane>

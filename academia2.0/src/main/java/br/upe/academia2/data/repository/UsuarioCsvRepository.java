@@ -18,15 +18,26 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
     private static final String CSV_HEADER = "tipo,email,nome,senha,telefone,peso,altura,gordura";
     private List<Usuario> usuarios;
 
-    public UsuarioCsvRepository() {
-        this.filePath = obterCaminhoCsv("/data/usuarios.csv");
+    // Implementação Singleton
+    private static UsuarioCsvRepository instance;
+
+    public static UsuarioCsvRepository getInstance() {
+        if (instance == null) {
+            instance = new UsuarioCsvRepository();
+        }
+        return instance;
+    }
+
+    private UsuarioCsvRepository() {
+        this.filePath = obterCaminhoCsv("/db/usuarios.csv");
+        System.out.println("CAMINHO CSV CARREGADO: " + this.filePath);
         criarDiretorioSeNecessario();
         this.usuarios = new ArrayList<>();
         carregarDoCsv();
     }
 
-    public UsuarioCsvRepository(String caminhoPersonalizado) {
-        this.filePath = caminhoPersonalizado;
+    public UsuarioCsvRepository(String filePath) {
+        this.filePath = filePath;
         criarDiretorioSeNecessario();
         this.usuarios = new ArrayList<>();
         carregarDoCsv();
@@ -43,9 +54,9 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
         if (!parent.exists()) {
             boolean criada = parent.mkdirs();
             if (criada) {
-                logger.log(Level.INFO, " Pasta 'data/' criada: {0}", parent.getAbsolutePath());
+                logger.log(Level.INFO, " Pasta 'db/' criada: {0}", parent.getAbsolutePath());
             } else {
-                logger.log(Level.SEVERE, " Falha ao criar pasta 'data/': {0}", parent.getAbsolutePath());
+                logger.log(Level.SEVERE, " Falha ao criar pasta 'db/': {0}", parent.getAbsolutePath());
             }
         }
     }

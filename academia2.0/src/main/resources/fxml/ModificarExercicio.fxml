@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="320" prefWidth="500" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ModificarExercicioController">
+    <Label layoutX="178.0" layoutY="21.0" style="-fx-font-size: 20px;" text="Modificar Exercício" />
+    <Label layoutX="35" layoutY="70" text="Nome do exercício:" />
+    <TextField fx:id="nomeField" layoutX="160" layoutY="65" prefWidth="280" />
+    <Label layoutX="35" layoutY="150" text="Nova descrição:" />
+    <TextArea fx:id="descricaoField" layoutX="160" layoutY="145" prefHeight="80" prefWidth="280" />
+    <Label layoutX="35" layoutY="240" text="Novo caminho GIF:" />
+    <TextField fx:id="caminhoGifField" layoutX="160" layoutY="235" prefWidth="280" />
+    <Button layoutX="250.0" layoutY="276.0" onAction="#handleModificar" text="Atualizar" />
+    <Label fx:id="mensagemLabel" layoutX="35" layoutY="310" prefWidth="400" />
+   <Button fx:id="btnVoltar" layoutX="35.0" layoutY="279.0" onAction="#handleVoltar" text="Voltar" />
+</AnchorPane>

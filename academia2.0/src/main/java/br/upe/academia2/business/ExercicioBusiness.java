@@ -67,16 +67,20 @@ public class ExercicioBusiness {
     }
 
     public void deletarExercicio(String nome) {
-        try{
-            if (nome.isEmpty() || nome.equals(" ")){
+        try {
+            if (nome.isEmpty() || nome.equals(" ")) {
                 throw new InputMismatchException();
             }
             exercicioRepository.delete(nome);
-        }catch (InputMismatchException ime){
+        } catch (InputMismatchException ime) {
             logger.warning("nome vazio, por favor escreva novamente");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.warning("Algo deu errado. Por favor, tente novamente");
         }
     }
-}
+        // eu preciso pra salvar as coisas assim q clicar em atualizar / cadastrar
+        public void salvarAlteracoesNoCsv(){
+            exercicioRepository.persistirNoCsv();
+            logger.info("Dados de exercícios foram salvos no CSV.");
+        }
+    }
