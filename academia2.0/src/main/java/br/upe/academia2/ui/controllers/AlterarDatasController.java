@@ -30,9 +30,6 @@ public class AlterarDatasController {
                 UsuarioCsvRepository.getInstance(),
                 new PlanoTreinoCsvRepository()
         );
-
-        btnSalvar.setOnAction(e -> salvarAlteracoes());
-        btnVoltar.setOnAction(e -> voltar());
     }
 
     public void setUsuarioLogado(Usuario usuario) {
@@ -54,7 +51,8 @@ public class AlterarDatasController {
         }
     }
 
-    private void salvarAlteracoes() {
+    @FXML
+    private void handleSalvar() {
         if (dataInicioPicker.getValue() == null || dataFimPicker.getValue() == null) {
             mostrarAlerta("Erro", "Selecione as duas datas para prosseguir.", Alert.AlertType.WARNING);
             return;
@@ -76,7 +74,8 @@ public class AlterarDatasController {
         mostrarAlerta("Sucesso", "Datas atualizadas com sucesso!", Alert.AlertType.INFORMATION);
     }
 
-    private void voltar() {
+    @FXML
+    private void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) {

@@ -8,6 +8,7 @@ import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -48,6 +49,7 @@ public class SecaoTreinoController {
         PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
         if (plano != null) {
             labelPlanoNome.setText(plano.getNomePlano());
+            btnIniciarSessao.setDisable(false);
         } else {
             labelPlanoNome.setText("Nenhum plano encontrado");
             btnIniciarSessao.setDisable(true);
@@ -56,20 +58,30 @@ public class SecaoTreinoController {
 
     private void iniciarSessao() {
         PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano == null || plano.getSecoes().isEmpty()) {
-            // Aqui você pode mostrar um alerta informando que não há plano ou seções
+        if (plano == null) {
+            mostrarAlerta("Erro", "Nenhum plano de treino encontrado.", Alert.AlertType.WARNING);
+            return;
+        }
+        if (plano.getSecoes() == null || plano.getSecoes().isEmpty()) {
+            mostrarAlerta("Aviso", "Plano não possui seções.", Alert.AlertType.WARNING);
             return;
         }
 
         secaoTreinoBusiness.iniciarSessao(plano);
-
-        // Logica para executar treino, mostrar cartões etc,
-        // Depende da arquitetura da sua UI — aqui apenas placeholder
+        mostrarAlerta("Sessão Iniciada", "A sessão de treino foi iniciada com sucesso.", Alert.AlertType.INFORMATION);
     }
 
     private void voltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
         if (stageAnterior != null) stageAnterior.show();
+    }
+
+    private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

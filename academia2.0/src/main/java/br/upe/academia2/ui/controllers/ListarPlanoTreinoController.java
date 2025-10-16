@@ -22,6 +22,7 @@ public class ListarPlanoTreinoController {
 
     private Usuario usuarioLogado;
     private final PlanoTreinoBusiness planoTreinoBusiness;
+    private Stage stageAnterior;  // Adicionado
 
     public ListarPlanoTreinoController() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness(
@@ -33,6 +34,10 @@ public class ListarPlanoTreinoController {
     public void setUsuarioLogado(Usuario usuarioLogado) {
         this.usuarioLogado = usuarioLogado;
         carregarPlanosDoUsuario();
+    }
+
+    public void setStageAnterior(Stage stageAnterior) {
+        this.stageAnterior = stageAnterior;
     }
 
     private void carregarPlanosDoUsuario() {
@@ -67,6 +72,7 @@ public class ListarPlanoTreinoController {
     private void handleFechar() {
         Stage atual = (Stage) fechar.getScene().getWindow();
         atual.close();
+        if (stageAnterior != null) stageAnterior.show();
     }
 
     private void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {

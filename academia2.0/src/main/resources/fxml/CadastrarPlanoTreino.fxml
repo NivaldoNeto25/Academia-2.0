@@ -7,10 +7,13 @@
     <Label layoutX="200" layoutY="20" style="-fx-font-size: 20px;" text="Cadastrar Plano Treino" />
     <Label layoutX="35.0" layoutY="89.0" text="Nome do plano:" />
     <TextField fx:id="nomeField" layoutX="140.0" layoutY="86.0" prefHeight="26.0" prefWidth="92.0" />
-    <Label layoutX="35.0" layoutY="213.0" text="Data de Término:" />
+
     <Label layoutX="35.0" layoutY="150.0" text="Data de Inicio:" />
-    <TextField fx:id="dataFimField" layoutX="140.0" layoutY="147.0" prefHeight="26.0" prefWidth="92.0" />
-    <TextField fx:id="dataInicioField" layoutX="140.0" layoutY="210.0" prefHeight="26.0" prefWidth="92.0" />
+    <TextField fx:id="dataInicioField" layoutX="140.0" layoutY="147.0" prefHeight="26.0" prefWidth="92.0" />
+
+    <Label layoutX="35.0" layoutY="213.0" text="Data de Término:" />
+    <TextField fx:id="dataFimField" layoutX="140.0" layoutY="210.0" prefHeight="26.0" prefWidth="92.0" />
+
     <Button layoutX="274.0" layoutY="321.0" onAction="#handleCadastrar" text="Salvar" />
     <Button fx:id="btnVoltar" layoutX="35.0" layoutY="322.0" onAction="#handleVoltar" text="Voltar" />
 </AnchorPane>

@@ -5,6 +5,6 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ListarPlanoTreinoController">
     <Label layoutX="183.0" layoutY="14.0" style="-fx-font-size: 20px;" text="Lista de Plano de Treinos" />
-    <ListView layoutX="90.0" layoutY="60.0" prefHeight="230" prefWidth="410" />
+    <ListView fx:id="listViewPlanos" layoutX="90.0" layoutY="60.0" prefHeight="230" prefWidth="410" />
     <Button fx:id="fechar" layoutX="280.0" layoutY="316.0" onAction="#handleFechar" text="Fechar" />
 </AnchorPane>

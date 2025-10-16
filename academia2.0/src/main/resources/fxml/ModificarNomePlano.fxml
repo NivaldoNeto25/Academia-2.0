@@ -7,8 +7,8 @@
    <children>
       <Label layoutX="199.0" layoutY="41.0" prefHeight="35.0" prefWidth="202.0" style="-fx-font-size: 20px;" text="Alterar nome do Plano" />
       <Label layoutX="45.0" layoutY="130.0" text="Alterar Nome do Plano atual:" />
-      <TextField layoutX="208.0" layoutY="126.0" prefHeight="26.0" prefWidth="202.0" />
-      <Button layoutX="358.0" layoutY="172.0" mnemonicParsing="false" text="Alterar" />
-      <Button layoutX="45.0" layoutY="312.0" mnemonicParsing="false" text="Voltar" />
+      <TextField fx:id="nomePlanoField" layoutX="208.0" layoutY="126.0" prefHeight="26.0" prefWidth="202.0" />
+      <Button fx:id="btnAlterar" onAction="#handleAlterar" layoutX="358.0" layoutY="172.0" mnemonicParsing="false" text="Alterar" />
+      <Button fx:id="btnVoltar" onAction="#handleVoltar" layoutX="45.0" layoutY="312.0" mnemonicParsing="false" text="Voltar" />
    </children>
 </AnchorPane>

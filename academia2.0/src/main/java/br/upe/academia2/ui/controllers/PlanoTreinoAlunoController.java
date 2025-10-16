@@ -23,7 +23,7 @@ public class PlanoTreinoAlunoController {
     @FXML private void handleCadastrarPlano() { irParaTela("/fxml/CadastrarPlanoTreino.fxml", "Cadastrar Plano de Treino", btnCadastrar);}
     @FXML private void handleListarPlano() {irParaTela("/fxml/ListarPlanoTreino.fxml", "Listar Plano de Treino", btnListar);}
     @FXML private void handleModificarPlano() {irParaTela("/fxml/ModificarPlanoTreino.fxml", "Modificar Plano de Treino", btnModificar);}
-    //@FXML private void handleSecaoTreino() {irParaTela("/fxml/CadastrarPlanoTreino.fxml", "Cadastrar Plano de Treino", btnSecaoTreino);}
+    @FXML private void handleSecaoTreino() {irParaTela("/fxml/SecaoTreino.fxml", "Cadastrar Plano de Treino", btnSecaoTreino);}
 
     @FXML
     private void handleVoltar() {
@@ -38,7 +38,18 @@ public class PlanoTreinoAlunoController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
             Parent root = loader.load();
             Object controller = loader.getController();
+
             controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAtual);
+
+            try {
+                controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, this.usuario);
+            } catch (NoSuchMethodException e1) {
+                try {
+                    controller.getClass().getMethod("setUsuarioLogado", Usuario.class).invoke(controller, this.usuario);
+                } catch (NoSuchMethodException e2) {
+                }
+            }
+
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
             novaStage.setTitle(titulo);
@@ -48,5 +59,4 @@ public class PlanoTreinoAlunoController {
             e.printStackTrace();
         }
     }
-
 }

@@ -8,6 +8,6 @@
     <Button fx:id="btnCadastrar" layoutX="220" layoutY="100" onAction="#handleCadastrarPlano" prefWidth="200" text="Cadastrar Plano de Treino" />
     <Button fx:id="btnListar" layoutX="220" layoutY="150" onAction="#handleListarPlano" prefWidth="200" text="Listar Plano de Treino" />
     <Button fx:id="btnModificar" layoutX="220" layoutY="200" onAction="#handleModificarPlano" prefWidth="200" text="Modificar Plano de Treino" />
-    <Button layoutX="220" layoutY="250" prefWidth="200" text="Seção Treino" />
+    <Button fx:id="btnSecaoTreino" layoutX="220" layoutY="250" onAction="#handleSecaoTreino" prefWidth="200" text="Seção Treino" />
     <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
 </AnchorPane>

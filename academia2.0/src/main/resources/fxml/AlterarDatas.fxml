@@ -12,7 +12,7 @@
     <DatePicker fx:id="dataInicioPicker" layoutX="150" layoutY="115"/>
     <Label layoutX="50" layoutY="180" text="Data de Fim:"/>
     <DatePicker fx:id="dataFimPicker" layoutX="150" layoutY="175"/>
-    <Button fx:id="btnSalvar" text="Salvar" layoutX="220" layoutY="260" prefWidth="160"/>
-    <Button fx:id="btnVoltar" text="Voltar" layoutX="50" layoutY="350" prefWidth="100"/>
+    <Button fx:id="btnSalvar" onAction="#handleSalvar" text="Salvar" layoutX="220" layoutY="260" prefWidth="160"/>
+    <Button fx:id="btnVoltar" onAction="#handleVoltar" text="Voltar" layoutX="50" layoutY="350" prefWidth="100"/>
 
 </AnchorPane>

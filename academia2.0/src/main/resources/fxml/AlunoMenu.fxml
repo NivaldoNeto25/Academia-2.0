@@ -11,15 +11,8 @@
         </font>
     </Label>
     <Button fx:id="btnExercicios" layoutX="266.0" layoutY="127.0" onAction="#handleExercicios" text="Exercícios" />
-<<<<<<< HEAD
     <Button fx:id="btnIndicadores" layoutX="261.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleIndicadores" text="Indicadores" />
     <Button fx:id="btnPlanoTreino" layoutX="250.0" layoutY="223.0" mnemonicParsing="false" onAction="#handlePlanoTreino" text="Plano de Treino" />
     <Button fx:id="btnRelatorios" layoutX="268.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleRelatorio" text="Relatório" />
     <Button fx:id="btnSair" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSair" text="Sair" />
-=======
-    <Button layoutX="261.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleIndicadores" text="Indicadores" />
-    <Button fx:id="btnPlanoTreino" layoutX="250.0" layoutY="223.0" mnemonicParsing="false" onAction="#handlePlanoTreino" text="Plano de Treino" />
-    <Button layoutX="268.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleRelatorio" text="Relatório" />
-    <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleSair" text="Sair" />
->>>>>>> db82c67 (iniciando as telas do plano de treino)
 </AnchorPane>

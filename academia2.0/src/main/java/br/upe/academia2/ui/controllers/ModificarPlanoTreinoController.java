@@ -43,7 +43,7 @@ public class ModificarPlanoTreinoController {
 
     private void abrirTelaAlterarDatasPlano() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AlterarDatasPlano.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AlterarDatas.fxml"));
             Parent root = loader.load();
 
             br.upe.academia2.ui.controllers.AlterarDatasController controller = loader.getController();
@@ -61,11 +61,11 @@ public class ModificarPlanoTreinoController {
     }
 
     private void abrirTelaAdicionarExercicio() {
-        abrirTela("/fxml/AdicionarExercicioPlano.fxml", "Adicionar Exercício");
+        abrirTela("/fxml/AdicionarExercicioSecao.fxml", "Adicionar Exercício");
     }
 
     private void abrirTelaRemoverExercicio() {
-        abrirTela("/fxml/RemoverExercicioPlano.fxml", "Remover Exercício");
+        abrirTela("/fxml/RemoverExercicioSecao.fxml", "Remover Exercício");
     }
 
     private void abrirTela(String fxmlPath, String titulo) {
