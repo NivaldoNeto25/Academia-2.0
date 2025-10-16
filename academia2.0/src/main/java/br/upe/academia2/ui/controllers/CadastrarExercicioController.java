@@ -38,14 +38,11 @@ public class CadastrarExercicioController {
         if (exercicio.listarExercicios().stream().anyMatch(u -> u.getNome().equalsIgnoreCase(nome))) {
             mensagemLabel.setText("Este exercício já existe");
             return;}
-        try {
-            Exercicio novoExercicio = new Exercicio(nome, descricao, caminhoGif);
-            exercicio.salvar(novoExercicio);
-            exercicio.salvarAlteracoesNoCsv();
-            mensagemLabel.setText("Exercicio cadastrado com sucesso!");
-        } catch (Exception e) {
-            e.printStackTrace(); // É bom manter o log do erro no console para depuração
-        }
+
+        Exercicio novoExercicio = new Exercicio(nome, descricao, caminhoGif);
+        exercicio.salvar(novoExercicio);
+        exercicio.salvarAlteracoesNoCsv();
+        mensagemLabel.setText("Exercicio cadastrado com sucesso!");
     }
         @FXML
         public void handleVoltar() {

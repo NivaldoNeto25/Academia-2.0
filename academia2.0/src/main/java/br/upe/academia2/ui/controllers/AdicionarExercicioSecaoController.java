@@ -2,7 +2,6 @@ package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.data.beans.*;
 import br.upe.academia2.business.ExercicioBusiness;
-import br.upe.academia2.business.SecaoTreinoBusiness;
 import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
@@ -26,7 +25,6 @@ public class AdicionarExercicioSecaoController {
 
     private PlanoTreinoBusiness planoTreinoBusiness;
     private ExercicioBusiness exercicioBusiness;
-    private SecaoTreinoBusiness secaoTreinoBusiness;
 
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
@@ -34,7 +32,6 @@ public class AdicionarExercicioSecaoController {
                 new PlanoTreinoCsvRepository()
         );
         exercicioBusiness = new ExercicioBusiness();
-        secaoTreinoBusiness = new SecaoTreinoBusiness();
 
         btnAdicionar.setOnAction(e -> adicionarExercicio());
         btnVoltar.setOnAction(e -> voltar());

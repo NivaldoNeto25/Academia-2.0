@@ -1,5 +1,9 @@
 package br.upe.academia2.ui.controllers;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +25,8 @@ public class AlunoMenuController {
     private Button btnRelatorios;
     @FXML
     private Button btnSair;
+
+    Logger logger = Logger.getLogger(AlunoMenuController.class.getName());
 
     public void setAluno(Usuario aluno) {
         this.aluno = aluno;
@@ -71,8 +77,8 @@ public class AlunoMenuController {
             stageAtual.close();
             novaStage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro ao carregar FXML", e);
         }
     }
 
