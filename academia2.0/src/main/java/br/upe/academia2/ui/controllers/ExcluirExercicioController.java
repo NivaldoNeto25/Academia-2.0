@@ -1,6 +1,7 @@
 package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.ExercicioBusiness;
+import br.upe.academia2.data.beans.Exercicio;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,11 +26,15 @@ public class ExcluirExercicioController {
             mensagemLabel.setText("Informe o nome.");
             return;
         }
+        Exercicio exercicioExistente = exercicio.buscarExercicioPorNome(nome);
+        if(exercicioExistente == null){
+            mensagemLabel.setText("Exercício não existe");
+        }else{
         exercicio.deletarExercicio(nome);
         exercicio.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Exercicio excluído!");
         nomeField.clear();
-    }
+    }}
 
     @FXML
     private void handleVoltar() {
