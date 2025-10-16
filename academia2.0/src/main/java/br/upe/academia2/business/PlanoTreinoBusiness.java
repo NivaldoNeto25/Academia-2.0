@@ -67,7 +67,7 @@ public class PlanoTreinoBusiness {
         for (var secao : plano.getSecoes()) {
             logger.info(" - Seção: " + secao.getNomeTreino());
             for (var item : secao.getItensPlano()) {
-                if (logger.isLoggable(Level.INFO)){
+                if (logger.isLoggable(Level.INFO)) {
                     logger.info(String.format(
                             "     - %s: %d séries x %d reps (carga: %dkg)",
                             item.getExercicio().getNome(),
@@ -97,7 +97,10 @@ public class PlanoTreinoBusiness {
             plano.setUsuario(usuario);
         }
 
-        logger.info("Listagem de planos concluída. Total: " + planos.size());
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info(String.format("Listagem de planos concluída. Total: %d", planos.size()));
+        }
+
         return planos;
     }
 }

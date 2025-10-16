@@ -6,6 +6,7 @@ import br.upe.academia2.data.repository.interfaces.IIndBioRepository;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class IndBioRepoImpl implements IIndBioRepository {
@@ -31,12 +32,12 @@ public class IndBioRepoImpl implements IIndBioRepository {
         }
 
         indicadoresBiomedicos.add(indicadorBiomedico);
-        return salvarCSV();  
+        return salvarCSV();
     }
 
     @Override
     public List<IndicadorBiomedico> findAll() {
-        return new ArrayList<>(indicadoresBiomedicos);  
+        return new ArrayList<>(indicadoresBiomedicos);
     }
 
     @Override
@@ -63,7 +64,9 @@ public class IndBioRepoImpl implements IIndBioRepository {
         indicadoresBiomedicos.clear();
         File arquivo = new File(caminhoArquivo);
         if (!arquivo.exists()) {
-            logger.info("Arquivo não existe: " + caminhoArquivo);
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info(String.format("Arquivo não existe: %s", caminhoArquivo));
+            }
             return;
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
@@ -82,7 +85,9 @@ public class IndBioRepoImpl implements IIndBioRepository {
                 IndicadorBiomedico ind = new IndicadorBiomedico(email, peso, altura, gordura, massa, imc, dataRegistro);
                 indicadoresBiomedicos.add(ind);
             }
-            logger.info("Dados carregados: " + indicadoresBiomedicos.size());
+            if (logger.isLoggable(Level.INFO)) {
+                logger.info(String.format("Dados carregados: %d", indicadoresBiomedicos.size()));
+            }
         } catch (Exception e) {
             logger.warning("Erro ao carregar CSV: " + e.getMessage());
         }
@@ -96,8 +101,8 @@ public class IndBioRepoImpl implements IIndBioRepository {
                         ind.getEmail(),
                         String.valueOf(ind.getPeso()),
                         String.valueOf(ind.getAltura()),
-                        String.valueOf(ind.getPercentualGordura()),    
-                        String.valueOf(ind.getPercentualMassaMagra()),      
+                        String.valueOf(ind.getPercentualGordura()),
+                        String.valueOf(ind.getPercentualMassaMagra()),
                         String.valueOf(ind.getImc()),
                         sdf.format(ind.getDataRegistro())
                 );
@@ -111,7 +116,6 @@ public class IndBioRepoImpl implements IIndBioRepository {
         }
     }
 
-    // limpa lista e arquivo pra n dar erro
     public void limparDados() {
         indicadoresBiomedicos.clear();
         File arquivo = new File(caminhoArquivo);
