@@ -1,5 +1,10 @@
 package br.upe.academia2.ui.controllers;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +30,8 @@ public class PlanoTreinoAlunoController {
     @FXML private void handleModificarPlano() {irParaTela("/fxml/ModificarPlanoTreino.fxml", "Modificar Plano de Treino", btnModificar);}
     @FXML private void handleSecaoTreino() {irParaTela("/fxml/SecaoTreino.fxml", "Cadastrar Plano de Treino", btnSecaoTreino);}
 
+    Logger logger = Logger.getLogger(PlanoTreinoAlunoController.class.getName());
+
     @FXML
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
@@ -47,8 +54,8 @@ public class PlanoTreinoAlunoController {
             novaStage.setTitle(titulo);
             stageAtual.close();
             novaStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro ao carregar a tela", e);
         }
     }
 
@@ -57,9 +64,9 @@ public class PlanoTreinoAlunoController {
             var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
             metodo.invoke(objeto, parametro);
         } catch (NoSuchMethodException ignored) {
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Método não encontrado", ignored);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            logger.log(Level.WARNING, "Erro ao chamar o método", e);
         }
     }
 
@@ -70,11 +77,12 @@ public class PlanoTreinoAlunoController {
             try {
                 controller.getClass().getMethod("setUsuarioLogado", Usuario.class).invoke(controller, this.usuario);
             } catch (NoSuchMethodException ignored) {
-            } catch (Exception e2) {
-                e2.printStackTrace();
+                logger.log(Level.WARNING, "Método não encontrado", ignored);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                logger.log(Level.WARNING, "Erro ao chamar o método setUsuarioLogado", e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            logger.log(Level.WARNING, "Erro ao chamar o método SetUsuario", e);
         }
     }
 }
