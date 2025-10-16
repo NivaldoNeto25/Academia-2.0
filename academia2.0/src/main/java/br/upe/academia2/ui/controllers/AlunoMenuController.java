@@ -1,6 +1,7 @@
 package br.upe.academia2.ui.controllers;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,10 +87,8 @@ public class AlunoMenuController {
         try {
             var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
             metodo.invoke(objeto, parametro);
-        } catch (NoSuchMethodException ignored) {
-            // Método não existe, ignora
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
+            logger.log(Level.WARNING, "Erro ao chamar o método", ignored);
+        } 
     }
 }

@@ -1,5 +1,10 @@
 package br.upe.academia2.ui.controllers;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +22,8 @@ public class IndicadoresAlunoController {
     @FXML private Button btnCadastrar;
     @FXML private Button btnListar;
     @FXML private Button btnImportar;
+
+    Logger logger = Logger.getLogger(IndicadoresAlunoController.class.getName());
 
 
     public void setUsuario(Usuario usuario) {
@@ -67,8 +74,8 @@ public class IndicadoresAlunoController {
 
             stageAtual.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro a o carregar FXML", e);
         }
     }
 
@@ -77,9 +84,9 @@ public class IndicadoresAlunoController {
             var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
             metodo.invoke(objeto, parametro);
         } catch (NoSuchMethodException ignored) {
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Método não encontrado: ", ignored);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            logger.log(Level.WARNING, "Erro ao chamar o método", e);
         }
     }
 }
