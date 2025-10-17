@@ -60,7 +60,7 @@ public class PlanoTreinoCsvRepository {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Erro ao salvar plano de treino: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, () -> "Erro ao salvar plano de treino: " + e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class PlanoTreinoCsvRepository {
         File file = new File(arquivoPlano);
 
         if (!file.exists()) {
-            logger.log(Level.WARNING, "Arquivo de plano não encontrado: {0}", arquivoPlano);
+            logger.log(Level.WARNING, () -> "Arquivo de plano não encontrado: " + arquivoPlano);
             return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
         }
 
@@ -79,13 +79,13 @@ public class PlanoTreinoCsvRepository {
 
             String metadataLine = reader.readLine();
             if (metadataLine == null || metadataLine.trim().isEmpty()) {
-                logger.log(Level.SEVERE, "Erro ao carregar plano de treino: Metadados do plano ausentes ou arquivo corrompido.");
+                logger.log(Level.SEVERE, () -> "Erro ao carregar plano de treino: Metadados do plano ausentes ou arquivo corrompido.");
                 return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
             }
 
             String[] metadata = metadataLine.split(",", -1);
             if (metadata.length < 5) {
-                logger.log(Level.SEVERE, "Erro ao carregar plano de treino: Metadados incompletos.");
+                logger.log(Level.SEVERE, () -> "Erro ao carregar plano de treino: Metadados incompletos.");
                 return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
             }
 
@@ -113,14 +113,14 @@ public class PlanoTreinoCsvRepository {
                         ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
                         secao.addItemSecao(item);
                     } else {
-                        logger.log(Level.WARNING, "O exercício ''{0}'' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.", nomeExercicio);
+                        logger.log(Level.WARNING, () -> "O exercício ''" + nomeExercicio + "'' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.");
                     }
                 }
             }
             return plano;
 
         } catch (IOException | ParseException | NumberFormatException e) {
-            logger.log(Level.SEVERE, "Erro ao carregar plano de treino: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, () -> "Erro ao carregar plano de treino: " + e.getMessage());
             return new PlanoTreino(0, ERRO_AO_CARREGAR, new Date(), new Date(), usuario);
         }
     }

@@ -15,11 +15,9 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class RelatoriosAlunoController {
 
-    private static final Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
     private Usuario usuario;
 
     @FXML
@@ -28,16 +26,12 @@ public class RelatoriosAlunoController {
     private static final String FORMATO_DATA = "yyyy-MM-dd HH:mm:ss";
     private IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
-    private Stage stageAnterior;
-
     @FXML
     private Button btnVoltar;
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
     public void handleRelatorioGeral(ActionEvent event) {
@@ -55,7 +49,6 @@ public class RelatoriosAlunoController {
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
         for (IndicadorBiomedico ind : lista) {
             txtSaida.appendText(formatarIndicador(ind));
         }
@@ -85,7 +78,6 @@ public class RelatoriosAlunoController {
             return;
         }
 
-        // Pega os dois registros mais recentes
         lista.sort(Comparator.comparing(IndicadorBiomedico::getDataRegistro).reversed());
         IndicadorBiomedico atual = lista.get(0);
         IndicadorBiomedico anterior = lista.get(1);

@@ -1,7 +1,6 @@
 package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.IndicadorBiomedicoBusiness;
-import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,14 +20,9 @@ public class ImportarIndicadoresBioController {
     private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
     private Stage stageAnterior;
-    private Usuario usuarioLogado;
 
     public void setStageAnterior(Stage stageAnterior) {
         this.stageAnterior = stageAnterior;
-    }
-
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
     }
 
     @FXML
@@ -52,7 +46,7 @@ public class ImportarIndicadoresBioController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecionar Arquivo CSV");
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Arquivos CSV", "*.csv")
+                new FileChooser.ExtensionFilter("Arquivos CSV", "*.csv")
         );
 
         File arquivo = fileChooser.showOpenDialog(null);

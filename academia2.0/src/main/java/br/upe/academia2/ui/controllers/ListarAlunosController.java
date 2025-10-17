@@ -1,7 +1,6 @@
 package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.UsuarioBusiness;
-import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

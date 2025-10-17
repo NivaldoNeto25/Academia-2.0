@@ -1,11 +1,11 @@
 package br.upe.academia2.ui.controllers;
 
+import br.upe.academia2.data.beans.Adm;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.upe.academia2.data.beans.Adm; // importar a classe Adm
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,13 +21,9 @@ public class AdmMenuController {
     @FXML private Button btnExcluir;
     @FXML private Button btnVoltar;
 
-    private Adm adm; // atributo para armazenar o usuário Adm logado
-
     Logger logger = Logger.getLogger(AdmMenuController.class.getName());
 
-    // Método para injetar o Adm logado
     public void setAdm(Adm adm) {
-        this.adm = adm;
     }
 
     @FXML private void handleCadastrarAluno() { irParaTela("/fxml/CadastroAluno.fxml", "Cadastrar Aluno", btnCadastrar); }
