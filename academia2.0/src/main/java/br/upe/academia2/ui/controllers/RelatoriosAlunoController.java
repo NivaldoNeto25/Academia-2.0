@@ -8,8 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RelatoriosAlunoController {
 
@@ -25,6 +29,8 @@ public class RelatoriosAlunoController {
     private Button btnVoltar;
 
     private Stage stageAnterior;
+
+    private static final Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
@@ -95,20 +101,21 @@ public class RelatoriosAlunoController {
             atual.close();
             stageAnterior.show();
         } else {
-            System.err.println("Stage anterior não configurado");
+            logger.log(Level.WARNING, "Stage anterior não configurado");
         }
     }
 
     public String formatarIndicador(IndicadorBiomedico ind) {
-        return String.format(
-                "------------------------------\n" +
-                        "Data: %s\n" +
-                        "Peso: %.2f kg\n" +
-                        "Altura: %.2f m\n" +
-                        "IMC: %.2f\n" +
-                        "Gordura: %.2f%%\n" +
-                        "Massa Magra: %.2f%%\n" +
-                        "------------------------------\n",
+        return """
+            ------------------------------
+            Data: %s
+            Peso: %.2f kg
+            Altura: %.2f m
+            IMC: %.2f
+            Gordura: %.2f%%
+            Massa Magra: %.2f%%
+            ------------------------------
+            """.formatted(
                 new SimpleDateFormat(FORMATO_DATA).format(ind.getDataRegistro()),
                 ind.getPeso(),
                 ind.getAltura(),
