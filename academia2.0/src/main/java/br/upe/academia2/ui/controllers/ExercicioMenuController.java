@@ -1,9 +1,11 @@
 package br.upe.academia2.ui.controllers;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,16 +14,14 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class ExercicioMenuController {
+
     @FXML private Button btnCadastrar;
     @FXML private Button btnListar;
     @FXML private Button btnModificar;
     @FXML private Button btnExcluir;
     @FXML private Button btnVoltar;
 
-    @FXML private void handleCadastrarExercicio() { irParaTela("/fxml/CadastrarExercicio.fxml", "Cadastrar Exercicio", btnCadastrar); }
-    @FXML private void handleListarExercicio()    { irParaTela("/fxml/ListarExercicios.fxml", "Listar Exercicio", btnListar); }
-    @FXML private void handleModificarExercicio()  { irParaTela("/fxml/ModificarExercicio.fxml", "Modificar Exercicio", btnModificar); }
-    @FXML private void handleExcluirExercicio()    { irParaTela("/fxml/ExcluirExercicio.fxml", "Excluir Exercicio", btnExcluir); }
+    private Usuario usuario;
 
     private Logger logger = Logger.getLogger(ExercicioMenuController.class.getName());
 
@@ -29,6 +29,10 @@ public class ExercicioMenuController {
 
     public void setStageAnterior(Stage stageAnterior) {
         this.stageAnterior = stageAnterior;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @FXML
@@ -40,6 +44,22 @@ public class ExercicioMenuController {
         stageAtual.close();
     }
 
+    @FXML private void handleCadastrarExercicio() {
+        irParaTela("/fxml/CadastrarExercicio.fxml", "Cadastrar Exercicio", btnCadastrar);
+    }
+
+    @FXML private void handleListarExercicio() {
+        irParaTela("/fxml/ListarExercicios.fxml", "Listar Exercicio", btnListar);
+    }
+
+    @FXML private void handleModificarExercicio() {
+        irParaTela("/fxml/ModificarExercicio.fxml", "Modificar Exercicio", btnModificar);
+    }
+
+    @FXML private void handleExcluirExercicio() {
+        irParaTela("/fxml/ExcluirExercicio.fxml", "Excluir Exercicio", btnExcluir);
+    }
+
     public void irParaTela(String caminhoFxml, String titulo, Button origem) {
         try {
             Stage stageAtual = (Stage) origem.getScene().getWindow();
@@ -47,6 +67,12 @@ public class ExercicioMenuController {
             Parent root = loader.load();
             Object controller = loader.getController();
             controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAtual);
+
+            try {
+                controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, usuario);
+            } catch (NoSuchMethodException ignored) {
+            }
+
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
             novaStage.setTitle(titulo);
@@ -56,6 +82,4 @@ public class ExercicioMenuController {
             logger.log(Level.WARNING, "Erro ao carregar a tela", e);
         }
     }
-
-
 }

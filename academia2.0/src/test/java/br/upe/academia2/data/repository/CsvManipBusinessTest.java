@@ -7,7 +7,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import br.upe.academia2.business.CSVManipBusiness;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
