@@ -5,14 +5,9 @@ import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,13 +19,19 @@ public class RelatoriosAlunoController {
     private TextArea txtSaida;
 
     private static final String FORMATO_DATA = "yyyy-MM-dd HH:mm:ss";
-    private IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
+    private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
     @FXML
     private Button btnVoltar;
 
+    private Stage stageAnterior;
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public void setStageAnterior(Stage stageAnterior) {
+        this.stageAnterior = stageAnterior;
     }
 
     @FXML
@@ -88,19 +89,14 @@ public class RelatoriosAlunoController {
     }
 
     @FXML
-    public void handleVoltar() throws Exception {
-        URL fxml = Objects.requireNonNull(
-                getClass().getResource("/fxml/AlunoMenu.fxml"),
-                "FXML /fxml/AlunoMenu.fxml não encontrado"
-        );
-        FXMLLoader loader = new FXMLLoader(fxml);
-        Parent root = loader.load();
-
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
-        Stage nova = new Stage();
-        nova.setScene(new Scene(root));
-        atual.close();
-        nova.show();
+    public void handleVoltar() {
+        if (stageAnterior != null) {
+            Stage atual = (Stage) btnVoltar.getScene().getWindow();
+            atual.close();
+            stageAnterior.show();
+        } else {
+            System.err.println("Stage anterior não configurado");
+        }
     }
 
     public String formatarIndicador(IndicadorBiomedico ind) {
