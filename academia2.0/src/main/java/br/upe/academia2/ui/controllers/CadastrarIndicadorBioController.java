@@ -1,6 +1,5 @@
 package br.upe.academia2.ui.controllers;
 
-
 import br.upe.academia2.business.IndicadorBiomedicoBusiness;
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
@@ -33,7 +32,6 @@ public class CadastrarIndicadorBioController {
 
     @FXML
     public void handleCadastrarIndicadores() {
-
         try {
             if (usuarioLogado == null) {
                 mensagemLabel.setText("Usuário não logado. Operação não permitida.");
@@ -79,4 +77,3 @@ public class CadastrarIndicadorBioController {
         if (stageAnterior != null) stageAnterior.show();
     }
 }
-

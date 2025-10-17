@@ -8,8 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,12 +25,12 @@ public class RelatoriosAlunoController {
     private static final String FORMATO_DATA = "yyyy-MM-dd HH:mm:ss";
     private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
-    Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
-
     @FXML
     private Button btnVoltar;
 
     private Stage stageAnterior;
+
+    private static final Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
@@ -99,21 +101,21 @@ public class RelatoriosAlunoController {
             atual.close();
             stageAnterior.show();
         } else {
-            logger.log(Level.WARNING, "Stage anterior não definido. Não é possível voltar.");
+            logger.log(Level.WARNING, "Stage anterior não configurado");
         }
     }
 
     public String formatarIndicador(IndicadorBiomedico ind) {
-        return String.format("""
-                ------------------------------
-                Data: %s
-                Peso: %.2f kg
-                Altura: %.2f m
-                IMC: %.2f"
-                Gordura: %.2f%%
-                Massa Magra: %.2f%%
-                ------------------------------
-                """,
+        return """
+            ------------------------------
+            Data: %s
+            Peso: %.2f kg
+            Altura: %.2f m
+            IMC: %.2f
+            Gordura: %.2f%%
+            Massa Magra: %.2f%%
+            ------------------------------
+            """.formatted(
                 new SimpleDateFormat(FORMATO_DATA).format(ind.getDataRegistro()),
                 ind.getPeso(),
                 ind.getAltura(),
