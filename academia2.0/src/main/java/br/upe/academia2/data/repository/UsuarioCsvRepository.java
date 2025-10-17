@@ -18,7 +18,6 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
     private static final String CSV_HEADER = "tipo,email,nome,senha,telefone,peso,altura,gordura";
     private List<Usuario> usuarios;
 
-    // Implementação Singleton
     private static UsuarioCsvRepository instance;
 
     public static UsuarioCsvRepository getInstance() {
@@ -133,7 +132,7 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
             }
             logger.log(Level.INFO, "CSV salvo com sucesso: {0}", this.filePath);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Erro ao salvar CSV: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, () -> "Erro ao salvar CSV: " + e.getMessage());
         }
     }
 
@@ -150,26 +149,34 @@ public class UsuarioCsvRepository implements IUsuarioRepository {
             String header = reader.readLine();
             String linha;
             while ((linha = reader.readLine()) != null) {
-                String[] dados = linha.split(",", -1);
-
-                if (dados.length < 4) continue;
-
-                Usuario usuario = "ADM".equals(dados[0]) ? new Adm() : new Comum();
-
-                usuario.setEmail(dados[1]);
-                usuario.setNome(dados[2]);
-                usuario.setSenha(dados[3]);
-
-                if (dados.length > 4 && !dados[4].isEmpty()) usuario.setTelefone(dados[4]);
-                if (dados.length > 5 && !dados[5].isEmpty()) usuario.setPesoAtual(Double.parseDouble(dados[5]));
-                if (dados.length > 6 && !dados[6].isEmpty()) usuario.setAlturaAtual(Double.parseDouble(dados[6]));
-                if (dados.length > 7 && !dados[7].isEmpty()) usuario.setPercGorduraAtual(Double.parseDouble(dados[7]));
-
-                this.usuarios.add(usuario);
-
+                Usuario usuario = criarUsuarioDeLinhaCsv(linha);
+                if (usuario != null) {
+                    this.usuarios.add(usuario);
+                }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, " Erro ao carregar CSV: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, () -> " Erro ao carregar CSV: " + e.getMessage());
         }
+    }
+
+    private Usuario criarUsuarioDeLinhaCsv(String linha) {
+        String[] dados = linha.split(",", -1);
+        if (dados.length < 4) return null;
+
+        Usuario usuario = "ADM".equals(dados[0]) ? new Adm() : new Comum();
+        usuario.setEmail(dados[1]);
+        usuario.setNome(dados[2]);
+        usuario.setSenha(dados[3]);
+
+        preencherAtributosOpcionais(usuario, dados);
+
+        return usuario;
+    }
+
+    private void preencherAtributosOpcionais(Usuario usuario, String[] dados) {
+        if (dados.length > 4 && !dados[4].isEmpty()) usuario.setTelefone(dados[4]);
+        if (dados.length > 5 && !dados[5].isEmpty()) usuario.setPesoAtual(Double.parseDouble(dados[5]));
+        if (dados.length > 6 && !dados[6].isEmpty()) usuario.setAlturaAtual(Double.parseDouble(dados[6]));
+        if (dados.length > 7 && !dados[7].isEmpty()) usuario.setPercGorduraAtual(Double.parseDouble(dados[7]));
     }
 }
