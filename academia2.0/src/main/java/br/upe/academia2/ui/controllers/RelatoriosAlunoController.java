@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -88,7 +89,7 @@ public class RelatoriosAlunoController {
     }
 
     @FXML
-    public void handleVoltar() throws Exception {
+    public void handleVoltar() throws IOException{
         URL fxml = Objects.requireNonNull(
                 getClass().getResource("/fxml/AlunoMenu.fxml"),
                 "FXML /fxml/AlunoMenu.fxml não encontrado"
@@ -104,15 +105,16 @@ public class RelatoriosAlunoController {
     }
 
     public String formatarIndicador(IndicadorBiomedico ind) {
-        return String.format(
-                "------------------------------\n" +
-                        "Data: %s\n" +
-                        "Peso: %.2f kg\n" +
-                        "Altura: %.2f m\n" +
-                        "IMC: %.2f\n" +
-                        "Gordura: %.2f%%\n" +
-                        "Massa Magra: %.2f%%\n" +
-                        "------------------------------\n",
+        return String.format("""
+                ------------------------------
+                Data: %s
+                Peso: %.2f kg
+                Altura: %.2f m
+                IMC: %.2f"
+                Gordura: %.2f%%
+                Massa Magra: %.2f%%
+                ------------------------------
+                """,
                 new SimpleDateFormat(FORMATO_DATA).format(ind.getDataRegistro()),
                 ind.getPeso(),
                 ind.getAltura(),

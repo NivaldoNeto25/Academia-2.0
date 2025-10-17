@@ -1,6 +1,5 @@
 package br.upe.academia2.ui.controllers;
 
-import java.io.IOException;
 
 import br.upe.academia2.business.IndicadorBiomedicoBusiness;
 import br.upe.academia2.data.beans.IndicadorBiomedico;
@@ -33,7 +32,7 @@ public class CadastrarIndicadorBioController {
     }
 
     @FXML
-    public void handleCadastrarIndicadores() throws IOException {
+    public void handleCadastrarIndicadores() {
 
         try {
             if (usuarioLogado == null) {

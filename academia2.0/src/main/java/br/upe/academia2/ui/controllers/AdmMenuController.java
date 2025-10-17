@@ -24,6 +24,7 @@ public class AdmMenuController {
     Logger logger = Logger.getLogger(AdmMenuController.class.getName());
 
     public void setAdm(Adm adm) {
+        // Lógica para utilizar os dados do administrador, se necessário
     }
 
     @FXML private void handleCadastrarAluno() { irParaTela("/fxml/CadastroAluno.fxml", "Cadastrar Aluno", btnCadastrar); }
