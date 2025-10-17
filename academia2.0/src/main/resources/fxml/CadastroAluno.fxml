@@ -13,6 +13,7 @@
     <TextField fx:id="emailField" layoutX="110" layoutY="120" prefWidth="280"/>
     <Label layoutX="40" layoutY="160" text="Senha:"/>
     <TextField fx:id="senhaField" layoutX="110" layoutY="160" prefWidth="280"/>
+    <Label fx:id="mensagemLabel" layoutX="110" layoutY="190" prefWidth="280" style="-fx-text-fill: red;"/>
     <Button layoutX="190" layoutY="210" text="Cadastrar" onAction="#handleCadastrar"/>
     <Button fx:id="btnVoltar" layoutX="30" layoutY="250" prefWidth="100" text="Voltar" onAction="#handleVoltar"/>
 </AnchorPane>
