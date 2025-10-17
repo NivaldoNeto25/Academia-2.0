@@ -23,7 +23,7 @@ public class ExercicioMenuController {
 
     private Usuario usuario;
 
-    private Logger logger = Logger.getLogger(ExercicioMenuController.class.getName());
+    private final Logger logger = Logger.getLogger(ExercicioMenuController.class.getName());
 
     private Stage stageAnterior;
 
@@ -68,10 +68,7 @@ public class ExercicioMenuController {
             Object controller = loader.getController();
             controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAtual);
 
-            try {
-                controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, usuario);
-            } catch (NoSuchMethodException ignored) {
-            }
+            invokeSetUsuarioIfExists(controller);
 
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
@@ -80,6 +77,16 @@ public class ExercicioMenuController {
             novaStage.show();
         } catch (IOException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             logger.log(Level.WARNING, "Erro ao carregar a tela", e);
+        }
+    }
+
+    private void invokeSetUsuarioIfExists(Object controller) {
+        try {
+            controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, usuario);
+        } catch (NoSuchMethodException ignored) {
+            // Metodo setUsuario não existe no controller, ignore porque é opcional para alguns controllers
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            logger.log(Level.WARNING, "Erro ao invocar setUsuario no controller", e);
         }
     }
 }
