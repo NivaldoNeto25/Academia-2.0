@@ -42,9 +42,11 @@
                     </columns>
                 </TableView>
             </HBox>
-            <!-- Botão cadastrar alinhado à direita, porém dentro do espaço reduzido -->
-            <HBox alignment="CENTER_RIGHT" prefWidth="340.0" maxWidth="340.0">
-                <Button fx:id="btnCadastrar" text="Cadastrar" onAction="#handleCadastrarAluno" prefWidth="110.0"/>
+            <!-- Botões lado a lado -->
+            <HBox alignment="CENTER_RIGHT" spacing="10" prefWidth="340.0" maxWidth="340.0">
+                <Button fx:id="btnCadastrar" text="Cadastrar" onAction="#handleCadastrarAluno" prefWidth="90.0"/>
+                <Button fx:id="btnEditar" text="Editar" onAction="#handleEditarAluno" prefWidth="90.0"/>
+                <Button fx:id="btnExcluir" text="Excluir" onAction="#handleExcluirAluno" prefWidth="90.0"/>
             </HBox>
         </VBox>
     </HBox>

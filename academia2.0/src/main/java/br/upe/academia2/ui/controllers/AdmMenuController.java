@@ -23,6 +23,8 @@ import java.util.logging.Logger;
 public class AdmMenuController {
 
     @FXML private Button btnCadastrar;
+    @FXML private Button btnEditar;
+    @FXML private Button btnExcluir;
     @FXML private Button btnSair;
     @FXML private TextField searchField;
     @FXML private TableView<Usuario> alunosTable;
@@ -34,7 +36,9 @@ public class AdmMenuController {
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
     private ObservableList<Usuario> alunosList;
 
-    public void setAdm(Adm adm) {}
+    public void setAdm(Adm adm) {
+        // Se necessário, guardar objeto ADM
+    }
 
     @FXML
     public void initialize() {
@@ -70,13 +74,55 @@ public class AdmMenuController {
 
             CadastroAlunoController controller = loader.getController();
             controller.setStageAnterior((Stage) btnCadastrar.getScene().getWindow());
-            controller.setAdmMenuController(this); // Passa referência do menu
+            controller.setAdmMenuController(this);
 
             cadastroStage.initOwner(btnCadastrar.getScene().getWindow());
             cadastroStage.setResizable(false);
             cadastroStage.show();
         } catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao abrir tela de cadastro de aluno", e);
+        }
+    }
+
+    @FXML
+    private void handleEditarAluno() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ModificarAluno.fxml"));
+            Scene editarScene = new Scene(loader.load());
+
+            ModificarAlunoController controller = loader.getController();
+            controller.setStageAnterior((Stage) btnEditar.getScene().getWindow());
+            controller.setAdmMenuController(this); // <-- esse passo garante a atualização
+
+            Stage editarStage = new Stage();
+            editarStage.setTitle("Modificar Aluno");
+            editarStage.setScene(editarScene);
+            editarStage.initOwner(btnEditar.getScene().getWindow());
+            editarStage.setResizable(false);
+            editarStage.show();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro ao abrir tela de edição de aluno", e);
+        }
+    }
+
+    @FXML
+    private void handleExcluirAluno() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExcluirAluno.fxml"));
+            Scene excluirScene = new Scene(loader.load());
+
+            ExcluirAlunoController controller = loader.getController();
+            controller.setStageAnterior((Stage) btnExcluir.getScene().getWindow());
+            controller.setAdmMenuController(this); // <-- esse passo garante a atualização
+
+            Stage excluirStage = new Stage();
+            excluirStage.setTitle("Excluir Aluno");
+            excluirStage.setScene(excluirScene);
+            excluirStage.initOwner(btnExcluir.getScene().getWindow());
+            excluirStage.setResizable(false);
+            excluirStage.show();
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro ao abrir tela de exclusão de aluno", e);
         }
     }
 

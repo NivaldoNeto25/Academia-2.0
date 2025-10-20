@@ -17,9 +17,12 @@ public class ModificarAlunoController {
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
+    private AdmMenuController admMenuController; // Referência para atualizar a tabela no menu
+
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
+    public void setAdmMenuController(AdmMenuController admMenuController) { this.admMenuController = admMenuController; }
 
     @FXML
     public void handleModificar() {
@@ -42,7 +45,13 @@ public class ModificarAlunoController {
         usuarioBusiness.atualizarUsuario(existente);
         usuarioBusiness.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Aluno modificado com sucesso!");
-        nomeField.clear(); senhaField.clear();
+        nomeField.clear();
+        senhaField.clear();
+
+        // Atualiza a tabela do menu administrador
+        if (admMenuController != null) {
+            admMenuController.atualizarTabelaAlunos();
+        }
     }
 
     @FXML
