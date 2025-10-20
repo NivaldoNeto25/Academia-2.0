@@ -34,9 +34,7 @@ public class AdmMenuController {
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
     private ObservableList<Usuario> alunosList;
 
-    public void setAdm(Adm adm) {
-        // Se necessário, guardar objeto ADM
-    }
+    public void setAdm(Adm adm) {}
 
     @FXML
     public void initialize() {
@@ -57,7 +55,6 @@ public class AdmMenuController {
         });
     }
 
-    // Método para atualizar a tabela de alunos
     public void atualizarTabelaAlunos() {
         alunosList.setAll(usuarioBusiness.listarUsuariosComuns());
     }
