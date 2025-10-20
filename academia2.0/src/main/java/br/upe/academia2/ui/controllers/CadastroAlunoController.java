@@ -5,20 +5,19 @@ import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class CadastroAlunoController {
     @FXML private TextField nomeField;
     @FXML private TextField emailField;
     @FXML private TextField senhaField;
-    @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
-    private AdmMenuController admMenuController; // Referência para o menu principal
+    private AdmMenuController admMenuController;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) {
@@ -48,20 +47,14 @@ public class CadastroAlunoController {
         usuarioBusiness.cadastrarUsuario(novo);
         mensagemLabel.setText("Aluno cadastrado com sucesso!");
 
-        // Atualiza a tabela no menu principal
+        // Atualizar tabela do menu
         if (admMenuController != null) {
             admMenuController.atualizarTabelaAlunos();
         }
 
-        nomeField.clear();
-        emailField.clear();
-        senhaField.clear();
-    }
-
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
+        // Fecha a tela de cadastro ao salvar
+        Stage atual = (Stage) nomeField.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
+
     }
 }
