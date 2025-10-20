@@ -14,9 +14,12 @@ public class ExcluirAlunoController {
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
+    private AdmMenuController admMenuController; // Referência para atualizar a tabela no menu
+
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
+    public void setAdmMenuController(AdmMenuController admMenuController) { this.admMenuController = admMenuController; }
 
     @FXML
     public void handleExcluir() {
@@ -33,6 +36,11 @@ public class ExcluirAlunoController {
             case SUCESSO -> mensagemLabel.setText("Aluno excluído com sucesso!");
             case NAO_ENCONTRADO -> mensagemLabel.setText("Usuário não encontrado.");
             case NAO_PERMITIDO_ADM -> mensagemLabel.setText("Não é possível excluir usuário ADM.");
+        }
+
+        // Atualiza a tabela do menu administrador
+        if (admMenuController != null) {
+            admMenuController.atualizarTabelaAlunos();
         }
 
         emailField.clear();
