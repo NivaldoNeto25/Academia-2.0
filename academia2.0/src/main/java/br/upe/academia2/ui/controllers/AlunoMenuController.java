@@ -62,7 +62,7 @@ public class AlunoMenuController implements Initializable {
 
     @FXML
     public void handlePlanoTreino(ActionEvent event) {
-        //loadContent("/fxml/PlanoTreinoAluno.fxml");
+        loadContent("/fxml/PlanoTreinoAluno.fxml");
     }
     
     @FXML
@@ -86,11 +86,18 @@ public class AlunoMenuController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
-            mainPane.setCenter(view); // A MÁGICA ACONTECE AQUI!
 
-            // Se o controller do FXML carregado precisar do objeto Aluno, podemos passá-lo
-            //PerfilController controller = loader.getController();
-            //controller.setAluno(this.aluno);
+            Object controller = loader.getController();
+            if (controller instanceof ExercicioMenuController){
+                ((ExercicioMenuController) controller).setUsuario(aluno);
+            } else if (controller instanceof PlanoTreinoAlunoController) {
+                ((PlanoTreinoAlunoController) controller).setUsuario(aluno);
+            }
+
+            
+            mainPane.setCenter(view); 
+
+
 
         } catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao carregar o FXML: " + fxmlPath, e);
