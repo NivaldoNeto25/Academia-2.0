@@ -4,19 +4,37 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.LoginController">
-   <Label layoutX="180.0" layoutY="166.0" text="Usuário" />
-   <Label fx:id="mensagemLabel" layoutX="250.0" layoutY="14.0" text="Bem-Vindo">
-      <font>
-         <Font size="20.0" />
-      </font>
-   </Label>
-   <Label layoutX="184.0" layoutY="204.0" text="Senha" />
-   <TextField fx:id="usuarioField" layoutX="225.0" layoutY="162.0" />
-   <Button layoutX="274.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleEntrar" text="Entrar" />
-   <Button fx:id="btnVoltar" layoutX="274" layoutY="350" onAction="#handleSair" prefWidth="50" text="Sair" />
-   <PasswordField fx:id="senhaField" layoutX="225.0" layoutY="200.0" />
-</Pane>
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.LoginController">
+   <HBox prefHeight="600.0" prefWidth="600.0">
+      <Pane prefWidth="180.0" prefHeight="600.0" style="-fx-background-color: #0f4c83;" />
+      <StackPane prefWidth="420.0" prefHeight="600.0">
+         <VBox alignment="TOP_CENTER" spacing="10.0" prefWidth="420.0">
+            <!-- Imagem -->
+            <ImageView fx:id="logoImageView" fitHeight="270.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true"/>
+            <!-- Login -->
+            <VBox alignment="CENTER" spacing="15.0" prefWidth="450.0">
+               <padding>
+                  <Insets top="-30"/>
+               </padding>
+               <Label fx:id="mensagemLabel" text="Login" alignment="CENTER">
+                  <font>
+                     <Font size="32.0" />
+                  </font>
+               </Label>
+               <TextField fx:id="usuarioField" promptText="Usuário" prefWidth="200.0" maxWidth="200.0"/>
+               <PasswordField fx:id="senhaField" promptText="Senha" prefWidth="200.0" maxWidth="200.0"/>
+               <Button mnemonicParsing="false" onAction="#handleEntrar" text="Entrar" prefWidth="90.0"/>
+            </VBox>
+         </VBox>
+      </StackPane>
+   </HBox>
+</AnchorPane>
