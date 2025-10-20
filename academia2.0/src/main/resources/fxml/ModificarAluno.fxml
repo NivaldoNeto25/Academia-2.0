@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="320" prefWidth="500" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.ModificarAlunoController">
-    <Label layoutX="207.0" layoutY="28.0" text="Modificar Aluno" />
-    <Label layoutX="40.0" layoutY="80.0" text="Email do aluno:" />
-    <TextField fx:id="emailField" layoutX="150.0" layoutY="80.0" prefWidth="230" />
-    <Label layoutX="40.0" layoutY="120.0" text="Novo nome:" />
-    <TextField fx:id="nomeField" layoutX="150.0" layoutY="120.0" prefWidth="230" />
-    <Label layoutX="40.0" layoutY="160.0" text="Nova senha:" />
-    <TextField fx:id="senhaField" layoutX="150.0" layoutY="160.0" prefWidth="230" />
-    <Label fx:id="mensagemLabel" layoutX="150" layoutY="190" prefWidth="230" style="-fx-text-fill: red;"/>
-    <Button layoutX="210" layoutY="210" onAction="#handleModificar" text="Modificar" />
-    <Button fx:id="btnVoltar" layoutX="30" layoutY="250" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+<AnchorPane prefHeight="280" prefWidth="330" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.upe.academia2.ui.controllers.ModificarAlunoController"
+            style="-fx-background-color: #0f4c83;">
+    <!-- Barra branca superior -->
+    <Pane prefWidth="330" prefHeight="52"
+          style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" text="Modificar Aluno"
+               style="-fx-font-size:18; -fx-font-weight: bold;"/>
+    </Pane>
+
+    <!-- Área dos campos -->
+    <VBox layoutX="35" layoutY="62" spacing="14" prefWidth="260">
+        <TextField fx:id="emailField" promptText="Email" prefWidth="200"/>
+        <TextField fx:id="nomeField" promptText="Novo nome" prefWidth="200"/>
+        <TextField fx:id="senhaField" promptText="Nova senha" prefWidth="200"/>
+        <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
+        <HBox alignment="CENTER">
+            <Button text="Modificar" onAction="#handleModificar" prefWidth="100"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

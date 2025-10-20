@@ -13,7 +13,6 @@ public class ModificarAlunoController {
     @FXML private TextField emailField;
     @FXML private TextField nomeField;
     @FXML private TextField senhaField;
-    @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
@@ -44,20 +43,14 @@ public class ModificarAlunoController {
 
         usuarioBusiness.atualizarUsuario(existente);
         usuarioBusiness.salvarAlteracoesNoCsv();
-        mensagemLabel.setText("Aluno modificado com sucesso!");
-        nomeField.clear();
-        senhaField.clear();
 
         // Atualiza a tabela do menu administrador
         if (admMenuController != null) {
             admMenuController.atualizarTabelaAlunos();
         }
-    }
 
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
+        // Fecha a tela após modificar com sucesso
+        Stage atual = (Stage) emailField.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 }
