@@ -44,7 +44,7 @@ public class LoginController {
             Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/logo.png")));
             logoImageView.setImage(logo);
         } catch (Exception e) {
-            System.out.println("Erro ao carregar imagem: " + e.getMessage());
+            logger.log(Level.WARNING, "Erro ao carregar imagem do logo", e);
             // Se não conseguir carregar a imagem, esconde o ImageView
             logoImageView.setVisible(false);
         }
