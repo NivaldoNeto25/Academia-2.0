@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="200" prefWidth="500" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.ExcluirAlunoController">
-    <Label layoutX="216.0" layoutY="23.0" text="Excluir Aluno" />
-    <Label layoutX="40.0" layoutY="80.0" text="Email do aluno:" />
-    <TextField fx:id="emailField" layoutX="150.0" layoutY="80.0" prefWidth="230" />
-    <Label fx:id="mensagemLabel" layoutX="150.0" layoutY="110.0" text="" />
-    <Button layoutX="210" layoutY="130" onAction="#handleExcluir" text="Excluir" />
-    <Button fx:id="btnVoltar" layoutX="30" layoutY="170" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+<AnchorPane prefHeight="170" prefWidth="330" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.upe.academia2.ui.controllers.ExcluirAlunoController"
+            style="-fx-background-color: #0f4c83;">
+    <!-- Barra branca superior fixando título -->
+    <Pane prefWidth="330" prefHeight="52"
+          style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" text="Excluir Aluno"
+               style="-fx-font-size:18; -fx-font-weight: bold;"/>
+    </Pane>
+
+    <!-- Área dos campos -->
+    <VBox layoutX="35" layoutY="62" spacing="14" prefWidth="260">
+        <TextField fx:id="emailField" promptText="Email do aluno" prefWidth="200"/>
+        <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
+        <HBox alignment="CENTER">
+            <Button text="Excluir" onAction="#handleExcluir" prefWidth="100"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

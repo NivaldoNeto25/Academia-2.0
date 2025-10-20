@@ -15,7 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,9 +35,7 @@ public class AdmMenuController {
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
     private ObservableList<Usuario> alunosList;
 
-    public void setAdm(Adm adm) {
-        // Se necessário, guardar objeto ADM
-    }
+    public void setAdm(Adm adm) {}
 
     @FXML
     public void initialize() {
@@ -92,7 +89,7 @@ public class AdmMenuController {
 
             ModificarAlunoController controller = loader.getController();
             controller.setStageAnterior((Stage) btnEditar.getScene().getWindow());
-            controller.setAdmMenuController(this); // <-- esse passo garante a atualização
+            controller.setAdmMenuController(this);
 
             Stage editarStage = new Stage();
             editarStage.setTitle("Modificar Aluno");
@@ -112,8 +109,7 @@ public class AdmMenuController {
             Scene excluirScene = new Scene(loader.load());
 
             ExcluirAlunoController controller = loader.getController();
-            controller.setStageAnterior((Stage) btnExcluir.getScene().getWindow());
-            controller.setAdmMenuController(this); // <-- esse passo garante a atualização
+            controller.setAdmMenuController(this);
 
             Stage excluirStage = new Stage();
             excluirStage.setTitle("Excluir Aluno");
