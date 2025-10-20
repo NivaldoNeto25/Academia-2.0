@@ -18,9 +18,16 @@ public class CadastroAlunoController {
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
+    private AdmMenuController admMenuController; // Referência para o menu principal
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
-    public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
+    public void setStageAnterior(Stage stageAnterior) {
+        this.stageAnterior = stageAnterior;
+    }
+
+    public void setAdmMenuController(AdmMenuController admMenuController) {
+        this.admMenuController = admMenuController;
+    }
 
     @FXML
     public void handleCadastrar() {
@@ -36,10 +43,19 @@ public class CadastroAlunoController {
             mensagemLabel.setText("Já existe um aluno com esse e-mail.");
             return;
         }
+
         Usuario novo = new Comum(nome, null, email, senha, null, null, null);
         usuarioBusiness.cadastrarUsuario(novo);
         mensagemLabel.setText("Aluno cadastrado com sucesso!");
-        nomeField.clear(); emailField.clear(); senhaField.clear();
+
+        // Atualiza a tabela no menu principal
+        if (admMenuController != null) {
+            admMenuController.atualizarTabelaAlunos();
+        }
+
+        nomeField.clear();
+        emailField.clear();
+        senhaField.clear();
     }
 
     @FXML
