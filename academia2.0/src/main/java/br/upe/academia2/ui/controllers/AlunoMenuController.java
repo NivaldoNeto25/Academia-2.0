@@ -47,17 +47,17 @@ public class AlunoMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Garante que o botão de perfil seja o primeiro a ser selecionado e carregado
         btnPerfil.setSelected(true); 
-        loadContent("/fxml/Perfil.fxml"); // Carrega a tela de perfil por padrão
+        //loadContent("/fxml/Perfil.fxml"); // Carrega a tela de perfil por padrão
     }
 
     @FXML
     public void handlePerfil(ActionEvent event) {
-        loadContent("/fxml/Perfil.fxml");
+        //loadContent("/fxml/Perfil.fxml");
     }
 
     @FXML
     public void handleExercicio(ActionEvent event) {
-        loadContent("/fxml/Exerciciotest.fxml");
+        //loadContent("/fxml/Exerciciotest.fxml");
     }
 
     @FXML
