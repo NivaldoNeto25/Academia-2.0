@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.AlunoMenuController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.AlunoMenuController">
     <left>
-        <VBox styleClass="sidebar" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <VBox styleClass="sidebar" prefWidth="200.0" BorderPane.alignment="CENTER" style="-fx-background-color: #0f4c83">
             <children>
-                <Label styleClass="sidebar-title" text="Academia">
+                <Label styleClass="sidebar-title" text="Academia" textFill="WHITE" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -27,14 +27,14 @@
                     <ToggleGroup fx:id="menuToggleGroup" />
                 </fx:define>
                 
-                <ToggleButton fx:id="btnPerfil" mnemonicParsing="false" onAction="#handlePerfil" text="Perfil" styleClass="nav-button" toggleGroup="$menuToggleGroup" selected="true" />
-                <ToggleButton fx:id="btnExercicio" mnemonicParsing="false" onAction="#handleExercicio" text="Exercício" styleClass="nav-button" toggleGroup="$menuToggleGroup" />
-                <ToggleButton fx:id="btnPlanoTreino" mnemonicParsing="false" onAction="#handlePlanoTreino" text="Plano de Treino" styleClass="nav-button" toggleGroup="$menuToggleGroup" />
-                <ToggleButton fx:id="btnSecao" mnemonicParsing="false" onAction="#handleSecao" text="Seção" styleClass="nav-button" toggleGroup="$menuToggleGroup" />
+                <ToggleButton fx:id="btnPerfil" mnemonicParsing="false" onAction="#handlePerfil" prefHeight="47.0" prefWidth="200.0" text="Perfil" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF" textFill="WHITE" toggleGroup="$menuToggleGroup" selected="true" />
+                <ToggleButton fx:id="btnExercicio" mnemonicParsing="false" onAction="#handleExercicio" prefHeight="47.0" prefWidth="200.0" text="Exercício" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"  textFill="WHITE" toggleGroup="$menuToggleGroup" />
+                <ToggleButton fx:id="btnPlanoTreino" mnemonicParsing="false" onAction="#handlePlanoTreino" prefHeight="47.0" prefWidth="200.0" text="Plano de Treino" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"  textFill="WHITE" toggleGroup="$menuToggleGroup" />
+                <ToggleButton fx:id="btnSecao" mnemonicParsing="false" onAction="#handleSecao" prefHeight="47.0" prefWidth="200.0" text="Seção" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"  textFill="WHITE" toggleGroup="$menuToggleGroup" />
                 
                 <Region VBox.vgrow="ALWAYS" />
                 
-                <Button fx:id="btnSair" mnemonicParsing="false" onAction="#handleSair" text="Sair" styleClass="exit-button" />
+                <Button fx:id="btnSair" mnemonicParsing="false" onAction="#handleSair" text="Sair" style="-fx-background-color: #EE3440" textFill="WHITE" prefHeight="26.0" prefWidth="44.0" />
             </children>
         </VBox>
     </left>
