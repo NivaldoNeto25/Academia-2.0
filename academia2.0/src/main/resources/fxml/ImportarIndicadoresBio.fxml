@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ImportarIndicadoresBioController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.upe.academia2.ui.controllers.ImportarIndicadoresBioController"
+            prefWidth="370" prefHeight="230"
+            style="-fx-background-color: #0f4c83;">
+    <!-- Barra branca superior para o título -->
+    <Pane prefWidth="370" prefHeight="52" style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" text="Indicadores"
+               style="-fx-font-size:18; -fx-font-weight: bold;"/>
+    </Pane>
 
-    <Label layoutX="135.0" layoutY="28.0" prefHeight="84.0" prefWidth="331.0" style="-fx-font-size: 22px;" text="Importar Indicadores Biomédicos" />
-    <Label layoutX="63.0" layoutY="150.0" text="Arquivo CSV:" />
-    <TextField fx:id="campoArquivo" layoutX="151.0" layoutY="146.0" prefHeight="28.0" prefWidth="300.0"
-               onMouseClicked="#handleSelecionarArquivo"
-               promptText="Clique para selecionar o arquivo..." />
-    <Button fx:id="btnImportar" layoutX="256.0" layoutY="210.0" prefHeight="32.0" prefWidth="88.0"
-            onAction="#handleImportar" text="Importar" style="-fx-font-size: 15px;" />
-    <Button fx:id="btnVoltar" layoutX="14.0" layoutY="354.0" prefHeight="32.0" prefWidth="56.0"
-            onAction="#handleVoltar" text="Voltar" />
-    <Label fx:id="mensagemLabel" layoutX="63.0" layoutY="260.0" prefHeight="25.0" prefWidth="470.0" text="" />
-
+    <VBox layoutX="30" layoutY="72" spacing="16" prefWidth="310">
+        <TextField fx:id="campoArquivo"
+                   promptText="Clique para selecionar o arquivo..."
+                   prefWidth="230"
+                   editable="false"
+                   onMouseClicked="#handleSelecionarArquivo" />
+        <HBox alignment="CENTER">
+            <Button text="Salvar" fx:id="btnImportar" onAction="#handleImportar" prefWidth="100"/>
+        </HBox>
+        <Label fx:id="mensagemLabel" style="-fx-text-fill: red;" />
+    </VBox>
 </AnchorPane>
-

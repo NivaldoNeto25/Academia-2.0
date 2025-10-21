@@ -19,7 +19,6 @@ public class CadastrarIndicadorBioController {
     private final IndicadorBiomedicoBusiness indicadorbio = new IndicadorBiomedicoBusiness();
 
     public void setUsuarioLogado(Usuario usuario) {
-        System.out.println("setUsuarioLogado chamado! Email: " + (usuario != null ? usuario.getEmail() : "null"));
         this.usuarioLogado = usuario;
     }
 

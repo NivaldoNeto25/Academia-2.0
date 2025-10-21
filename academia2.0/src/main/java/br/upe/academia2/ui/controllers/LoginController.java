@@ -76,7 +76,6 @@ public class LoginController {
                     loader = new FXMLLoader(getClass().getResource("/fxml/AlunoMenu.fxml"));
                     Scene cena = new Scene(loader.load());
                     AlunoMenuController controller = loader.getController();
-                    System.out.println("LoginController passando usuario para AlunoMenuController: " + usuarioLogado.getEmail());
                     controller.setAluno(usuarioLogado);
                     stage.setScene(cena);
                 }

@@ -28,20 +28,14 @@ public class AlunoMenuController implements Initializable {
 
     Logger logger = Logger.getLogger(AlunoMenuController.class.getName());
 
-    // Chamada pelo LoginController após login!
     public void setAluno(Usuario aluno) {
-        System.out.println("AlunoMenuController.setAluno: " + (aluno != null ? aluno.getEmail() : "null"));
         this.aluno = aluno;
         btnPerfil.setSelected(true);
         loadContent("/fxml/IndicadoresAluno.fxml"); // Agora carrega o conteúdo inicial com usuario preenchido!
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // NÃO carregue conteúdo inicial aqui, pois o aluno ainda não foi setado!
-        // btnPerfil.setSelected(true); X
-        // loadContent("/fxml/IndicadoresAluno.fxml"); X
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     @FXML public void handlePerfil(ActionEvent event) {
         loadContent("/fxml/IndicadoresAluno.fxml");
@@ -79,7 +73,6 @@ public class AlunoMenuController implements Initializable {
 
             Object controller = loader.getController();
             if (controller instanceof UsuarioDependente) {
-                System.out.println("AlunoMenuController chamando setUsuario: " + (aluno != null ? aluno.getEmail() : "null"));
                 ((UsuarioDependente) controller).setUsuario(aluno);
             }
 
@@ -91,7 +84,6 @@ public class AlunoMenuController implements Initializable {
         }
     }
 
-    // Interface para controllers dependentes de usuário
     public interface UsuarioDependente {
         void setUsuario(Usuario usuario);
     }

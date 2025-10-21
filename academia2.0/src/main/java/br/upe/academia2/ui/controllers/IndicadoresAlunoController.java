@@ -51,7 +51,6 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
 
     @Override
     public void setUsuario(Usuario usuario) {
-        System.out.println("IndicadoresAlunoController.setUsuario: " + (usuario != null ? usuario.getEmail() : "null"));
         this.usuarioLogado = usuario;
         atualizarTabela();
     }
