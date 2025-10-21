@@ -5,16 +5,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.AlunoMenuController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.upe.academia2.ui.controllers.AlunoMenuController">
     <left>
-        <VBox styleClass="sidebar" prefWidth="200.0" BorderPane.alignment="CENTER" style="-fx-background-color: #0f4c83">
+        <VBox styleClass="sidebar" prefWidth="200.0" BorderPane.alignment="CENTER"
+              style="-fx-background-color: #0f4c83">
             <children>
                 <Label styleClass="sidebar-title" text="Academia" textFill="WHITE" textAlignment="CENTER">
                     <font>
@@ -29,8 +32,13 @@
                     <ToggleGroup fx:id="menuToggleGroup" />
                 </fx:define>
 
-                <ToggleButton fx:id="btnPerfil" mnemonicParsing="false" onAction="#handlePerfil" prefHeight="47.0" prefWidth="200.0" text="Perfil" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF" textFill="WHITE" toggleGroup="$menuToggleGroup" selected="true" alignment="CENTER_LEFT">
-                <font> <Font name="Calibri Bold" size="15.0" /> </font>
+                <ToggleButton fx:id="btnPerfil" mnemonicParsing="false" onAction="#handlePerfil"
+                              prefHeight="47.0" prefWidth="200.0" text="Perfil"
+                              style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"
+                              textFill="WHITE" toggleGroup="$menuToggleGroup" selected="true" alignment="CENTER_LEFT">
+                    <font>
+                        <Font name="Calibri Bold" size="15.0" />
+                    </font>
                     <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -39,8 +47,14 @@
                         </ImageView>
                     </graphic>
                 </ToggleButton>
-                <ToggleButton fx:id="btnExercicio" mnemonicParsing="false" onAction="#handleExercicio" prefHeight="47.0" prefWidth="200.0" text="Exercício" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"  textFill="WHITE" toggleGroup="$menuToggleGroup" alignment="CENTER_LEFT" >
-                    <font> <Font name="Calibri Bold" size="15.0" /> </font>
+
+                <ToggleButton fx:id="btnExercicio" mnemonicParsing="false" onAction="#handleExercicio"
+                              prefHeight="47.0" prefWidth="200.0" text="Exercício"
+                              style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"
+                              textFill="WHITE" toggleGroup="$menuToggleGroup" alignment="CENTER_LEFT">
+                    <font>
+                        <Font name="Calibri Bold" size="15.0" />
+                    </font>
                     <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -49,8 +63,14 @@
                         </ImageView>
                     </graphic>
                 </ToggleButton>
-                <ToggleButton fx:id="btnPlanoTreino" mnemonicParsing="false" onAction="#handlePlanoTreino" prefHeight="47.0" prefWidth="200.0" text="Plano de Treino" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"  textFill="WHITE" toggleGroup="$menuToggleGroup" alignment="CENTER_LEFT">
-                    <font> <Font name="Calibri Bold" size="15.0" /> </font>
+
+                <ToggleButton fx:id="btnPlanoTreino" mnemonicParsing="false" onAction="#handlePlanoTreino"
+                              prefHeight="47.0" prefWidth="200.0" text="Plano de Treino"
+                              style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"
+                              textFill="WHITE" toggleGroup="$menuToggleGroup" alignment="CENTER_LEFT">
+                    <font>
+                        <Font name="Calibri Bold" size="15.0" />
+                    </font>
                     <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -59,8 +79,14 @@
                         </ImageView>
                     </graphic>
                 </ToggleButton>
-                <ToggleButton fx:id="btnSecao" mnemonicParsing="false" onAction="#handleSecao" prefHeight="47.0" prefWidth="200.0" text="Seção" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"  textFill="WHITE" toggleGroup="$menuToggleGroup" alignment="CENTER_LEFT">
-                    <font> <Font name="Calibri Bold" size="15.0" /> </font>
+
+                <ToggleButton fx:id="btnSecao" mnemonicParsing="false" onAction="#handleSecao"
+                              prefHeight="47.0" prefWidth="200.0" text="Seção"
+                              style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF"
+                              textFill="WHITE" toggleGroup="$menuToggleGroup" alignment="CENTER_LEFT">
+                    <font>
+                        <Font name="Calibri Bold" size="15.0" />
+                    </font>
                     <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -71,8 +97,13 @@
                 </ToggleButton>
 
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="btnSair" onAction="#handleSair" prefHeight="34.0" prefWidth="100.0" style="-fx-background-color: #ee3440; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7;" text="Sair" />
+
+                <Button fx:id="btnSair" onAction="#handleSair"
+                        prefHeight="34.0" prefWidth="100.0"
+                        style="-fx-background-color: #ee3440; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7;"
+                        text="Sair" />
             </children>
         </VBox>
     </left>
+    <!-- O centro será trocado dinamicamente via Java -->
 </BorderPane>

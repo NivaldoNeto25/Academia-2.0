@@ -19,8 +19,6 @@
     <TextField fx:id="percGorduraField" layoutX="446.0" layoutY="201.0" prefHeight="25.0" prefWidth="88.0" />
     <Button layoutX="256.0" layoutY="286.0" prefHeight="32.0" prefWidth="88.0"
             onAction="#handleCadastrarIndicadores" text="Salvar" style="-fx-font-size: 15px;" />
-    <Button fx:id="btnVoltar" layoutX="14.0" layoutY="354.0" prefHeight="32.0" prefWidth="56.0"
-            onAction="#handleVoltar" text="Voltar" />
     <Label fx:id="mensagemLabel" layoutX="63.0" layoutY="250.0" prefHeight="25.0" prefWidth="400.0" text="" />
 
 </AnchorPane>

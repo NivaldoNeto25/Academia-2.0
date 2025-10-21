@@ -4,7 +4,6 @@ import br.upe.academia2.business.IndicadorBiomedicoBusiness;
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -14,19 +13,13 @@ public class CadastrarIndicadorBioController {
     @FXML private TextField pesoField;
     @FXML private TextField massaMagraField;
     @FXML private TextField percGorduraField;
-    @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
-    private Stage stageAnterior;
+    private Usuario usuarioLogado;
     private final IndicadorBiomedicoBusiness indicadorbio = new IndicadorBiomedicoBusiness();
 
-    private Usuario usuarioLogado;
-
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
-    }
-
     public void setUsuarioLogado(Usuario usuario) {
+        System.out.println("setUsuarioLogado chamado! Email: " + (usuario != null ? usuario.getEmail() : "null"));
         this.usuarioLogado = usuario;
     }
 
@@ -55,25 +48,11 @@ public class CadastrarIndicadorBioController {
 
             indicadorbio.cadastrarIndicador(usuarioLogado, indicador);
 
-            mensagemLabel.setText("Indicador cadastrado com sucesso!");
-            limparCampos();
+            Stage atual = (Stage) alturaField.getScene().getWindow();
+            atual.close();
 
         } catch (NumberFormatException e) {
             mensagemLabel.setText("Digite valores numéricos válidos.");
         }
-    }
-
-    public void limparCampos() {
-        alturaField.clear();
-        pesoField.clear();
-        percGorduraField.clear();
-        massaMagraField.clear();
-    }
-
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
-        atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 }

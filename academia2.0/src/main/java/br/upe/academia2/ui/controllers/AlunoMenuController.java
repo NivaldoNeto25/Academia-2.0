@@ -5,15 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,53 +21,42 @@ public class AlunoMenuController implements Initializable {
 
     private Usuario aluno;
 
-    @FXML
-    private BorderPane mainPane; // Referência ao nosso container principal
+    @FXML private BorderPane mainPane;
+    @FXML private ToggleGroup menuToggleGroup;
+    @FXML private ToggleButton btnPerfil;
+    @FXML private Button btnSair;
 
-    @FXML
-    private ToggleGroup menuToggleGroup; // Grupo para os botões de navegação
-
-    @FXML
-    private ToggleButton btnPerfil;
-
-    @FXML
-    private Button btnSair;
-    
     Logger logger = Logger.getLogger(AlunoMenuController.class.getName());
 
+    // Chamada pelo LoginController após login!
     public void setAluno(Usuario aluno) {
+        System.out.println("AlunoMenuController.setAluno: " + (aluno != null ? aluno.getEmail() : "null"));
         this.aluno = aluno;
-        // Você pode carregar informações do aluno na tela aqui, se necessário
+        btnPerfil.setSelected(true);
+        loadContent("/fxml/IndicadoresAluno.fxml"); // Agora carrega o conteúdo inicial com usuario preenchido!
     }
 
-    // Este método é chamado automaticamente depois que o FXML é carregado
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Garante que o botão de perfil seja o primeiro a ser selecionado e carregado
-        btnPerfil.setSelected(true); 
-        //loadContent("/fxml/Perfil.fxml"); // Carrega a tela de perfil por padrão
+        // NÃO carregue conteúdo inicial aqui, pois o aluno ainda não foi setado!
+        // btnPerfil.setSelected(true); X
+        // loadContent("/fxml/IndicadoresAluno.fxml"); X
     }
 
-    @FXML
-    public void handlePerfil(ActionEvent event) {
-        //loadContent("/fxml/Perfil.fxml");
+    @FXML public void handlePerfil(ActionEvent event) {
+        loadContent("/fxml/IndicadoresAluno.fxml");
     }
 
-    @FXML
-    public void handleExercicio(ActionEvent event) {
-        //loadContent("/fxml/Exerciciotest.fxml");
+    @FXML public void handleExercicio(ActionEvent event) {
+        loadContent("/fxml/Exercicio.fxml");
     }
 
-    @FXML
-    public void handlePlanoTreino(ActionEvent event) {
+    @FXML public void handlePlanoTreino(ActionEvent event) {
         loadContent("/fxml/PlanoTreinoAluno.fxml");
     }
-    
-    @FXML
-    public void handleSecao(ActionEvent event) {
-        // Crie um FXML para "Seção" se necessário
-        // loadContent("/fxml/Secao.fxml");
-        //System.out.println("Botão Seção clicado. Crie o FXML correspondente.");
+
+    @FXML public void handleSecao(ActionEvent event) {
+        loadContent("/fxml/Secao.fxml");
     }
 
     @FXML
@@ -78,8 +64,7 @@ public class AlunoMenuController implements Initializable {
         Stage stageAtual = (Stage) btnSair.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
-            Scene loginScene = new Scene(loader.load());
-            stageAtual.setScene(loginScene);
+            stageAtual.setScene(new javafx.scene.Scene(loader.load()));
             stageAtual.setTitle("Academia 2.0 - Login");
         } catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao voltar para a tela de login.", e);
@@ -87,31 +72,27 @@ public class AlunoMenuController implements Initializable {
         }
     }
 
-    /**
-     * Carrega um arquivo FXML no painel central do BorderPane.
-     * @param fxmlPath O caminho para o arquivo FXML a ser carregado.
-     */
     private void loadContent(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
 
             Object controller = loader.getController();
-            if (controller instanceof ExercicioMenuController){
-                ((ExercicioMenuController) controller).setUsuario(aluno);
-            } else if (controller instanceof PlanoTreinoAlunoController) {
-                ((PlanoTreinoAlunoController) controller).setUsuario(aluno);
+            if (controller instanceof UsuarioDependente) {
+                System.out.println("AlunoMenuController chamando setUsuario: " + (aluno != null ? aluno.getEmail() : "null"));
+                ((UsuarioDependente) controller).setUsuario(aluno);
             }
 
-            
-            mainPane.setCenter(view); 
-
-
+            mainPane.setCenter(view);
 
         } catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao carregar o FXML: " + fxmlPath, e);
-            // Opcional: mostrar uma tela de erro no painel central
             mainPane.setCenter(new javafx.scene.control.Label("Erro ao carregar a página."));
         }
+    }
+
+    // Interface para controllers dependentes de usuário
+    public interface UsuarioDependente {
+        void setUsuario(Usuario usuario);
     }
 }
