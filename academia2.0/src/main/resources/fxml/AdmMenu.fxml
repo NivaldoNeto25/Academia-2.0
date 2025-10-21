@@ -1,52 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.AdmMenuController">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="600" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.AdmMenuController">
     <HBox prefHeight="600" prefWidth="600">
-        <VBox prefWidth="160.0" prefHeight="600.0" style="-fx-background-color: #0f4c83;">
-            <Label text="Academia" style="-fx-font-size: 22; -fx-text-fill: white;" alignment="CENTER" prefHeight="60.0" prefWidth="160.0"/>
-            <Button text="Alunos" style="-fx-background-color: #ffffff22; -fx-font-size: 16;" prefHeight="50.0" prefWidth="160.0"/>
-            <Pane prefHeight="410.0" prefWidth="160.0"/>
+        <VBox prefHeight="600.0" prefWidth="160.0" style="-fx-background-color: #0f4c83;">
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="160.0" style="-fx-font-size: 25; -fx-text-fill: WHITE;" text="Academia">
+                <font>
+                    <Font name="Calibri Bold" size="24.0" />
+                </font>
+            </Label>
+            <Pane prefHeight="410.0" prefWidth="160.0">
+            <children>
+                  <Button layoutX="-3.0" layoutY="24.0" prefHeight="50.0" prefWidth="166.0" style="-fx-background-color: #07579D; -fx-border-color: #FFFFFF; -fx-font-size: 16;" text="Alunos" textFill="WHITE">
+                      <graphic>
+                      <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="/img/Usuario.png" />
+                          </image>
+                      </ImageView>
+                  </graphic>
+                      <font>
+                          <Font name="Calibri Bold" size="24.0" />
+                      </font>
+                  </Button>
+            </children></Pane>
             <!-- Botão Sair centralizado, destacado e desgrudado da borda -->
             <VBox alignment="CENTER" prefWidth="160.0">
                 <padding>
-                    <Insets bottom="20"/>
+                    <Insets bottom="20" />
                 </padding>
-                <Button fx:id="btnSair"
-                        text="Sair"
-                        onAction="#handleSair"
-                        prefWidth="100.0" prefHeight="34.0"
-                        style="-fx-background-color: #ee3440; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7;"/>
+                <Button fx:id="btnSair" onAction="#handleSair" prefHeight="34.0" prefWidth="100.0" style="-fx-background-color: #ee3440; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7;" text="Sair" />
             </VBox>
         </VBox>
 
         <!-- Área principal -->
-        <VBox spacing="16" alignment="TOP_CENTER" prefWidth="440.0" prefHeight="600.0" style="-fx-background-color: #f8f8f8;">
+        <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="440.0" spacing="16" style="-fx-background-color: #f8f8f8;">
             <!-- Topo: Administrador centralizado -->
-            <HBox alignment="CENTER" prefWidth="440.0" prefHeight="70.0">
-                <Label text="Administrador" style="-fx-font-size: 22;"/>
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="440.0">
+                <Label style="-fx-font-size: 24;" text="Administrador">
+                    <font>
+                        <Font name="Calibri Bold" size="24.0" />
+                    </font>
+                </Label>
             </HBox>
             <!-- Barra de pesquisa centralizada -->
             <HBox alignment="CENTER" prefWidth="440.0">
-                <TextField fx:id="searchField" promptText="Pesquisar aluno" prefWidth="220.0" maxWidth="220.0"/>
+                <TextField fx:id="searchField" maxWidth="220.0" prefWidth="220.0" promptText="Pesquisar aluno" />
             </HBox>
             <!-- Tabela/lista de alunos centralizada e menor -->
             <HBox alignment="CENTER" prefWidth="440.0">
-                <TableView fx:id="alunosTable" prefWidth="340.0" maxWidth="340.0" prefHeight="250.0">
+                <TableView fx:id="alunosTable" maxWidth="340.0" prefHeight="250.0" prefWidth="340.0">
                     <columns>
-                        <TableColumn fx:id="colNome" text="Nome" prefWidth="165.0"/>
-                        <TableColumn fx:id="colEmail" text="Email" prefWidth="165.0"/>
+                        <TableColumn fx:id="colNome" prefWidth="165.0" text="Nome" />
+                        <TableColumn fx:id="colEmail" prefWidth="165.0" text="Email" />
                     </columns>
                 </TableView>
             </HBox>
             <!-- Botões lado a lado -->
-            <HBox alignment="CENTER_RIGHT" spacing="10" prefWidth="340.0" maxWidth="340.0">
-                <Button fx:id="btnCadastrar" text="Cadastrar" onAction="#handleCadastrarAluno" prefWidth="90.0"/>
-                <Button fx:id="btnEditar" text="Editar" onAction="#handleEditarAluno" prefWidth="90.0"/>
-                <Button fx:id="btnExcluir" text="Excluir" onAction="#handleExcluirAluno" prefWidth="90.0"/>
+            <HBox alignment="CENTER" maxWidth="340.0" prefHeight="26.0" prefWidth="291.0" spacing="10">
+                <Button fx:id="btnCadastrar" onAction="#handleCadastrarAluno" prefWidth="90.0" style="-fx-background-color: #07579D" text="Cadastrar" textFill="WHITE" />
+                <Button fx:id="btnEditar" onAction="#handleEditarAluno" prefWidth="90.0" style="-fx-background-color: #07579D" text="Editar" textFill="WHITE" />
+                <Button fx:id="btnExcluir" onAction="#handleExcluirAluno" prefWidth="90.0" style="-fx-background-color: #07579D" text="Excluir" textFill="WHITE" />
             </HBox>
         </VBox>
     </HBox>

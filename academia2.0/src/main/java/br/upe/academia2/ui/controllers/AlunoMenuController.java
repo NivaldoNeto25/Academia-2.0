@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -75,7 +76,15 @@ public class AlunoMenuController implements Initializable {
     @FXML
     public void handleSair() {
         Stage stageAtual = (Stage) btnSair.getScene().getWindow();
-        stageAtual.close();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
+            Scene loginScene = new Scene(loader.load());
+            stageAtual.setScene(loginScene);
+            stageAtual.setTitle("Academia 2.0 - Login");
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Erro ao voltar para a tela de login.", e);
+            stageAtual.close();
+        }
     }
 
     /**
