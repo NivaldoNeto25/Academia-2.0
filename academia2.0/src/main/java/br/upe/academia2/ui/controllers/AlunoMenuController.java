@@ -1,60 +1,75 @@
 package br.upe.academia2.ui.controllers;
 
+import br.upe.academia2.data.beans.Usuario;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.upe.academia2.data.beans.Usuario;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
-public class AlunoMenuController {
+public class AlunoMenuController implements Initializable {
 
     private Usuario aluno;
+
     @FXML
-    private Button btnExercicios;
+    private BorderPane mainPane; // Referência ao nosso container principal
+
     @FXML
-    private Button btnIndicadores;
+    private ToggleGroup menuToggleGroup; // Grupo para os botões de navegação
+
     @FXML
-    private Button btnPlanoTreino;
-    @FXML
-    private Button btnRelatorios;
+    private ToggleButton btnPerfil;
+
     @FXML
     private Button btnSair;
-
+    
     Logger logger = Logger.getLogger(AlunoMenuController.class.getName());
 
     public void setAluno(Usuario aluno) {
         this.aluno = aluno;
+        // Você pode carregar informações do aluno na tela aqui, se necessário
+    }
+
+    // Este método é chamado automaticamente depois que o FXML é carregado
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Garante que o botão de perfil seja o primeiro a ser selecionado e carregado
+        btnPerfil.setSelected(true); 
+        //loadContent("/fxml/Perfil.fxml"); // Carrega a tela de perfil por padrão
     }
 
     @FXML
-    public void handleExercicios() {
-        Stage stageAtual = (Stage) btnExercicios.getScene().getWindow();
-        trocarTela("/fxml/ExercicioMenu.fxml", "Exercícios", stageAtual);
+    public void handlePerfil(ActionEvent event) {
+        //loadContent("/fxml/Perfil.fxml");
     }
 
     @FXML
-    public void handleIndicadores() {
-        Stage stageAtual = (Stage) btnIndicadores.getScene().getWindow();
-        trocarTela("/fxml/IndicadoresAluno.fxml", "Indicadores Biomédicos", stageAtual);
+    public void handleExercicio(ActionEvent event) {
+        //loadContent("/fxml/Exerciciotest.fxml");
     }
 
     @FXML
-    public void handlePlanoTreino() {
-        Stage stageAtual = (Stage) btnPlanoTreino.getScene().getWindow();
-        trocarTela("/fxml/PlanoTreinoAluno.fxml", "Plano de Treino", stageAtual);
+    public void handlePlanoTreino(ActionEvent event) {
+        loadContent("/fxml/PlanoTreinoAluno.fxml");
     }
-
+    
     @FXML
-    public void handleRelatorio() {
-        Stage stageAtual = (Stage) btnRelatorios.getScene().getWindow();
-        trocarTela("/fxml/RelatorioAluno.fxml", "Relatórios", stageAtual);
+    public void handleSecao(ActionEvent event) {
+        // Crie um FXML para "Seção" se necessário
+        // loadContent("/fxml/Secao.fxml");
+        //System.out.println("Botão Seção clicado. Crie o FXML correspondente.");
     }
 
     @FXML
@@ -63,32 +78,31 @@ public class AlunoMenuController {
         stageAtual.close();
     }
 
-    public void trocarTela(String caminhoFxml, String titulo, Stage stageAtual) {
+    /**
+     * Carrega um arquivo FXML no painel central do BorderPane.
+     * @param fxmlPath O caminho para o arquivo FXML a ser carregado.
+     */
+    private void loadContent(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
-            Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = loader.load();
 
             Object controller = loader.getController();
-            invocarMetodoSeExiste(controller, "setUsuario", Usuario.class, aluno);
-            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAtual);
+            if (controller instanceof ExercicioMenuController){
+                ((ExercicioMenuController) controller).setUsuario(aluno);
+            } else if (controller instanceof PlanoTreinoAlunoController) {
+                ((PlanoTreinoAlunoController) controller).setUsuario(aluno);
+            }
 
-            Stage novaStage = new Stage();
-            novaStage.setScene(new Scene(root));
-            novaStage.setTitle(titulo);
-            stageAtual.close();
-            novaStage.show();
+            
+            mainPane.setCenter(view); 
+
+
 
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Erro ao carregar FXML", e);
+            logger.log(Level.WARNING, "Erro ao carregar o FXML: " + fxmlPath, e);
+            // Opcional: mostrar uma tela de erro no painel central
+            mainPane.setCenter(new javafx.scene.control.Label("Erro ao carregar a página."));
         }
-    }
-
-    private void invocarMetodoSeExiste(Object objeto, String metodoNome, Class<?> parametroClass, Object parametro) {
-        try {
-            var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
-            metodo.invoke(objeto, parametro);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
-            logger.log(Level.WARNING, "Erro ao chamar o método", ignored);
-        } 
     }
 }

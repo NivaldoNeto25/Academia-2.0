@@ -2,12 +2,52 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.AdmMenuController">
-    <Label layoutX="190.0" layoutY="41.0" style="-fx-font-size: 24" text="Menu Administrador" />
-    <Button fx:id="btnCadastrar" layoutX="200" layoutY="100" onAction="#handleCadastrarAluno" prefWidth="200" text="Cadastrar Aluno" />
-    <Button fx:id="btnListar" layoutX="200" layoutY="150" onAction="#handleListarAlunos" prefWidth="200" text="Listar Alunos" />
-    <Button fx:id="btnModificar" layoutX="200" layoutY="200" onAction="#handleModificarAluno" prefWidth="200" text="Modificar Aluno" />
-    <Button fx:id="btnExcluir" layoutX="200" layoutY="250" onAction="#handleExcluirAluno" prefWidth="200" text="Excluir Aluno" />
-    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Sair" />
+<AnchorPane prefHeight="600" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.AdmMenuController">
+    <HBox prefHeight="600" prefWidth="600">
+        <VBox prefWidth="160.0" prefHeight="600.0" style="-fx-background-color: #0f4c83;">
+            <Label text="Academia" style="-fx-font-size: 22; -fx-text-fill: white;" alignment="CENTER" prefHeight="60.0" prefWidth="160.0"/>
+            <Button text="Alunos" style="-fx-background-color: #ffffff22; -fx-font-size: 16;" prefHeight="50.0" prefWidth="160.0"/>
+            <Pane prefHeight="410.0" prefWidth="160.0"/>
+            <!-- Botão Sair centralizado, destacado e desgrudado da borda -->
+            <VBox alignment="CENTER" prefWidth="160.0">
+                <padding>
+                    <Insets bottom="20"/>
+                </padding>
+                <Button fx:id="btnSair"
+                        text="Sair"
+                        onAction="#handleSair"
+                        prefWidth="100.0" prefHeight="34.0"
+                        style="-fx-background-color: #ee3440; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7;"/>
+            </VBox>
+        </VBox>
+
+        <!-- Área principal -->
+        <VBox spacing="16" alignment="TOP_CENTER" prefWidth="440.0" prefHeight="600.0" style="-fx-background-color: #f8f8f8;">
+            <!-- Topo: Administrador centralizado -->
+            <HBox alignment="CENTER" prefWidth="440.0" prefHeight="70.0">
+                <Label text="Administrador" style="-fx-font-size: 22;"/>
+            </HBox>
+            <!-- Barra de pesquisa centralizada -->
+            <HBox alignment="CENTER" prefWidth="440.0">
+                <TextField fx:id="searchField" promptText="Pesquisar aluno" prefWidth="220.0" maxWidth="220.0"/>
+            </HBox>
+            <!-- Tabela/lista de alunos centralizada e menor -->
+            <HBox alignment="CENTER" prefWidth="440.0">
+                <TableView fx:id="alunosTable" prefWidth="340.0" maxWidth="340.0" prefHeight="250.0">
+                    <columns>
+                        <TableColumn fx:id="colNome" text="Nome" prefWidth="165.0"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="165.0"/>
+                    </columns>
+                </TableView>
+            </HBox>
+            <!-- Botões lado a lado -->
+            <HBox alignment="CENTER_RIGHT" spacing="10" prefWidth="340.0" maxWidth="340.0">
+                <Button fx:id="btnCadastrar" text="Cadastrar" onAction="#handleCadastrarAluno" prefWidth="90.0"/>
+                <Button fx:id="btnEditar" text="Editar" onAction="#handleEditarAluno" prefWidth="90.0"/>
+                <Button fx:id="btnExcluir" text="Excluir" onAction="#handleExcluirAluno" prefWidth="90.0"/>
+            </HBox>
+        </VBox>
+    </HBox>
 </AnchorPane>
