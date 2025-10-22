@@ -58,7 +58,7 @@ public class AlunoMenuController implements Initializable {
 
     @FXML
     public void handleExercicio(ActionEvent event) {
-        //loadContent("/fxml/Exerciciotest.fxml");
+        loadContent("/fxml/ExercicioMenu.fxml");
     }
 
     @FXML
@@ -98,6 +98,7 @@ public class AlunoMenuController implements Initializable {
 
             Object controller = loader.getController();
             if (controller instanceof ExercicioMenuController){
+                ((ExercicioMenuController) controller).setMainPane(mainPane);
                 ((ExercicioMenuController) controller).setUsuario(aluno);
             } else if (controller instanceof PlanoTreinoAlunoController) {
                 ((PlanoTreinoAlunoController) controller).setUsuario(aluno);

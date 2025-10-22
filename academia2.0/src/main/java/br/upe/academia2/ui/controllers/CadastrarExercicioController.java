@@ -43,6 +43,9 @@ public class CadastrarExercicioController {
         exercicio.salvar(novoExercicio);
         exercicio.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Exercicio cadastrado com sucesso!");
+
+        Stage stageAtual = (Stage) btnCadastrar.getScene().getWindow();
+        stageAtual.close();
     }
         @FXML
         public void handleVoltar() {

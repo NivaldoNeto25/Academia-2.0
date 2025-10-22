@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300" prefWidth="500" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.CadastrarExercicioController">
-    <Label layoutX="200" layoutY="20" style="-fx-font-size: 20px;" text="Cadastrar Exercício" />
-    <Label layoutX="35" layoutY="70" text="Nome:" />
-    <TextField fx:id="nomeField" layoutX="140" layoutY="65" prefWidth="300" />
-    <Label layoutX="35" layoutY="110" text="Descrição:" />
-    <TextArea fx:id="descricaoField" layoutX="140" layoutY="105" prefHeight="80" prefWidth="300" />
-    <Label layoutX="35" layoutY="200" text="Caminho GIF:" />
-    <TextField fx:id="caminhoGifField" layoutX="140" layoutY="195" prefWidth="300" />
-    <Button fx:id="btnCadastrar" layoutX="266.0" layoutY="246.0" onAction="#handleCadastrar" text="Salvar" />
-    <Button fx:id="btnVoltar" layoutX="35.0" layoutY="246.0" onAction="#handleVoltar" text="Voltar" />
+<AnchorPane prefHeight="400" prefWidth="400" style="-fx-background-color: #0f4c83;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.CadastrarExercicioController">
+    <Pane prefHeight="52" prefWidth="440.0" style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" style="-fx-font-size:18; -fx-font-weight: bold;" text="Cadastrar Exercício" />
+    </Pane>
+    <Label layoutX="250.0" layoutY="90.0" text="Nome:" textFill="WHITE" />
+    <TextField fx:id="nomeField" layoutX="250.0" layoutY="112.0" prefHeight="26.0" prefWidth="142.0" />
+    <Label layoutX="250.0" layoutY="151.0" text="Descrição:" textFill="WHITE" />
+    <TextArea fx:id="descricaoField" layoutX="250.0" layoutY="168.0" prefHeight="99.0" prefWidth="142.0" />
+    <Label layoutX="32.0" layoutY="90.0" text="Caminho GIF:" textFill="WHITE" />
+    <TextField fx:id="caminhoGifField" layoutX="31.0" layoutY="240.0" prefHeight="26.0" prefWidth="151.0" text="Digite o caminho">
+      <font>
+         <Font name="System Italic" size="9.0" />
+      </font></TextField>
+    <Button fx:id="btnCadastrar" layoutX="196.0" layoutY="319.0" onAction="#handleCadastrar" text="Salvar" />
+    <!--<Button fx:id="btnVoltar" layoutX="35.0" layoutY="246.0" onAction="#handleVoltar" text="Voltar" /> -->
     <Label fx:id="mensagemLabel" layoutX="140.0" layoutY="225.0" prefWidth="300" />
+   <Button layoutX="30.0" layoutY="113.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="151.0" style="-fx-background-color: #FFFFFF;" text="+">
+      <font>
+         <Font name="Calibri Bold" size="52.0" />
+      </font>
+   </Button>
 </AnchorPane>
