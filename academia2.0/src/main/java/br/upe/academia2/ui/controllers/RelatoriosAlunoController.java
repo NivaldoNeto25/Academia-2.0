@@ -10,9 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RelatoriosAlunoController {
@@ -28,16 +26,12 @@ public class RelatoriosAlunoController {
     @FXML
     private Button btnVoltar;
 
-    private Stage stageAnterior;
-
     private static final Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
+
+    public void setUsuarioLogado(br.upe.academia2.data.beans.Usuario usuario) { }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
     }
 
     @FXML
@@ -78,31 +72,24 @@ public class RelatoriosAlunoController {
             txtSaida.appendText("Nenhum indicador encontrado.\n");
             return;
         }
-
         if (lista.size() < 2) {
             txtSaida.appendText("Apenas um registro encontrado. Exibindo:\n");
             txtSaida.appendText(formatarIndicador(lista.get(0)));
             return;
         }
 
-        lista.sort(Comparator.comparing(IndicadorBiomedico::getDataRegistro).reversed());
-        IndicadorBiomedico atual = lista.get(0);
-        IndicadorBiomedico anterior = lista.get(1);
+        IndicadorBiomedico primeiro = lista.getFirst();
+        IndicadorBiomedico ultimo = lista.getLast();
 
-        txtSaida.appendText(" Comparando os dois registros mais recentes:\n\n");
-        txtSaida.appendText(" Registro mais recente:\n" + formatarIndicador(atual) + "\n");
-        txtSaida.appendText(" Registro anterior:\n" + formatarIndicador(anterior));
+        txtSaida.appendText(" Comparando o primeiro e o último registro cadastrados:\n\n");
+        txtSaida.appendText(" Primeiro registro:\n" + formatarIndicador(primeiro) + "\n");
+        txtSaida.appendText(" Último registro:\n" + formatarIndicador(ultimo));
     }
 
     @FXML
     public void handleVoltar() {
-        if (stageAnterior != null) {
-            Stage atual = (Stage) btnVoltar.getScene().getWindow();
-            atual.close();
-            stageAnterior.show();
-        } else {
-            logger.log(Level.WARNING, "Stage anterior não configurado");
-        }
+        Stage atual = (Stage) btnVoltar.getScene().getWindow();
+        atual.close();
     }
 
     public String formatarIndicador(IndicadorBiomedico ind) {

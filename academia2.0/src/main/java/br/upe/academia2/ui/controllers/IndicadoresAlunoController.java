@@ -28,6 +28,7 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
 
     @FXML private Button btnCadastrar;
     @FXML private Button btnImportar;
+    @FXML private Button btnGerarRelatorio;
     @FXML private TableView<IndicadorBiomedico> tabelaIndicadores;
     @FXML private TableColumn<IndicadorBiomedico, String> colData;
     @FXML private TableColumn<IndicadorBiomedico, Double> colPeso;
@@ -76,6 +77,11 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
         abrirTelaModal("/fxml/ImportarIndicadoresBio.fxml", "Importar Indicadores CSV");
     }
 
+    @FXML
+    public void handleGerarRelatorio() {
+        abrirTelaModal("/fxml/RelatorioAluno.fxml", "Relatórios");
+    }
+
     public void abrirTelaModal(String caminhoFxml, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
@@ -83,6 +89,7 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
 
             Object controller = loader.getController();
             invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, this.usuarioLogado);
+            invocarMetodoSeExiste(controller, "setUsuario", Usuario.class, this.usuarioLogado);
 
             Stage modalStage = new Stage();
             modalStage.setTitle(titulo);
