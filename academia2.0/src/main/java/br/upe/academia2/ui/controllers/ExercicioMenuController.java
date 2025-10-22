@@ -16,13 +16,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import br.upe.academia2.data.beans.Exercicio;
+import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 
 public class ExercicioMenuController implements AlunoMenuController.UsuarioDependente {
 
     @FXML private Button btnCadastrar;
     @FXML private Button btnModificar;
     @FXML private Button btnExcluir;
-    @FXML private ListView<String> listaExercicios;
+    @FXML private ListView<Exercicio> listaExercicios;
 
     private final ExercicioBusiness exercicio = new ExercicioBusiness();
 
@@ -62,7 +69,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
             novaJanela.setTitle("Cadastrar Novo Exercício");
             novaJanela.setScene(new Scene(root));
             novaJanela.showAndWait();
-
+            refreshList();
         } catch (IOException e) {
             logger.log(Level.WARNING, "Falha ao abrir a janela de cadastro.", e);
         }
@@ -77,8 +84,6 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ModificarExercicio.fxml"));
             Parent root = loader.load();
-
-            // Pega o controller da tela de Modificar
             ModificarExercicioController controller = loader.getController();
 
             Stage stageAtual = (Stage) mainPane.getScene().getWindow();
@@ -90,7 +95,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
             novaJanela.initModality(Modality.WINDOW_MODAL);
             novaJanela.initOwner(stageAtual);
             novaJanela.showAndWait();
-
+            refreshList();
         } catch (IOException e) {
             logger.log(Level.WARNING, "Falha ao abrir a janela de modificação.", e);
         }
@@ -113,18 +118,74 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
             novaJanela.initModality(Modality.WINDOW_MODAL);
             novaJanela.initOwner(stageAtual);
             novaJanela.showAndWait();
-
+            refreshList();
         } catch (IOException e) {
             logger.log(Level.WARNING, "Falha ao abrir a janela de exclusão.", e);
         }
     }
 
     public void initialize() {
-        logger.info(() -> "Exercícios listados: " + exercicio.listarExercicios());
+        listaExercicios.setCellFactory(param -> new ListCell<Exercicio>() {
+            @Override
+            protected void updateItem(Exercicio item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getNome() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getNome() + " | " + item.getDescricao());
+                }
+            }
+        });
+
+        listaExercicios.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> {
+                    if (newSelection != null) {
+                        mostrarExecucao(newSelection);
+                    }
+                }
+        );
+
+        refreshList();
+    }
+
+
+    public void refreshList() {
+        logger.info("Atualizando lista de exercícios...");
         var exercicios = exercicio.listarExercicios();
-        var nomes = exercicios.stream()
-                .map(a -> a.getNome() + " | " + a.getDescricao())
-                .toList();
-        listaExercicios.setItems(FXCollections.observableArrayList(nomes));
+        listaExercicios.setItems(FXCollections.observableArrayList(exercicios));
+    }
+
+    private void mostrarExecucao(Exercicio exercicio) {
+        if (exercicio.getCaminhoGif() == null || exercicio.getCaminhoGif().isBlank()) {
+            logger.log(Level.WARNING, "Exercício sem caminho de GIF: " + exercicio.getNome());
+            return;
+        }
+
+        try {
+            Image gif = new Image(exercicio.getCaminhoGif());
+            ImageView gifView = new ImageView(gif);
+            gifView.setFitHeight(150.0);
+            gifView.setFitWidth(150.0);
+            gifView.setPreserveRatio(true);
+
+            VBox layout = new VBox(10);
+            layout.setAlignment(Pos.CENTER);
+            layout.setStyle("-fx-background-color: #0F4C83; -fx-padding: 15px;");
+            layout.getChildren().add(gifView);
+
+            Stage gifStage = new Stage();
+            Scene scene = new Scene(layout);
+            gifStage.setTitle("Execução: " + exercicio.getNome());
+            gifStage.setScene(scene);
+            gifStage.initModality(Modality.APPLICATION_MODAL);
+            gifStage.initOwner(mainPane.getScene().getWindow());
+            gifStage.setWidth(200);
+            gifStage.setHeight(200);
+            gifStage.setResizable(false);
+            gifStage.show();
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Erro ao carregar GIF: " + exercicio.getCaminhoGif(), e);
+        }
     }
 }
