@@ -17,10 +17,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ExercicioMenuController {
+public class ExercicioMenuController implements AlunoMenuController.UsuarioDependente {
 
     @FXML private Button btnCadastrar;
-    @FXML private Button btnListar;
     @FXML private Button btnModificar;
     @FXML private Button btnExcluir;
     @FXML private ListView<String> listaExercicios;
@@ -40,6 +39,7 @@ public class ExercicioMenuController {
     }
 
 
+    @Override
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
@@ -67,13 +67,11 @@ public class ExercicioMenuController {
             logger.log(Level.WARNING, "Falha ao abrir a janela de cadastro.", e);
         }
     }
-
+/*
     @FXML private void handleListarExercicio() {
         loadContent("/fxml/ListarExercicios.fxml", "Listar Exercicio");
     }
-
-    // Em ExercicioMenuController.java
-
+*/
     @FXML
     private void handleModificarExercicio() {
         try {
@@ -121,23 +119,6 @@ public class ExercicioMenuController {
         }
     }
 
-    private void loadContent(String fxmlPath, String titulo) {
-        if (mainPane == null) {
-            logger.log(Level.WARNING, "MainPane é nulo. Navegação falhou.");
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent view = loader.load();
-
-            Object controller = loader.getController();
-
-            mainPane.setCenter(view);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Erro ao carregar o FXML: " + fxmlPath, e);
-            mainPane.setCenter(new javafx.scene.control.Label("Erro ao carregar a página."));
-        }
-    }
     public void initialize() {
         logger.info(() -> "Exercícios listados: " + exercicio.listarExercicios());
         var exercicios = exercicio.listarExercicios();
