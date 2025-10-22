@@ -31,7 +31,7 @@ public class AlunoMenuController implements Initializable {
     public void setAluno(Usuario aluno) {
         this.aluno = aluno;
         btnPerfil.setSelected(true);
-        loadContent("/fxml/IndicadoresAluno.fxml"); // Agora carrega o conteúdo inicial com usuario preenchido!
+        loadContent("/fxml/IndicadoresAluno.fxml");
     }
 
     @Override
@@ -45,9 +45,7 @@ public class AlunoMenuController implements Initializable {
         loadContent("/fxml/ExercicioMenu.fxml");
     }
 
-
-    @FXML
-    public void handlePlanoTreino(ActionEvent event) {
+    @FXML public void handlePlanoTreino(ActionEvent event) {
         loadContent("/fxml/PlanoTreinoAluno.fxml");
     }
 
@@ -71,11 +69,14 @@ public class AlunoMenuController implements Initializable {
     private void loadContent(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+
             Parent view = loader.load();
 
             Object controller = loader.getController();
-            if (controller instanceof ExercicioMenuController){
+
+            if (controller instanceof ExercicioMenuController) {
                 ((ExercicioMenuController) controller).setMainPane(mainPane);
+            }
 
             if (controller instanceof UsuarioDependente) {
                 ((UsuarioDependente) controller).setUsuario(aluno);
@@ -83,9 +84,9 @@ public class AlunoMenuController implements Initializable {
 
             mainPane.setCenter(view);
 
-        } }catch (IOException e) {
+        } catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao carregar o FXML: " + fxmlPath, e);
-            mainPane.setCenter(new javafx.scene.control.Label("Erro ao carregar a página."));
+            mainPane.setCenter(new javafx.scene.control.Label("Erro ao carregar a página: " + fxmlPath));
         }
     }
 
