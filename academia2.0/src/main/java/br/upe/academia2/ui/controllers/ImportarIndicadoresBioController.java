@@ -22,6 +22,10 @@ public class ImportarIndicadoresBioController {
 
     public void setUsuarioLogado(Usuario usuario) {}
 
+    public void setUsuario(Usuario usuario) {
+        setUsuarioLogado(usuario);
+    }
+
     @FXML
     public void handleImportar() {
         String caminho = campoArquivo.getText();

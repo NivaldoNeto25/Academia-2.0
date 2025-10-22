@@ -22,6 +22,10 @@ public class CadastrarIndicadorBioController {
         this.usuarioLogado = usuario;
     }
 
+    public void setUsuario(Usuario usuario) {
+        setUsuarioLogado(usuario);
+    }
+
     @FXML
     public void handleCadastrarIndicadores() {
         try {
