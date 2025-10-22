@@ -1,81 +1,97 @@
 package br.upe.academia2.ui.controllers;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
+import br.upe.academia2.data.repository.IndBioRepoImpl;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class IndicadoresAlunoController {
+public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDependente {
 
     private Usuario usuarioLogado;
-    private Stage stageAnterior;
+    private IndBioRepoImpl repo = new IndBioRepoImpl("db/usuario.csv");
 
-    @FXML private Button btnVoltar;
     @FXML private Button btnCadastrar;
-    @FXML private Button btnListar;
     @FXML private Button btnImportar;
+    @FXML private TableView<IndicadorBiomedico> tabelaIndicadores;
+    @FXML private TableColumn<IndicadorBiomedico, String> colData;
+    @FXML private TableColumn<IndicadorBiomedico, Double> colPeso;
+    @FXML private TableColumn<IndicadorBiomedico, Double> colAltura;
+    @FXML private TableColumn<IndicadorBiomedico, Double> colPercentualGordura;
+    @FXML private TableColumn<IndicadorBiomedico, Double> colPercentualMassaMagra;
 
     Logger logger = Logger.getLogger(IndicadoresAlunoController.class.getName());
 
-
-    public void setUsuario(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    @FXML
+    public void initialize() {
+        colData.setCellValueFactory(cellData -> {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return new javafx.beans.property.SimpleStringProperty(sdf.format(cellData.getValue().getDataRegistro()));
+        });
+        colPeso.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("peso"));
+        colAltura.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("altura"));
+        colPercentualGordura.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("percentualGordura"));
+        colPercentualMassaMagra.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("percentualMassaMagra"));
     }
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
+    @Override
+    public void setUsuario(Usuario usuario) {
+        this.usuarioLogado = usuario;
+        atualizarTabela();
+    }
+
+    public void atualizarTabela() {
+        if (usuarioLogado != null) {
+            List<IndicadorBiomedico> todos = repo.findAll();
+            List<IndicadorBiomedico> filtraUsuario = todos.stream()
+                    .filter(ind -> ind.getEmail().equals(usuarioLogado.getEmail()))
+                    .toList();
+            ObservableList<IndicadorBiomedico> obsList = FXCollections.observableArrayList(filtraUsuario);
+            tabelaIndicadores.setItems(obsList);
+        }
     }
 
     @FXML
     public void handleCadastrarIndicadores() {
-        abrirTela("/fxml/CadastrarIndicadoresBio.fxml", "Cadastrar Indicadores", btnCadastrar);
-    }
-
-    @FXML
-    public void handleListarIndicadores() {
-        abrirTela("/fxml/ListarIndicadoresBio.fxml", "Listar Indicadores", btnListar);
+        abrirTelaModal("/fxml/CadastrarIndicadoresBio.fxml", "Cadastrar Indicador");
     }
 
     @FXML
     public void handleImportarIndicadores() {
-        abrirTela("/fxml/ImportarIndicadoresBio.fxml", "Importar Indicadores", btnImportar);
+        abrirTelaModal("/fxml/ImportarIndicadoresBio.fxml", "Importar Indicadores CSV");
     }
 
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
-        atual.close();
-        if (stageAnterior != null) stageAnterior.show();
-    }
-
-    public void abrirTela(String caminhoFxml, String titulo, Button origem) {
+    public void abrirTelaModal(String caminhoFxml, String titulo) {
         try {
-            Stage stageAtual = (Stage) origem.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
             Parent root = loader.load();
 
             Object controller = loader.getController();
+            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, this.usuarioLogado);
 
-            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, usuarioLogado);
-            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAtual);
-
-            Stage novaStage = new Stage();
-            novaStage.setTitle(titulo);
-            novaStage.setScene(new Scene(root));
-            novaStage.show();
-
-            stageAtual.close();
-
+            Stage modalStage = new Stage();
+            modalStage.setTitle(titulo);
+            modalStage.initModality(Modality.APPLICATION_MODAL);
+            modalStage.setScene(new Scene(root));
+            modalStage.setOnHiding(event -> atualizarTabela());
+            modalStage.show();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Erro a o carregar FXML", e);
+            logger.log(Level.WARNING, "Erro ao carregar a tela modal: " + caminhoFxml, e);
         }
     }
 

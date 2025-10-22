@@ -39,13 +39,11 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // Carrega a imagem do logo
         try {
             Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/LogoFit.png")));
             logoImageView.setImage(logo);
         } catch (Exception e) {
             logger.log(Level.WARNING, "Erro ao carregar imagem do logo", e);
-            // Se não conseguir carregar a imagem, esconde o ImageView
             logoImageView.setVisible(false);
         }
     }
