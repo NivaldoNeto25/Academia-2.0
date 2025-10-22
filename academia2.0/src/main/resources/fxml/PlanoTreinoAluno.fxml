@@ -10,13 +10,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane prefHeight="600.0" prefWidth="580.0" styleClass="content-area" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.PlanoTreinoAlunoController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" spacing="10.0">
          <children>
+            <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/img/PlanoTreinoVermelho.png" />
+               </image>
+            </ImageView>
             <Label text="Plano de Treino" styleClass="content-title">
                <font>
-                  <Font name="System Bold" size="22.0" />
+                  <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
          </children>
@@ -24,8 +31,8 @@
       <ComboBox fx:id="comboPlanos" layoutX="14.0" layoutY="58.0" prefWidth="250.0" promptText="Selecione um Plano" />
       <HBox layoutX="300.0" layoutY="58.0" spacing="10.0">
          <children>
-            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarPlano" text="Cadastrar" />
-            <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#handleModificarPlano" text="Modificar" />
+            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarPlano" style="-fx-background-color: #07579D" text="Cadastrar" textFill="white" />
+            <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#handleModificarPlano" style="-fx-background-color: #07579D" text="Modificar" textFill="WHITE" />
          </children>
       </HBox>
 

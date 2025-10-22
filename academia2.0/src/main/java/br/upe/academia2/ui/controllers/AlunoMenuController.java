@@ -42,10 +42,12 @@ public class AlunoMenuController implements Initializable {
     }
 
     @FXML public void handleExercicio(ActionEvent event) {
-        loadContent("/fxml/Exercicio.fxml");
+        loadContent("/fxml/ExercicioMenu.fxml");
     }
 
-    @FXML public void handlePlanoTreino(ActionEvent event) {
+
+    @FXML
+    public void handlePlanoTreino(ActionEvent event) {
         loadContent("/fxml/PlanoTreinoAluno.fxml");
     }
 
@@ -72,13 +74,16 @@ public class AlunoMenuController implements Initializable {
             Parent view = loader.load();
 
             Object controller = loader.getController();
+            if (controller instanceof ExercicioMenuController){
+                ((ExercicioMenuController) controller).setMainPane(mainPane);
+
             if (controller instanceof UsuarioDependente) {
                 ((UsuarioDependente) controller).setUsuario(aluno);
             }
 
             mainPane.setCenter(view);
 
-        } catch (IOException e) {
+        } }catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao carregar o FXML: " + fxmlPath, e);
             mainPane.setCenter(new javafx.scene.control.Label("Erro ao carregar a página."));
         }

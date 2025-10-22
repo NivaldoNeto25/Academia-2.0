@@ -1,27 +1,34 @@
 package br.upe.academia2.ui.controllers;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import br.upe.academia2.business.ExercicioBusiness;
 import br.upe.academia2.data.beans.Usuario;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ExercicioMenuController {
+public class ExercicioMenuController implements AlunoMenuController.UsuarioDependente {
 
     @FXML private Button btnCadastrar;
-    @FXML private Button btnListar;
     @FXML private Button btnModificar;
     @FXML private Button btnExcluir;
-    @FXML private Button btnVoltar;
+    @FXML private ListView<String> listaExercicios;
+
+    private final ExercicioBusiness exercicio = new ExercicioBusiness();
 
     private Usuario usuario;
+
+    private BorderPane mainPane;
 
     private final Logger logger = Logger.getLogger(ExercicioMenuController.class.getName());
 
@@ -31,62 +38,93 @@ public class ExercicioMenuController {
         this.stageAnterior = stageAnterior;
     }
 
+
+    @Override
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-    @FXML
-    public void handleVoltar() {
-        if (stageAnterior != null) {
-            stageAnterior.show();
-        }
-        Stage stageAtual = (Stage) btnVoltar.getScene().getWindow();
-        stageAtual.close();
+    public void setMainPane(BorderPane mainPane) {
+        this.mainPane = mainPane;
     }
 
     @FXML private void handleCadastrarExercicio() {
-        irParaTela("/fxml/CadastrarExercicio.fxml", "Cadastrar Exercicio", btnCadastrar);
-    }
-
-    @FXML private void handleListarExercicio() {
-        irParaTela("/fxml/ListarExercicios.fxml", "Listar Exercicio", btnListar);
-    }
-
-    @FXML private void handleModificarExercicio() {
-        irParaTela("/fxml/ModificarExercicio.fxml", "Modificar Exercicio", btnModificar);
-    }
-
-    @FXML private void handleExcluirExercicio() {
-        irParaTela("/fxml/ExcluirExercicio.fxml", "Excluir Exercicio", btnExcluir);
-    }
-
-    public void irParaTela(String caminhoFxml, String titulo, Button origem) {
         try {
-            Stage stageAtual = (Stage) origem.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CadastrarExercicio.fxml"));
             Parent root = loader.load();
-            Object controller = loader.getController();
-            controller.getClass().getMethod("setStageAnterior", Stage.class).invoke(controller, stageAtual);
 
-            invokeSetUsuarioIfExists(controller);
+            CadastrarExercicioController controller = loader.getController();
 
-            Stage novaStage = new Stage();
-            novaStage.setScene(new Scene(root));
-            novaStage.setTitle(titulo);
-            stageAtual.close();
-            novaStage.show();
-        } catch (IOException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            logger.log(Level.WARNING, "Erro ao carregar a tela", e);
+            Stage stageAtual = (Stage) mainPane.getScene().getWindow();
+            controller.setStageAnterior(stageAtual);
+
+            Stage novaJanela = new Stage();
+            novaJanela.setTitle("Cadastrar Novo Exercício");
+            novaJanela.setScene(new Scene(root));
+            novaJanela.showAndWait();
+
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Falha ao abrir a janela de cadastro.", e);
+        }
+    }
+/*
+    @FXML private void handleListarExercicio() {
+        loadContent("/fxml/ListarExercicios.fxml", "Listar Exercicio");
+    }
+*/
+    @FXML
+    private void handleModificarExercicio() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ModificarExercicio.fxml"));
+            Parent root = loader.load();
+
+            // Pega o controller da tela de Modificar
+            ModificarExercicioController controller = loader.getController();
+
+            Stage stageAtual = (Stage) mainPane.getScene().getWindow();
+            controller.setStageAnterior(stageAtual);
+
+            Stage novaJanela = new Stage();
+            novaJanela.setTitle("Modificar Exercício");
+            novaJanela.setScene(new Scene(root));
+            novaJanela.initModality(Modality.WINDOW_MODAL);
+            novaJanela.initOwner(stageAtual);
+            novaJanela.showAndWait();
+
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Falha ao abrir a janela de modificação.", e);
         }
     }
 
-    private void invokeSetUsuarioIfExists(Object controller) {
+    @FXML
+    private void handleExcluirExercicio() {
         try {
-            controller.getClass().getMethod("setUsuario", Usuario.class).invoke(controller, usuario);
-        } catch (NoSuchMethodException ignored) {
-            // Metodo setUsuario não existe no controller, ignore porque é opcional para alguns controllers
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            logger.log(Level.WARNING, "Erro ao invocar setUsuario no controller", e);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ExcluirExercicio.fxml"));
+            Parent root = loader.load();
+
+            ExcluirExercicioController controller = loader.getController();
+
+            Stage stageAtual = (Stage) mainPane.getScene().getWindow();
+            controller.setStageAnterior(stageAtual); // Passa a janela principal
+
+            Stage novaJanela = new Stage();
+            novaJanela.setTitle("Excluir Exercício");
+            novaJanela.setScene(new Scene(root));
+            novaJanela.initModality(Modality.WINDOW_MODAL);
+            novaJanela.initOwner(stageAtual);
+            novaJanela.showAndWait();
+
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Falha ao abrir a janela de exclusão.", e);
         }
+    }
+
+    public void initialize() {
+        logger.info(() -> "Exercícios listados: " + exercicio.listarExercicios());
+        var exercicios = exercicio.listarExercicios();
+        var nomes = exercicios.stream()
+                .map(a -> a.getNome() + " | " + a.getDescricao())
+                .toList();
+        listaExercicios.setItems(FXCollections.observableArrayList(nomes));
     }
 }

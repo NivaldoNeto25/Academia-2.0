@@ -41,6 +41,8 @@ public class ModificarExercicioController {
 
         exercicio.atualizarExercicio(existente);
         exercicio.salvarAlteracoesNoCsv();
+        Stage stageAtual = (Stage) nomeField.getScene().getWindow();
+        stageAtual.close();
         mensagemLabel.setText("Exercicio modificado com sucesso!");
         nomeField.clear(); descricaoField.clear(); caminhoGifField.clear();
     }
