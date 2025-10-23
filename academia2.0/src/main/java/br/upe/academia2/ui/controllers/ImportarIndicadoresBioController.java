@@ -20,7 +20,9 @@ public class ImportarIndicadoresBioController {
 
     private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
-    public void setUsuarioLogado(Usuario usuario) {}
+    public void setUsuarioLogado(Usuario usuario) {
+        // Configurações adicionais, se necessário
+    }
 
     public void setUsuario(Usuario usuario) {
         setUsuarioLogado(usuario);

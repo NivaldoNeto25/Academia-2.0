@@ -34,23 +34,16 @@ public class RemoverExercicioSecaoController {
         btnRemover.setOnAction(e -> removerExercicio());
         btnVoltar.setOnAction(e -> voltar());
 
-        secaoComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            atualizarListaExercicios(newVal);
-        });
+        secaoComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> atualizarListaExercicios(newVal));
     }
 
-    /**
-     * NOVO MÉTODO: Recebe o plano específico.
-     */
+    
     public void setPlanoParaModificar(PlanoTreino plano) {
         this.planoParaModificar = plano;
-        carregarSecoes(); // Renomeado
+        carregarSecoes(); 
     }
-    
-    // O método setUsuarioLogado(Usuario usuario) foi REMOVIDO
 
     private void carregarSecoes() {
-        // MUDANÇA: Usa o 'planoParaModificar' recebido
         secaoComboBox.getItems().clear();
         if (this.planoParaModificar != null) {
             for (SecaoTreino secao : planoParaModificar.getSecoes()) {

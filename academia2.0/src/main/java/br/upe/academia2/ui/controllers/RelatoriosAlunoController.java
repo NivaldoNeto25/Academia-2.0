@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class RelatoriosAlunoController {
 
@@ -26,9 +25,9 @@ public class RelatoriosAlunoController {
     @FXML
     private Button btnVoltar;
 
-    private static final Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
-
-    public void setUsuarioLogado(br.upe.academia2.data.beans.Usuario usuario) { }
+    public void setUsuarioLogado(br.upe.academia2.data.beans.Usuario usuario) {
+        // Configurações adicionais, se necessário
+     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;

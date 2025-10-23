@@ -20,7 +20,6 @@ import br.upe.academia2.data.beans.Exercicio;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 
@@ -39,11 +38,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
 
     private final Logger logger = Logger.getLogger(ExercicioMenuController.class.getName());
 
-    private Stage stageAnterior;
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
-    }
 
 
     @Override
@@ -74,11 +69,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
             logger.log(Level.WARNING, "Falha ao abrir a janela de cadastro.", e);
         }
     }
-/*
-    @FXML private void handleListarExercicio() {
-        loadContent("/fxml/ListarExercicios.fxml", "Listar Exercicio");
-    }
-*/
+
     @FXML
     private void handleModificarExercicio() {
         try {
@@ -157,7 +148,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
 
     private void mostrarExecucao(Exercicio exercicio) {
         if (exercicio.getCaminhoGif() == null || exercicio.getCaminhoGif().isBlank()) {
-            logger.log(Level.WARNING, "Exercício sem caminho de GIF: " + exercicio.getNome());
+            logger.log(Level.WARNING, "Exercício sem caminho de GIF: {0}", exercicio.getNome());
             return;
         }
 
@@ -185,7 +176,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
             gifStage.show();
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao carregar GIF: " + exercicio.getCaminhoGif(), e);
+            logger.log(Level.SEVERE, "Erro ao carregar GIF: {0}", exercicio.getCaminhoGif());
         }
     }
 }

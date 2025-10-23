@@ -35,7 +35,9 @@ public class AdmMenuController {
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
     private ObservableList<Usuario> alunosList;
 
-    public void setAdm(Adm adm) {}
+    public void setAdm(Adm adm) {
+        // Método para configurar o administrador atual, se necessário
+    }
 
     @FXML
     public void initialize() {

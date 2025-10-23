@@ -9,25 +9,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.DatePicker; // Importar o DatePicker
+import javafx.scene.control.DatePicker; 
 import javafx.stage.Stage;
 
-import java.time.LocalDate; // Importar o LocalDate
-import java.time.ZoneId; // Importar o ZoneId para conversão
+import java.time.LocalDate; 
+import java.time.ZoneId; 
 import java.util.Date;
 
 public class CadastrarPlanoTreinoController {
 
     @FXML private TextField nomeField;
-    @FXML private DatePicker dataInicioPicker; // MUDANÇA AQUI
-    @FXML private DatePicker dataFimPicker;    // MUDANÇA AQUI
+    @FXML private DatePicker dataInicioPicker; 
+    @FXML private DatePicker dataFimPicker;    
     @FXML private Button btnVoltar;
 
     private Usuario usuarioLogado;
     private final PlanoTreinoBusiness planoTreinoBusiness;
 
-    // Não precisamos mais do formato de data em String
-    // private static final String FORMATO_DATA = "dd/MM/yyyy";
 
     public CadastrarPlanoTreinoController() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness(
@@ -53,7 +51,6 @@ public class CadastrarPlanoTreinoController {
         }
 
         try {
-            // Conversão de LocalDate (Java 8+) para Date (Legado)
             Date dataInicio = Date.from(dataInicioLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
             Date dataFim = Date.from(dataFimLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
@@ -82,8 +79,8 @@ public class CadastrarPlanoTreinoController {
 
     public void limparCampos() {
         nomeField.clear();
-        dataInicioPicker.setValue(null); // MUDANÇA AQUI
-        dataFimPicker.setValue(null);    // MUDANÇA AQUI
+        dataInicioPicker.setValue(null); 
+        dataFimPicker.setValue(null);    
     }
 
     public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {

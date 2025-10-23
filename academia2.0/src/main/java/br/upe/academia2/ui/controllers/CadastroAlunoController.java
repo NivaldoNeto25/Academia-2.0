@@ -7,7 +7,6 @@ import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class CadastroAlunoController {

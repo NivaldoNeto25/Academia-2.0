@@ -22,6 +22,7 @@ public class ModificarExercicioController {
     @FXML private ImageView gifPreview;
     @FXML private Button btnImportar;
 
+    private static final String STYLE = "-fx-background-color: #FFFFFF;";
     private Stage stageAnterior;
     private final ExercicioBusiness exercicio = new ExercicioBusiness();
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
@@ -40,14 +41,14 @@ public class ModificarExercicioController {
             mensagemLabel.setText("Exercicio não encontrado.");
             descricaoField.clear();
             gifPreview.setImage(null);
-            gifPreview.setStyle("-fx-background-color: #FFFFFF;");
+            gifPreview.setStyle(STYLE);
         } else {
             // Carrega os dados atuais nos campos
             descricaoField.setText(existente.getDescricao());
             if (existente.getCaminhoGif() != null) {
                 Image image = new Image(existente.getCaminhoGif());
                 gifPreview.setImage(image);
-                gifPreview.setStyle("-fx-background-color: #FFFFFF;");
+                gifPreview.setStyle(STYLE);
             }
             mensagemLabel.setText("Exercício carregado. Modifique os campos.");
             novoCaminhoGif = null;
@@ -98,7 +99,7 @@ public class ModificarExercicioController {
             novoCaminhoGif = file.toURI().toString();
             Image image = new Image(novoCaminhoGif);
             gifPreview.setImage(image);
-            gifPreview.setStyle("-fx-background-color: #FFFFFF;");
+            gifPreview.setStyle(STYLE);
             mensagemLabel.setText("Novo GIF selecionado.");
         }
     }

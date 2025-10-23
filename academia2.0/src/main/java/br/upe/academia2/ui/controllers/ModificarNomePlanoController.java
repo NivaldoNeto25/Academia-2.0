@@ -2,7 +2,6 @@ package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.beans.PlanoTreino;
-import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;

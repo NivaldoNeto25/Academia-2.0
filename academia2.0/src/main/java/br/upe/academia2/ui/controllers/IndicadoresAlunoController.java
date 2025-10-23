@@ -98,7 +98,7 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
             modalStage.setOnHiding(event -> atualizarTabela());
             modalStage.show();
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Erro ao carregar a tela modal: " + caminhoFxml, e);
+            logger.log(Level.WARNING, "Erro ao carregar a tela modal: {0}", caminhoFxml);
         }
     }
 

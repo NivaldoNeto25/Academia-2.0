@@ -18,7 +18,6 @@ import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -206,7 +205,7 @@ public class PlanoTreinoAlunoController implements Initializable{
         } catch (NoSuchMethodException ignored) {
             // Ignora silenciosamente se o método não existir
         } catch (IllegalAccessException | InvocationTargetException e) {
-            logger.log(Level.WARNING, "Erro ao chamar o método " + metodoNome, e);
+            logger.log(Level.WARNING, "Erro ao chamar o método {0}", metodoNome);
         }
     }
 }
