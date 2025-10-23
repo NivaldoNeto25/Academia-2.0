@@ -18,7 +18,6 @@ public class ModificarNomePlanoController {
     @FXML private Button btnVoltar;
 
     private Usuario usuarioLogado;
-    private Stage stageAnterior;
     private PlanoTreinoBusiness planoTreinoBusiness;
 
     public void initialize() {
@@ -31,10 +30,6 @@ public class ModificarNomePlanoController {
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         carregarNomeAtual();
-    }
-
-    public void setStageAnterior(Stage stage) {
-        this.stageAnterior = stage;
     }
 
     public void carregarNomeAtual() {
@@ -71,9 +66,6 @@ public class ModificarNomePlanoController {
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) {
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {

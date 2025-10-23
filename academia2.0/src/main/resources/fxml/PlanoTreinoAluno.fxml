@@ -18,7 +18,7 @@
          <children>
             <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/img/PlanoTreinoVermelho.png" />
+                  <Image url="@../img/PlanoTreinoVermelho.png" />
                </image>
             </ImageView>
             <Label text="Plano de Treino" styleClass="content-title">

@@ -53,8 +53,12 @@ public class PlanoTreinoAlunoController implements Initializable{
     
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
-    @FXML private void handleCadastrarPlano() { irParaTela("/fxml/CadastrarPlanoTreino.fxml", "Cadastrar Plano de Treino", btnCadastrar);}
-    @FXML private void handleModificarPlano() {irParaTela("/fxml/ModificarPlanoTreino.fxml", "Modificar Plano de Treino", btnModificar);}
+    @FXML private void handleCadastrarPlano() { 
+        irParaTela("/fxml/CadastrarPlanoTreino.fxml", "Cadastrar Plano de Treino");
+    }
+    @FXML private void handleModificarPlano() {
+        irParaTela("/fxml/ModificarPlanoTreino.fxml", "Modificar Plano de Treino");
+    }
 
     Logger logger = Logger.getLogger(PlanoTreinoAlunoController.class.getName());
 
@@ -124,34 +128,29 @@ public class PlanoTreinoAlunoController implements Initializable{
     }
 
 
-    public void irParaTela(String caminhoFxml, String titulo, Button origem) {
+    public void irParaTela(String caminhoFxml, String titulo) {
         try {
-            Stage stageAtual = (Stage) origem.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
             Parent root = loader.load();
             Object controller = loader.getController();
 
-            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAtual);
+            // Usa o método de reflexão para tentar passar o usuário logado
+            // para a nova tela (seja setUsuario ou setUsuarioLogado)
             invocarMetodoUsuario(controller);
 
             Stage novaStage = new Stage();
             novaStage.setScene(new Scene(root));
             novaStage.setTitle(titulo);
-            stageAtual.close();
-            novaStage.show();
+
+            // Abre a nova janela e ESPERA ela ser fechada
+            novaStage.showAndWait();
+
+            // DEPOIS que a janela de cadastro/modificação fechar,
+            // atualizamos a lista de planos no ComboBox!
+            carregarPlanosDoUsuario();
+
         } catch (IOException e) {
             logger.log(Level.WARNING, "Erro ao carregar a tela", e);
-        }
-    }
-
-    private void invocarMetodoSeExiste(Object objeto, String metodoNome, Class<?> parametroClass, Object parametro) {
-        try {
-            var metodo = objeto.getClass().getMethod(metodoNome, parametroClass);
-            metodo.invoke(objeto, parametro);
-        } catch (NoSuchMethodException ignored) {
-            logger.log(Level.WARNING, "Método não encontrado", ignored);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            logger.log(Level.WARNING, "Erro ao chamar o método", e);
         }
     }
 
@@ -170,4 +169,6 @@ public class PlanoTreinoAlunoController implements Initializable{
             logger.log(Level.WARNING, "Erro ao chamar o método SetUsuario", e);
         }
     }
+
+    
 }

@@ -24,7 +24,6 @@ public class CadastrarPlanoTreinoController {
     @FXML private Button btnVoltar;
 
     private Usuario usuarioLogado;
-    private Stage stageAnterior;
     private final PlanoTreinoBusiness planoTreinoBusiness;
 
     // Não precisamos mais do formato de data em String
@@ -41,9 +40,6 @@ public class CadastrarPlanoTreinoController {
         this.usuarioLogado = usuario;
     }
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
-    }
 
     @FXML
     public void handleCadastrar() {
@@ -75,14 +71,13 @@ public class CadastrarPlanoTreinoController {
         } catch (Exception e) {
             mostrarAlerta("Erro", "Erro ao cadastrar o plano: " + e.getMessage(), Alert.AlertType.ERROR);
         }
-        // O bloco 'catch (ParseException e)' não é mais necessário
+        
     }
 
     @FXML
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 
     public void limparCampos() {

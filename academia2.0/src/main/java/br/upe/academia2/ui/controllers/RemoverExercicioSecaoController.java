@@ -14,13 +14,13 @@ import java.util.List;
 
 public class RemoverExercicioSecaoController {
 
-    @FXML private TextField secaoField;
+    @FXML private ComboBox<String> secaoComboBox;
     @FXML private ComboBox<String> exerciciosComboBox;
     @FXML private Button btnRemover;
     @FXML private Button btnVoltar;
 
     private Usuario usuarioLogado;
-    private Stage stageAnterior;
+    private PlanoTreino plano;
 
     private PlanoTreinoBusiness planoTreinoBusiness;
 
@@ -34,32 +34,41 @@ public class RemoverExercicioSecaoController {
         btnRemover.setOnAction(e -> removerExercicio());
         btnVoltar.setOnAction(e -> voltar());
 
-        secaoField.textProperty().addListener((obs, oldText, newText) -> atualizarListaExercicios(newText));
+        secaoComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            atualizarListaExercicios(newVal);
+        });
     }
 
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
+        carregarPlanoESecoes();
     }
 
-    public void setStageAnterior(Stage stage) {
-        this.stageAnterior = stage;
+    private void carregarPlanoESecoes() {
+        this.plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
+        secaoComboBox.getItems().clear();
+
+        if (this.plano != null) {
+            for (SecaoTreino secao : plano.getSecoes()) {
+                secaoComboBox.getItems().add(secao.getNomeTreino());
+            }
+        }
     }
+
 
     public void atualizarListaExercicios(String nomeSecao) {
         exerciciosComboBox.getItems().clear();
 
-        if (nomeSecao == null || nomeSecao.trim().isEmpty()) {
-            return;
-        }
-
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-
-        if (plano == null) {
+        if (nomeSecao == null || nomeSecao.trim().isEmpty() || this.plano == null) {
             return;
         }
 
         SecaoTreino secao = plano.getSecaoPorNome(nomeSecao);
         if (secao == null) {
+            return;
+        }
+
+        if (plano == null) {
             return;
         }
 
@@ -70,19 +79,14 @@ public class RemoverExercicioSecaoController {
     }
 
     public void removerExercicio() {
-        String nomeSecao = secaoField.getText().trim();
+        String nomeSecao = secaoComboBox.getValue();
         String nomeExercicio = exerciciosComboBox.getValue();
 
-        if (nomeSecao.isEmpty() || nomeExercicio == null) {
+        if (nomeSecao == null || nomeExercicio == null) {
             mostrarAlerta("Erro", "Informe a seção e selecione um exercício para remover.", Alert.AlertType.WARNING);
             return;
         }
 
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano == null) {
-            mostrarAlerta("Erro", "Plano de treino não encontrado.", Alert.AlertType.ERROR);
-            return;
-        }
 
         SecaoTreino secao = plano.getSecaoPorNome(nomeSecao);
         if (secao == null) {
@@ -104,9 +108,6 @@ public class RemoverExercicioSecaoController {
     public void voltar(){
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if(stageAnterior != null){
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {

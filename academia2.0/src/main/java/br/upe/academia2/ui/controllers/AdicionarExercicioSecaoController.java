@@ -6,6 +6,7 @@ import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
+import javafx.collections.FXCollections; // ADICIONADO
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 public class AdicionarExercicioSecaoController {
 
     @FXML private TextField secaoField;
-    @FXML private TextField exercicioField;
+    @FXML private ListView<Exercicio> exerciciosListView; 
     @FXML private TextField seriesField;
     @FXML private TextField repeticoesField;
     @FXML private TextField cargaField;
@@ -21,7 +22,6 @@ public class AdicionarExercicioSecaoController {
     @FXML private Button btnVoltar;
 
     private Usuario usuarioLogado;
-    private Stage stageAnterior;
 
     private PlanoTreinoBusiness planoTreinoBusiness;
     private ExercicioBusiness exercicioBusiness;
@@ -33,6 +33,9 @@ public class AdicionarExercicioSecaoController {
         );
         exercicioBusiness = new ExercicioBusiness();
 
+        // Popula a lista de exercícios
+        carregarListaExercicios();
+
         btnAdicionar.setOnAction(e -> adicionarExercicio());
         btnVoltar.setOnAction(e -> voltar());
     }
@@ -41,19 +44,46 @@ public class AdicionarExercicioSecaoController {
         this.usuarioLogado = usuario;
     }
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
+
+
+    // ADICIONADO - Método para popular a ListView
+    private void carregarListaExercicios() {
+        // Define como cada item da lista deve ser exibido
+        exerciciosListView.setCellFactory(param -> new ListCell<Exercicio>() {
+            @Override
+            protected void updateItem(Exercicio item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getNome() == null) {
+                    setText(null);
+                } else {
+                    // Mesma lógica do ExercicioMenuController
+                    setText(item.getNome() + " | " + item.getDescricao());
+                }
+            }
+        });
+        
+        // Busca os exercícios e os adiciona à lista
+        var exercicios = exercicioBusiness.listarExercicios();
+        exerciciosListView.setItems(FXCollections.observableArrayList(exercicios));
     }
+
 
     public void adicionarExercicio() {
         String nomeSecao = secaoField.getText().trim();
-        String nomeExercicio = exercicioField.getText().trim();
+        Exercicio exercicio = exerciciosListView.getSelectionModel().getSelectedItem(); // ADICIONADO
+        
         String seriesStr = seriesField.getText().trim();
         String repeticoesStr = repeticoesField.getText().trim();
         String cargaStr = cargaField.getText().trim();
 
-        if (nomeSecao.isEmpty() || nomeExercicio.isEmpty() || seriesStr.isEmpty() || repeticoesStr.isEmpty() || cargaStr.isEmpty()) {
-            mostrarAlerta("Erro", "Preencha todos os campos.", Alert.AlertType.WARNING);
+        if (nomeSecao.isEmpty() || seriesStr.isEmpty() || repeticoesStr.isEmpty() || cargaStr.isEmpty()) {
+            mostrarAlerta("Erro", "Preencha todos os campos (seção, séries, repetições e carga).", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // ADICIONADO - Verifica se um exercício foi selecionado
+        if (exercicio == null) {
+            mostrarAlerta("Erro", "Selecione um exercício da lista.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -62,11 +92,6 @@ public class AdicionarExercicioSecaoController {
             int repeticoes = Integer.parseInt(repeticoesStr);
             int carga = Integer.parseInt(cargaStr);
 
-            Exercicio exercicio = exercicioBusiness.buscarExercicioPorNome(nomeExercicio);
-            if (exercicio == null) {
-                mostrarAlerta("Erro", "Exercício não encontrado. Cadastre-o primeiro.", Alert.AlertType.ERROR);
-                return;
-            }
 
             PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
             if (plano == null) {
@@ -91,7 +116,7 @@ public class AdicionarExercicioSecaoController {
 
     public void limparCampos() {
         secaoField.clear();
-        exercicioField.clear();
+        exerciciosListView.getSelectionModel().clearSelection(); 
         seriesField.clear();
         repeticoesField.clear();
         cargaField.clear();
@@ -100,9 +125,6 @@ public class AdicionarExercicioSecaoController {
     public void voltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) {
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {

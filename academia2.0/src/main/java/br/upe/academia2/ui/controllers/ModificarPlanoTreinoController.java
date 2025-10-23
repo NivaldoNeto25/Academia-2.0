@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
+import javafx.stage.Modality;
 import java.util.logging.Logger;
 
 public class ModificarPlanoTreinoController {
@@ -22,12 +23,9 @@ public class ModificarPlanoTreinoController {
     @FXML private Button btnRemoverExercicio;
     @FXML private Button btnVoltar;
 
-    private Stage stageAnterior;
     private Usuario usuarioLogado;
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
-    }
+    
 
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
@@ -48,22 +46,7 @@ public class ModificarPlanoTreinoController {
     }
 
     public void abrirTelaAlterarDatasPlano() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AlterarDatas.fxml"));
-            Parent root = loader.load();
-
-            br.upe.academia2.ui.controllers.AlterarDatasController controller = loader.getController();
-            controller.setUsuarioLogado(usuarioLogado);
-            controller.setStageAnterior(stageAnterior);
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Alterar Datas do Plano");
-            stage.show();
-
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Erro ao carregar a tela", e);
-        }
+        abrirTela("/fxml/AlterarDatas.fxml", "Alterar Datas do Plano");
     }
 
     public void abrirTelaAdicionarExercicio() {
@@ -81,13 +64,23 @@ public class ModificarPlanoTreinoController {
 
             Object controller = loader.getController();
 
+            // Passa o usuário para o novo controller
             invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, usuarioLogado);
-            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAnterior);
+            // NÃO passa mais o stageAnterior
+            // invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAnterior);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle(titulo);
-            stage.show();
+            
+            // Define a janela como um "pop-up" modal
+            stage.initModality(Modality.APPLICATION_MODAL);
+            // Trava a interação com a janela principal até esta ser fechada
+            stage.showAndWait(); 
+            
+            // Opcional: Após a janela fechar, você pode querer atualizar dados
+            // Por exemplo, se o nome do plano mudou, você atualizaria o ComboBox na tela principal
+            // (Isso seria feito no PlanoTreinoAlunoController)
 
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Erro ao carregar a tela", ex);
@@ -109,6 +102,5 @@ public class ModificarPlanoTreinoController {
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 }

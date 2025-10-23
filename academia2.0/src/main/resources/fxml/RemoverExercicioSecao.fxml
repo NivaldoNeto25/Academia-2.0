@@ -10,10 +10,10 @@
     <Label layoutX="50.0" layoutY="30.0" text="Remover Exercício da Seção" style="-fx-font-size: 20px;"/>
 
     <Label layoutX="50.0" layoutY="80.0" text="Nome da Seção:"/>
-    <TextField fx:id="secaoField" layoutX="180.0" layoutY="75.0" prefWidth="300.0"/>
+    <ComboBox fx:id="secaoComboBox" layoutX="180.0" layoutY="75.0" prefWidth="300.0" promptText="Selecione a Seção"/>
 
     <Label layoutX="50.0" layoutY="130.0" text="Exercício:"/>
-    <ComboBox fx:id="exerciciosComboBox" layoutX="180.0" layoutY="125.0" prefWidth="300.0" />
+    <ComboBox fx:id="exerciciosComboBox" layoutX="180.0" layoutY="125.0" prefWidth="300.0" promptText="Selecione o Exercício"/>
 
     <Button fx:id="btnRemover" text="Remover" layoutX="200.0" layoutY="200.0" prefWidth="120.0"/>
     <Button fx:id="btnVoltar" text="Voltar" layoutX="350.0" layoutY="200.0" prefWidth="120.0"/>

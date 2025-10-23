@@ -76,11 +76,11 @@ public class AlunoMenuController implements Initializable {
 
             if (controller instanceof ExercicioMenuController) {
                 ((ExercicioMenuController) controller).setMainPane(mainPane);
-            }
-
-            if (controller instanceof UsuarioDependente) {
+            } else if (controller instanceof UsuarioDependente) {
                 ((UsuarioDependente) controller).setUsuario(aluno);
-            }
+            } else if (controller instanceof PlanoTreinoAlunoController) {
+                ((PlanoTreinoAlunoController) controller).setUsuario(this.aluno);
+            } 
 
             mainPane.setCenter(view);
 

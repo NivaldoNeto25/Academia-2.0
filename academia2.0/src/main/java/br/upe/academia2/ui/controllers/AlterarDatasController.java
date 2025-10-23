@@ -23,7 +23,6 @@ public class AlterarDatasController {
 
     private Usuario usuarioLogado;
     private PlanoTreinoBusiness planoTreinoBusiness;
-    private Stage stageAnterior;
 
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
@@ -35,10 +34,6 @@ public class AlterarDatasController {
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         carregarDatasAtuais();
-    }
-
-    public void setStageAnterior(Stage stage) {
-        this.stageAnterior = stage;
     }
 
     public void carregarDatasAtuais() {
@@ -78,9 +73,6 @@ public class AlterarDatasController {
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) {
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String conteudo, Alert.AlertType tipo) {
