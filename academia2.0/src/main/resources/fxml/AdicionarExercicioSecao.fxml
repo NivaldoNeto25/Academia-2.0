@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
@@ -11,7 +12,8 @@
     <Label layoutX="50.0" layoutY="30.0" style="-fx-font-size: 20px;" text="Adicionar Exercício à Seção" />
 
     <Label layoutX="14.0" layoutY="80.0" text="Nome da Seção:" />
-    <TextField fx:id="secaoField" layoutX="110.0" layoutY="76.0" prefHeight="26.0" prefWidth="133.0" />
+    
+    <ComboBox fx:id="secaoComboBox" layoutX="110.0" layoutY="76.0" prefHeight="26.0" prefWidth="150.0" promptText="Selecione ou crie" editable="true" />
 
     <Label layoutX="14.0" layoutY="114.0" text="Número de Séries:" />
     <TextField fx:id="seriesField" layoutX="124.0" layoutY="110.0" prefWidth="100.0" />
@@ -26,7 +28,6 @@
     <Button fx:id="btnVoltar" layoutX="350.0" layoutY="290.0" prefWidth="120.0" text="Voltar" />
    
    <ListView fx:id="exerciciosListView" layoutX="334.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" />
-   
    <Label layoutX="343.0" layoutY="37.0" text="Exercícios disponíveis" />
 
 </AnchorPane>

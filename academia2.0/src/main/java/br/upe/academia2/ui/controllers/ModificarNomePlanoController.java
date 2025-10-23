@@ -16,9 +16,8 @@ public class ModificarNomePlanoController {
     @FXML private TextField nomePlanoField;
     @FXML private Button btnAlterar;
     @FXML private Button btnVoltar;
-
-    private Usuario usuarioLogado;
     private PlanoTreinoBusiness planoTreinoBusiness;
+    private PlanoTreino planoParaModificar;
 
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
@@ -27,17 +26,18 @@ public class ModificarNomePlanoController {
         );
     }
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
         carregarNomeAtual();
     }
 
     public void carregarNomeAtual() {
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano != null) {
-            nomePlanoField.setText(plano.getNomePlano());
+        
+        if (planoParaModificar != null) {
+            nomePlanoField.setText(planoParaModificar.getNomePlano());
         } else {
             nomePlanoField.setText("");
+            mostrarAlerta("Erro", "Nenhum plano foi passado para esta tela.", Alert.AlertType.ERROR);
         }
     }
 
@@ -50,16 +50,14 @@ public class ModificarNomePlanoController {
             return;
         }
 
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano == null) {
-            mostrarAlerta("Erro", "Nenhum plano de treino encontrado para alterar.", Alert.AlertType.ERROR);
+        if(planoParaModificar == null) {
+            mostrarAlerta("Erro", "Nenhum plano selecionado para modificação.", Alert.AlertType.ERROR);
             return;
         }
-
-        plano.setNomePlano(novoNome);
-        planoTreinoBusiness.modificarPlanoDeTreino(plano);
-
+        planoParaModificar.setNomePlano(novoNome);
+        planoTreinoBusiness.modificarPlanoDeTreino(planoParaModificar);
         mostrarAlerta("Sucesso", "Nome do plano alterado com sucesso!", Alert.AlertType.INFORMATION);
+        handleVoltar();
     }
 
     @FXML

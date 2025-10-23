@@ -17,7 +17,7 @@ public class PlanoTreinoCsvRepository {
     private static final Logger logger = Logger.getLogger(PlanoTreinoCsvRepository.class.getName());
 
     private final String baseDir;
-    private final ExercicioBusiness exercicioBusiness = new ExercicioBusiness();
+    private ExercicioBusiness exercicioBusiness = new ExercicioBusiness();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public PlanoTreinoCsvRepository() {
@@ -29,6 +29,16 @@ public class PlanoTreinoCsvRepository {
             dir.mkdirs();
         }
     }
+
+    public PlanoTreinoCsvRepository(String baseDir, ExercicioBusiness exercicioBusiness) {
+    this.baseDir = baseDir;
+    this.exercicioBusiness = exercicioBusiness; // Recebe o mock
+
+    File dir = new File(baseDir);
+    if (!dir.exists()) {
+        dir.mkdirs();
+    }
+}
 
     private String getArquivoPlano(Usuario usuario) {
         return baseDir + "plano_" + usuario.getEmail().replaceAll("[^a-zA-Z0-9]", "_") + ".csv";

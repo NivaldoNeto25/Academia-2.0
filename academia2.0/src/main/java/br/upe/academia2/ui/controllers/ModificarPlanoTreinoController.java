@@ -1,6 +1,6 @@
 package br.upe.academia2.ui.controllers;
 
-import br.upe.academia2.data.beans.Usuario;
+import br.upe.academia2.data.beans.PlanoTreino;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.Parent;
@@ -23,12 +23,10 @@ public class ModificarPlanoTreinoController {
     @FXML private Button btnRemoverExercicio;
     @FXML private Button btnVoltar;
 
-    private Usuario usuarioLogado;
+    private PlanoTreino planoParaModificar;
 
-    
-
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
     }
 
     Logger logger = Logger.getLogger(ModificarPlanoTreinoController.class.getName());
@@ -63,24 +61,14 @@ public class ModificarPlanoTreinoController {
             Parent root = loader.load();
 
             Object controller = loader.getController();
-
-            // Passa o usuário para o novo controller
-            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, usuarioLogado);
-            // NÃO passa mais o stageAnterior
-            // invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAnterior);
+            // Passa o plano para modificar para o novo controller
+            invocarMetodoSeExiste(controller, "setPlanoParaModificar", PlanoTreino.class, planoParaModificar);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle(titulo);
-            
-            // Define a janela como um "pop-up" modal
             stage.initModality(Modality.APPLICATION_MODAL);
-            // Trava a interação com a janela principal até esta ser fechada
             stage.showAndWait(); 
-            
-            // Opcional: Após a janela fechar, você pode querer atualizar dados
-            // Por exemplo, se o nome do plano mudou, você atualizaria o ComboBox na tela principal
-            // (Isso seria feito no PlanoTreinoAlunoController)
 
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Erro ao carregar a tela", ex);

@@ -19,8 +19,8 @@ public class RemoverExercicioSecaoController {
     @FXML private Button btnRemover;
     @FXML private Button btnVoltar;
 
-    private Usuario usuarioLogado;
-    private PlanoTreino plano;
+    
+    private PlanoTreino planoParaModificar; // MUDANÇA DE NOME
 
     private PlanoTreinoBusiness planoTreinoBusiness;
 
@@ -39,17 +39,21 @@ public class RemoverExercicioSecaoController {
         });
     }
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
-        carregarPlanoESecoes();
+    /**
+     * NOVO MÉTODO: Recebe o plano específico.
+     */
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
+        carregarSecoes(); // Renomeado
     }
+    
+    // O método setUsuarioLogado(Usuario usuario) foi REMOVIDO
 
-    private void carregarPlanoESecoes() {
-        this.plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
+    private void carregarSecoes() {
+        // MUDANÇA: Usa o 'planoParaModificar' recebido
         secaoComboBox.getItems().clear();
-
-        if (this.plano != null) {
-            for (SecaoTreino secao : plano.getSecoes()) {
+        if (this.planoParaModificar != null) {
+            for (SecaoTreino secao : planoParaModificar.getSecoes()) {
                 secaoComboBox.getItems().add(secao.getNomeTreino());
             }
         }
@@ -59,16 +63,12 @@ public class RemoverExercicioSecaoController {
     public void atualizarListaExercicios(String nomeSecao) {
         exerciciosComboBox.getItems().clear();
 
-        if (nomeSecao == null || nomeSecao.trim().isEmpty() || this.plano == null) {
+        if (nomeSecao == null || nomeSecao.trim().isEmpty() || this.planoParaModificar == null) {
             return;
         }
 
-        SecaoTreino secao = plano.getSecaoPorNome(nomeSecao);
+        SecaoTreino secao = planoParaModificar.getSecaoPorNome(nomeSecao);
         if (secao == null) {
-            return;
-        }
-
-        if (plano == null) {
             return;
         }
 
@@ -86,9 +86,9 @@ public class RemoverExercicioSecaoController {
             mostrarAlerta("Erro", "Informe a seção e selecione um exercício para remover.", Alert.AlertType.WARNING);
             return;
         }
-
-
-        SecaoTreino secao = plano.getSecaoPorNome(nomeSecao);
+        
+        // MUDANÇA: Usa o 'planoParaModificar'
+        SecaoTreino secao = planoParaModificar.getSecaoPorNome(nomeSecao);
         if (secao == null) {
             mostrarAlerta("Erro", "Seção não encontrada no plano.", Alert.AlertType.ERROR);
             return;
@@ -97,7 +97,7 @@ public class RemoverExercicioSecaoController {
         boolean removido = secao.getItensPlano().removeIf(item -> item.getExercicio().getNome().equals(nomeExercicio));
 
         if (removido) {
-            planoTreinoBusiness.modificarPlanoDeTreino(plano);
+            planoTreinoBusiness.modificarPlanoDeTreino(planoParaModificar); // Salva o plano modificado
             mostrarAlerta("Sucesso", "Exercício removido com sucesso!", Alert.AlertType.INFORMATION);
             atualizarListaExercicios(nomeSecao);
         } else {
