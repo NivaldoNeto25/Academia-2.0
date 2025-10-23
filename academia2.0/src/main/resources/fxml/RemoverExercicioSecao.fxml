@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="br.upe.academia2.ui.controllers.RemoverExercicioSecaoController"
-            prefWidth="600.0" prefHeight="400.0">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #0F4C83;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.RemoverExercicioSecaoController">
 
-    <Label layoutX="50.0" layoutY="30.0" text="Remover Exercício da Seção" style="-fx-font-size: 20px;"/>
+    <Label layoutX="50.0" layoutY="80.0" text="Nome da Seção:" textFill="WHITE" />
+    <ComboBox fx:id="secaoComboBox" layoutX="50.0" layoutY="98.0" prefHeight="26.0" prefWidth="160.0" promptText="Selecione a Seção" />
 
-    <Label layoutX="50.0" layoutY="80.0" text="Nome da Seção:"/>
-    <ComboBox fx:id="secaoComboBox" layoutX="180.0" layoutY="75.0" prefWidth="300.0" promptText="Selecione a Seção"/>
+    <Label layoutX="50.0" layoutY="137.0" text="Exercício:" textFill="WHITE" />
+    <ComboBox fx:id="exerciciosComboBox" layoutX="50.0" layoutY="155.0" prefHeight="26.0" prefWidth="160.0" promptText="Selecione o Exercício" />
 
-    <Label layoutX="50.0" layoutY="130.0" text="Exercício:"/>
-    <ComboBox fx:id="exerciciosComboBox" layoutX="180.0" layoutY="125.0" prefWidth="300.0" promptText="Selecione o Exercício"/>
-
-    <Button fx:id="btnRemover" text="Remover" layoutX="200.0" layoutY="200.0" prefWidth="120.0"/>
-    <Button fx:id="btnVoltar" text="Voltar" layoutX="350.0" layoutY="200.0" prefWidth="120.0"/>
+    <Button fx:id="btnRemover" layoutX="157.0" layoutY="278.0" prefHeight="26.0" prefWidth="86.0" text="Remover" />
+    <Button fx:id="btnVoltar" layoutX="157.0" layoutY="326.0" prefHeight="26.0" prefWidth="86.0" text="Voltar" />
+   <Pane prefHeight="52.0" prefWidth="400.0" style="-fx-background-color: WHITE;">
+       <Label layoutX="16" layoutY="14" style="-fx-font-size:18; -fx-font-weight: bold;" text="Modificar" />
+       <Label layoutX="109.0" layoutY="23.0" prefHeight="15.0" prefWidth="138.0" style="-fx-font-size:10; -fx-font-weight: bold;" text="Remover Exercício da Seção" />
+   </Pane>
 
 </AnchorPane>
