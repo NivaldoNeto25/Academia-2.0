@@ -3,11 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ModificarPlanoTreinoController">
-    <Label layoutX="242.0" layoutY="43.0" style="-fx-font-size: 24" text="Modificar" />
-    <Button fx:id="btnAlterarNome" layoutX="200" layoutY="100" prefWidth="200" text="Alterar Nome do Plano" />
-    <Button fx:id="btnAlterarDatas" layoutX="200" layoutY="150" prefWidth="200" text="Alterar Datas" />
-    <Button fx:id="btnAdicionarExercicio" layoutX="200" layoutY="200" prefWidth="200" text="Adicionar Exercicio a uma seção" />
-    <Button fx:id="btnRemoverExercicio" layoutX="200" layoutY="250" prefWidth="200" text="Remover exercício de uma seção" />
-    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #0f4c83;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.ModificarPlanoTreinoController">
+    <Pane prefHeight="52" prefWidth="440.0" style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" style="-fx-font-size:18; -fx-font-weight: bold;" text="Modificar Plano de Treino" />
+    </Pane>
+    <Button fx:id="btnAlterarNome" layoutX="120.0" layoutY="97.0" prefWidth="200" text="Alterar Nome do Plano" />
+    <Button fx:id="btnAlterarDatas" layoutX="120.0" layoutY="148.0" prefWidth="200" text="Alterar Datas" />
+    <Button fx:id="btnAdicionarExercicio" layoutX="120.0" layoutY="200.0" prefWidth="200" text="Adicionar Exercicio a uma seção" />
+    <Button fx:id="btnRemoverExercicio" layoutX="120.0" layoutY="252.0" prefWidth="200" text="Remover exercício de uma seção" />
+    <Button fx:id="btnVoltar" layoutX="170.0" layoutY="328.0" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
 </AnchorPane>

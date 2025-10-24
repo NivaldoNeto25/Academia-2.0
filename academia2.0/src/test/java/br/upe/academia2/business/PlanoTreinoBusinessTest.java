@@ -1,160 +1,217 @@
 package br.upe.academia2.business;
 
-import br.upe.academia2.data.beans.Comum;
-import br.upe.academia2.data.beans.Exercicio;
-import br.upe.academia2.data.beans.ItemPlanoTreino;
 import br.upe.academia2.data.beans.PlanoTreino;
-import br.upe.academia2.data.beans.SecaoTreino;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PlanoTreinoBusinessTest {
 
-    // Mock para a interface do repositório de usuário
+    // 1. Mocar as dependências
     @Mock
-    private IUsuarioRepository usuarioRepository;
-
-    // Mock para o repositório de plano de treino
+    private IUsuarioRepository mockUsuarioRepository;
     @Mock
-    private PlanoTreinoCsvRepository planoRepository;
+    private PlanoTreinoCsvRepository mockPlanoRepository;
 
-    // Injeta os mocks na classe que estamos testando
-    @InjectMocks
+    // 2. A Classe que estamos testando
     private PlanoTreinoBusiness planoTreinoBusiness;
 
+    // 3. Mocks para os objetos de dados
+    @Mock
+    private Usuario mockUsuario;
+    @Mock
+    private PlanoTreino mockPlano1;
+    @Mock
+    private PlanoTreino mockPlano2;
     
+    // 4. Captor para verificar listas
+    @Captor
+    private ArgumentCaptor<List<PlanoTreino>> planosListCaptor;
 
-    @Test
-    @DisplayName("Deve cadastrar plano de treino com sucesso para um usuário válido")
-    void testCadastrarPlanoDeTreino_ComDadosValidos_DeveChamarRepositorios() throws ParseException {
-        // Arrange (Organização)
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date inicio = dateFormat.parse("22/22/2222")  ;
-        Date fim = dateFormat.parse("22/22/2222");
-        Usuario usuario = new Comum("João", null ,"joao@upe.br", "123", null, null, null);
-        PlanoTreino plano = new PlanoTreino(0, "Treino de Força", inicio, fim, usuario);
-
-        // Act (Ação)
-        planoTreinoBusiness.cadastrarPlanoDeTreino(usuario, plano);
-
-        // Assert (Verificação)
-        // Verifica se o usuário foi associado ao plano
-        assertEquals(usuario, plano.getUsuario());
-        // Verifica se os métodos dos repositórios foram chamados
-        verify(usuarioRepository, times(1)).update(usuario);
-        verify(planoRepository, times(1)).salvarPlano(plano);
+    @BeforeEach
+    void setUp() {
+        // Injeta os mocks no construtor da classe de negócio
+        planoTreinoBusiness = new PlanoTreinoBusiness(mockUsuarioRepository, mockPlanoRepository);
     }
 
     @Test
-    @DisplayName("Não deve cadastrar plano de treino se o usuário for nulo")
-    void testCadastrarPlanoDeTreino_ComUsuarioNulo_NaoDeveFazerNada() {
-        // Arrange
-        PlanoTreino plano = new PlanoTreino(0, "Treino de Força", null, null, null);
+    @DisplayName("Deve cadastrar um novo plano com sucesso")
+    void testCadastrarPlanoDeTreino_Sucesso() {
+        // --- Arrange (Preparação) ---
+        // 1. Quando o business pedir a lista de planos, retorne uma lista vazia
+        List<PlanoTreino> planosAtuais = new ArrayList<>();
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(planosAtuais);
 
-        // Act
-        planoTreinoBusiness.cadastrarPlanoDeTreino(null, plano);
+        // --- Act (Ação) ---
+        // 2. Chame o método a ser testado
+        planoTreinoBusiness.cadastrarPlanoDeTreino(mockUsuario, mockPlano1);
 
-        // Assert
-        // Garante que nenhum método de repositório foi chamado
-        verify(usuarioRepository, never()).update(any(Usuario.class));
-        verify(planoRepository, never()).salvarPlano(any(PlanoTreino.class));
+        // --- Assert (Verificação) ---
+        // 3. Verifique se o usuário foi setado no plano
+        verify(mockPlano1).setUsuario(mockUsuario);
+        // 4. Verifique se o ID foi setado no plano
+        verify(mockPlano1).setId(anyInt());
+        // 5. Verifique se a lista de planos foi salva no repositório
+        verify(mockPlanoRepository).salvarPlanos(planosListCaptor.capture(), eq(mockUsuario));
+        // 6. Verifique se o usuário foi atualizado no seu repositório
+        verify(mockUsuario).setPlanTreinos(anyList());
+        verify(mockUsuarioRepository).update(mockUsuario);
+        
+        // 7. Verifique se o plano foi realmente adicionado à lista que foi salva
+        List<PlanoTreino> listaSalva = planosListCaptor.getValue();
+        assertEquals(1, listaSalva.size());
+        assertSame(mockPlano1, listaSalva.get(0));
+    }
+    
+    @Test
+    @DisplayName("Não deve cadastrar se o usuário for nulo")
+    void testCadastrarPlanoDeTreino_UsuarioNulo() {
+        // --- Act ---
+        planoTreinoBusiness.cadastrarPlanoDeTreino(null, mockPlano1);
+
+        // --- Assert ---
+        // Nenhum método dos repositórios deve ser chamado
+        verifyNoInteractions(mockPlanoRepository);
+        verifyNoInteractions(mockUsuarioRepository);
     }
 
     @Test
-    @DisplayName("Deve carregar o plano de treino de um usuário existente")
-    void testCarregarPlanoDoUsuario_QuandoPlanoExiste_DeveRetornarPlano() {
-        // Arrange
-        Usuario usuario = new Comum("Maria", null,"maria@upe.br", "456", null, null, null);
-        PlanoTreino planoEsperado = new PlanoTreino(0, "Treino Cardio", null, null, usuario);
+    @DisplayName("Deve carregar o primeiro plano do usuário")
+    void testCarregarPlanoDoUsuario_EncontraPlano() {
+        // --- Arrange ---
+        List<PlanoTreino> listaDePlanos = List.of(mockPlano1, mockPlano2);
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(listaDePlanos);
 
-        // Configura o mock para retornar o plano quando o método for chamado
-        when(planoRepository.carregarPlano(usuario)).thenReturn(planoEsperado);
+        // --- Act ---
+        PlanoTreino resultado = planoTreinoBusiness.carregarPlanoDoUsuario(mockUsuario);
 
-        // Act
-        PlanoTreino planoCarregado = planoTreinoBusiness.carregarPlanoDoUsuario(usuario);
-
-        // Assert
-        assertNotNull(planoCarregado);
-        assertEquals("Treino Cardio", planoCarregado.getNomePlano());
-        // Verifica se o usuário foi corretamente associado ao plano carregado
-        assertEquals(usuario, planoCarregado.getUsuario());
-        verify(planoRepository, times(1)).carregarPlano(usuario);
+        // --- Assert ---
+        // Deve retornar o PRIMEIRO plano da lista
+        assertNotNull(resultado);
+        assertSame(mockPlano1, resultado);
     }
 
     @Test
-    @DisplayName("Deve retornar nulo ao carregar plano de um usuário que não tem plano")
-    void testCarregarPlanoDoUsuario_QuandoPlanoNaoExiste_DeveRetornarNulo() {
-        // Arrange
-        Usuario usuario = new Comum("Pedro", null ,"pedro@upe.br", "789", null, null, null);
-        when(planoRepository.carregarPlano(usuario)).thenReturn(null);
+    @DisplayName("Deve retornar nulo se a lista de planos estiver vazia")
+    void testCarregarPlanoDoUsuario_ListaVazia() {
+        // --- Arrange ---
+        List<PlanoTreino> listaVazia = new ArrayList<>();
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(listaVazia);
 
-        // Act
-        PlanoTreino planoCarregado = planoTreinoBusiness.carregarPlanoDoUsuario(usuario);
+        // --- Act ---
+        PlanoTreino resultado = planoTreinoBusiness.carregarPlanoDoUsuario(mockUsuario);
 
-        // Assert
-        assertNull(planoCarregado);
+        // --- Assert ---
+        assertNull(resultado);
+    }
+    
+    @Test
+    @DisplayName("Deve retornar nulo se o usuário for nulo")
+    void testCarregarPlanoDoUsuario_UsuarioNulo() {
+        // --- Act ---
+        PlanoTreino resultado = planoTreinoBusiness.carregarPlanoDoUsuario(null);
+
+        // --- Assert ---
+        assertNull(resultado);
+        verifyNoInteractions(mockPlanoRepository);
     }
 
     @Test
-    @DisplayName("Deve chamar o método de salvar ao modificar um plano de treino válido")
-    void testModificarPlanoDeTreino_ComPlanoValido_DeveChamarSalvarPlano() throws ParseException {
-        // Arrange
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date inicio = dateFormat.parse("22/22/2222")  ;
-        Date fim = dateFormat.parse("22/22/2222");
-        Usuario usuario = new Comum("Ana", null ,"ana@upe.br", "abc", null, null, null);
-        PlanoTreino plano = new PlanoTreino(0, "Treino Hipertrofia", inicio, fim, usuario);
-        plano.setUsuario(usuario); // Associa o usuário ao plano
+    @DisplayName("Deve modificar um plano existente")
+    void testModificarPlanoDeTreino_PlanoEncontrado() {
+        // --- Arrange ---
+        // Para testar a lógica de IDs, precisamos mockar o getId()
+        when(mockPlano1.getId()).thenReturn(1);
+        when(mockPlano1.getUsuario()).thenReturn(mockUsuario);
 
-        // Act
-        planoTreinoBusiness.modificarPlanoDeTreino(plano);
+        // Criamos uma lista MUTÁVEL
+        List<PlanoTreino> planosAtuais = new ArrayList<>(List.of(mockPlano1));
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(planosAtuais);
 
-        // Assert
-        verify(planoRepository, times(1)).salvarPlano(plano);
+        // Este é o plano "novo" que substituirá o plano antigo
+        // Vamos usar mockPlano2 como se fosse a versão modificada do mockPlano1
+        // (ex: mockPlano1 com ID 1, mockPlano2 com ID 1 mas nome diferente)
+        // Para simplificar: vamos "modificar" o plano 1 para ser o plano 1
+        when(mockPlano1.getUsuario()).thenReturn(mockUsuario);
+
+        // --- Act ---
+        planoTreinoBusiness.modificarPlanoDeTreino(mockPlano1);
+
+        // --- Assert ---
+        // Deve ter salvo a lista
+        verify(mockPlanoRepository).salvarPlanos(planosListCaptor.capture(), eq(mockUsuario));
+        
+        // A lista salva deve conter o plano modificado
+        List<PlanoTreino> listaSalva = planosListCaptor.getValue();
+        assertEquals(1, listaSalva.size());
+        assertSame(mockPlano1, listaSalva.get(0));
+    }
+    
+    @Test
+    @DisplayName("Não deve salvar se o plano a modificar não for encontrado")
+    void testModificarPlanoDeTreino_PlanoNaoEncontrado() {
+        // --- Arrange ---
+        when(mockPlano1.getId()).thenReturn(1);
+        when(mockPlano2.getId()).thenReturn(99); // ID diferente
+        when(mockPlano2.getUsuario()).thenReturn(mockUsuario);
+
+        List<PlanoTreino> planosAtuais = new ArrayList<>(List.of(mockPlano1));
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(planosAtuais);
+
+        // --- Act ---
+        // Tentamos modificar com o mockPlano2 (ID 99), que não está na lista
+        planoTreinoBusiness.modificarPlanoDeTreino(mockPlano2);
+
+        // --- Assert ---
+        // Não deve salvar nada, pois o plano não foi encontrado
+        verify(mockPlanoRepository, never()).salvarPlanos(any(), any());
     }
 
     @Test
-    @DisplayName("Não deve chamar o método de salvar se o plano a ser modificado for nulo")
-    void testModificarPlanoDeTreino_ComPlanoNulo_NaoDeveChamarSalvarPlano() {
-        // Act
-        planoTreinoBusiness.modificarPlanoDeTreino(null);
+    @DisplayName("Deve listar planos e setar o usuário em cada um")
+    void testListarPlanosPorUsuario_Sucesso() {
+        // --- Arrange ---
+        List<PlanoTreino> listaDoRepositorio = List.of(mockPlano1, mockPlano2);
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(listaDoRepositorio);
 
-        // Assert
-        verify(planoRepository, never()).salvarPlano(any(PlanoTreino.class));
+        // --- Act ---
+        List<PlanoTreino> resultado = planoTreinoBusiness.listarPlanosPorUsuario(mockUsuario);
+
+        // --- Assert ---
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        
+        // Deve ter setado o usuário em cada plano
+        verify(mockPlano1).setUsuario(mockUsuario);
+        verify(mockPlano2).setUsuario(mockUsuario);
     }
-
+    
     @Test
-    @DisplayName("Deve exibir o plano de treino sem lançar exceções")
-    void testExibirPlanoDeTreino_ComPlanoCompleto_NaoDeveLancarExcecao() {
-        // Arrange
-        // Cria um plano de treino completo com seções e itens
-        PlanoTreino plano = new PlanoTreino(0, "Plano Completo", null, null, null);
-        SecaoTreino secaoA = new SecaoTreino("Peito e Tríceps", "Supino Reto", plano);
-        Exercicio supino = new Exercicio("Supino Reto", "Peitoral", "");
-        ItemPlanoTreino itemSupino = new ItemPlanoTreino(supino, 3, 10, 80);
-        secaoA.setItensPlano(List.of(itemSupino));
-        plano.setSecoes(new ArrayList<>(List.of(secaoA)));
+    @DisplayName("Deve retornar lista vazia se repositório retornar nulo")
+    void testListarPlanosPorUsuario_RepositorioRetornaNulo() {
+        // --- Arrange ---
+        when(mockPlanoRepository.listarPlanosPorUsuario(mockUsuario)).thenReturn(null);
 
-        // Act & Assert
-        // Como o método só usa logger, o teste garante que ele roda sem erros.
-        assertDoesNotThrow(() -> planoTreinoBusiness.exibirPlanoDeTreino(plano));
+        // --- Act ---
+        List<PlanoTreino> resultado = planoTreinoBusiness.listarPlanosPorUsuario(mockUsuario);
+
+        // --- Assert ---
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
     }
 }

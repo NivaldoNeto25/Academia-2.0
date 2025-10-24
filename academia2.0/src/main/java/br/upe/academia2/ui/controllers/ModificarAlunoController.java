@@ -4,7 +4,6 @@ import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -13,13 +12,15 @@ public class ModificarAlunoController {
     @FXML private TextField emailField;
     @FXML private TextField nomeField;
     @FXML private TextField senhaField;
-    @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
+    private AdmMenuController admMenuController; // Referência para atualizar a tabela no menu
+
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
+    public void setAdmMenuController(AdmMenuController admMenuController) { this.admMenuController = admMenuController; }
 
     @FXML
     public void handleModificar() {
@@ -41,14 +42,14 @@ public class ModificarAlunoController {
 
         usuarioBusiness.atualizarUsuario(existente);
         usuarioBusiness.salvarAlteracoesNoCsv();
-        mensagemLabel.setText("Aluno modificado com sucesso!");
-        nomeField.clear(); senhaField.clear();
-    }
 
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
+        // Atualiza a tabela do menu administrador
+        if (admMenuController != null) {
+            admMenuController.atualizarTabelaAlunos();
+        }
+
+        // Fecha a tela após modificar com sucesso
+        Stage atual = (Stage) emailField.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 }

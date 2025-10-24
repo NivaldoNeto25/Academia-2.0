@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 
@@ -15,20 +16,16 @@ public class ImportarIndicadoresBioController {
 
     @FXML private TextField campoArquivo;
     @FXML private Button btnImportar;
-    @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
     private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
-    private Stage stageAnterior;
-    private Usuario usuarioLogado;
-
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
+    public void setUsuarioLogado(Usuario usuario) {
+        // Configurações adicionais, se necessário
     }
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    public void setUsuario(Usuario usuario) {
+        setUsuarioLogado(usuario);
     }
 
     @FXML
@@ -48,23 +45,16 @@ public class ImportarIndicadoresBioController {
     }
 
     @FXML
-    public void handleSelecionarArquivo() {
+    public void handleSelecionarArquivo(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Selecionar Arquivo CSV");
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Arquivos CSV", "*.csv")
+                new FileChooser.ExtensionFilter("Arquivos CSV", "*.csv")
         );
-
-        File arquivo = fileChooser.showOpenDialog(null);
+        Stage stage = (Stage) campoArquivo.getScene().getWindow();
+        File arquivo = fileChooser.showOpenDialog(stage);
         if (arquivo != null) {
             campoArquivo.setText(arquivo.getAbsolutePath());
         }
-    }
-
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
-        atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 }

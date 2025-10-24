@@ -1,6 +1,7 @@
 package br.upe.academia2.ui.controllers;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,10 +12,11 @@ import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class LoginController {
@@ -27,10 +29,24 @@ public class LoginController {
 
     @FXML
     private Label mensagemLabel;
-    private Button btnVoltar;
+
+    @FXML
+    private ImageView logoImageView;
+
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     Logger logger = Logger.getLogger(LoginController.class.getName());
+
+    @FXML
+    public void initialize() {
+        try {
+            Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/LogoFit.png")));
+            logoImageView.setImage(logo);
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Erro ao carregar imagem do logo", e);
+            logoImageView.setVisible(false);
+        }
+    }
 
     @FXML
     public void handleEntrar() {
@@ -70,11 +86,4 @@ public class LoginController {
             mensagemLabel.setText("Usuário ou senha incorretos.");
         }
     }
-
-    @FXML
-    public void handleSair() {
-        Stage stageAtual = (Stage) btnVoltar.getScene().getWindow();
-        stageAtual.close();
-    }
-
 }

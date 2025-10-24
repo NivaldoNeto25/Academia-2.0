@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.upe.academia2.ui.controllers.SecaoExercicioController"
+      spacing="16" padding="16">
+
+    <!-- ComboBox para escolher a seção -->
+    <ComboBox fx:id="comboSecao" promptText="Escolha uma Seção" prefWidth="300" />
+
+    <!-- ListView para exibir os exercícios da seção -->
+    <ListView fx:id="listaExercicios" prefWidth="300" VBox.vgrow="ALWAYS" />
+
+    <!-- Botão para escolher o exercício -->
+    <Button fx:id="btnEscolherExercicio" text="Escolher Exercício"
+            style="-fx-background-color:#0F4C83; -fx-text-fill:white; -fx-background-radius:8;" />
+
+    <!-- Botão de Voltar -->
+    <Button fx:id="btnVoltar" text="Voltar"
+            style="-fx-background-color:#07579D; -fx-text-fill:white; -fx-background-radius:8;" />
+</VBox>

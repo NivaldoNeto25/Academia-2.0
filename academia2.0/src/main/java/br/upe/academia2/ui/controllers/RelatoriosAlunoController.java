@@ -5,39 +5,33 @@ import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.List;
 
 public class RelatoriosAlunoController {
 
-    private static final Logger logger = Logger.getLogger(RelatoriosAlunoController.class.getName());
     private Usuario usuario;
 
     @FXML
     private TextArea txtSaida;
 
     private static final String FORMATO_DATA = "yyyy-MM-dd HH:mm:ss";
-    private IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
-
-    private Stage stageAnterior;
+    private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
 
     @FXML
     private Button btnVoltar;
 
+    public void setUsuarioLogado(br.upe.academia2.data.beans.Usuario usuario) {
+        // Configurações adicionais, se necessário
+     }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
 
     @FXML
     public void handleRelatorioGeral(ActionEvent event) {
@@ -55,7 +49,6 @@ public class RelatoriosAlunoController {
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_DATA);
         for (IndicadorBiomedico ind : lista) {
             txtSaida.appendText(formatarIndicador(ind));
         }
@@ -78,49 +71,37 @@ public class RelatoriosAlunoController {
             txtSaida.appendText("Nenhum indicador encontrado.\n");
             return;
         }
-
         if (lista.size() < 2) {
             txtSaida.appendText("Apenas um registro encontrado. Exibindo:\n");
             txtSaida.appendText(formatarIndicador(lista.get(0)));
             return;
         }
 
-        // Pega os dois registros mais recentes
-        lista.sort(Comparator.comparing(IndicadorBiomedico::getDataRegistro).reversed());
-        IndicadorBiomedico atual = lista.get(0);
-        IndicadorBiomedico anterior = lista.get(1);
+        IndicadorBiomedico primeiro = lista.getFirst();
+        IndicadorBiomedico ultimo = lista.getLast();
 
-        txtSaida.appendText(" Comparando os dois registros mais recentes:\n\n");
-        txtSaida.appendText(" Registro mais recente:\n" + formatarIndicador(atual) + "\n");
-        txtSaida.appendText(" Registro anterior:\n" + formatarIndicador(anterior));
+        txtSaida.appendText(" Comparando o primeiro e o último registro cadastrados:\n\n");
+        txtSaida.appendText(" Primeiro registro:\n" + formatarIndicador(primeiro) + "\n");
+        txtSaida.appendText(" Último registro:\n" + formatarIndicador(ultimo));
     }
 
     @FXML
-    public void handleVoltar() throws Exception {
-        URL fxml = Objects.requireNonNull(
-                getClass().getResource("/fxml/AlunoMenu.fxml"),
-                "FXML /fxml/AlunoMenu.fxml não encontrado"
-        );
-        FXMLLoader loader = new FXMLLoader(fxml);
-        Parent root = loader.load();
-
+    public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
-        Stage nova = new Stage();
-        nova.setScene(new Scene(root));
         atual.close();
-        nova.show();
     }
 
     public String formatarIndicador(IndicadorBiomedico ind) {
-        return String.format(
-                "------------------------------\n" +
-                        "Data: %s\n" +
-                        "Peso: %.2f kg\n" +
-                        "Altura: %.2f m\n" +
-                        "IMC: %.2f\n" +
-                        "Gordura: %.2f%%\n" +
-                        "Massa Magra: %.2f%%\n" +
-                        "------------------------------\n",
+        return """
+            ------------------------------
+            Data: %s
+            Peso: %.2f kg
+            Altura: %.2f m
+            IMC: %.2f
+            Gordura: %.2f%%
+            Massa Magra: %.2f%%
+            ------------------------------
+            """.formatted(
                 new SimpleDateFormat(FORMATO_DATA).format(ind.getDataRegistro()),
                 ind.getPeso(),
                 ind.getAltura(),

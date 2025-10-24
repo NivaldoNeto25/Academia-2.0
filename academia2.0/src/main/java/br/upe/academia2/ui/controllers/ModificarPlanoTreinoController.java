@@ -1,6 +1,6 @@
 package br.upe.academia2.ui.controllers;
 
-import br.upe.academia2.data.beans.Usuario;
+import br.upe.academia2.data.beans.PlanoTreino;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.Parent;
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
+import javafx.stage.Modality;
 import java.util.logging.Logger;
 
 public class ModificarPlanoTreinoController {
@@ -22,15 +23,10 @@ public class ModificarPlanoTreinoController {
     @FXML private Button btnRemoverExercicio;
     @FXML private Button btnVoltar;
 
-    private Stage stageAnterior;
-    private Usuario usuarioLogado;
+    private PlanoTreino planoParaModificar;
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
-    }
-
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
     }
 
     Logger logger = Logger.getLogger(ModificarPlanoTreinoController.class.getName());
@@ -48,22 +44,7 @@ public class ModificarPlanoTreinoController {
     }
 
     public void abrirTelaAlterarDatasPlano() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AlterarDatas.fxml"));
-            Parent root = loader.load();
-
-            br.upe.academia2.ui.controllers.AlterarDatasController controller = loader.getController();
-            controller.setUsuarioLogado(usuarioLogado);
-            controller.setStageAnterior(stageAnterior);
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Alterar Datas do Plano");
-            stage.show();
-
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Erro ao carregar a tela", e);
-        }
+        abrirTela("/fxml/AlterarDatas.fxml", "Alterar Datas do Plano");
     }
 
     public void abrirTelaAdicionarExercicio() {
@@ -80,14 +61,14 @@ public class ModificarPlanoTreinoController {
             Parent root = loader.load();
 
             Object controller = loader.getController();
-
-            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, usuarioLogado);
-            invocarMetodoSeExiste(controller, "setStageAnterior", Stage.class, stageAnterior);
+            // Passa o plano para modificar para o novo controller
+            invocarMetodoSeExiste(controller, "setPlanoParaModificar", PlanoTreino.class, planoParaModificar);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle(titulo);
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait(); 
 
         } catch (IOException ex) {
             logger.log(Level.WARNING, "Erro ao carregar a tela", ex);
@@ -109,6 +90,5 @@ public class ModificarPlanoTreinoController {
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
     }
 }

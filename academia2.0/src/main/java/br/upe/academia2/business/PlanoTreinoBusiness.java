@@ -28,10 +28,17 @@ public class PlanoTreinoBusiness {
         }
 
         plano.setUsuario(usuario);
-        usuario.setPlanTreinos(List.of(plano));
+
+        List<PlanoTreino> planosAtuais = planoRepository.listarPlanosPorUsuario(usuario);
+
+        plano.setId((int) (System.currentTimeMillis() % 100000));
+        planosAtuais.add(plano);
+
+        planoRepository.salvarPlanos(planosAtuais, usuario);
+
+        usuario.setPlanTreinos(planosAtuais);
 
         usuarioRepository.update(usuario);
-        planoRepository.salvarPlano(plano);
 
         logger.info("Plano de treino '" + plano.getNomePlano() + "' cadastrado para o usuário " + usuario.getNome());
     }
@@ -42,13 +49,13 @@ public class PlanoTreinoBusiness {
             return null;
         }
 
-        PlanoTreino plano = planoRepository.carregarPlano(usuario);
+        List<PlanoTreino> planos = planoRepository.listarPlanosPorUsuario(usuario);
 
-        if (plano != null) {
-            plano.setUsuario(usuario);
+        if (planos != null && !planos.isEmpty()) {
+            return planos.get(0);
         }
 
-        return plano;
+        return null;
     }
 
     public void modificarPlanoDeTreino(PlanoTreino plano) {
@@ -57,7 +64,25 @@ public class PlanoTreinoBusiness {
             return;
         }
 
-        planoRepository.salvarPlano(plano);
+        Usuario usuario = plano.getUsuario();
+        List<PlanoTreino> planosAtuais = planoRepository.listarPlanosPorUsuario(usuario);
+
+        int index = -1;
+        for (int i = 0; i < planosAtuais.size(); i++) {
+            if (planosAtuais.get(i).getId() == plano.getId()) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+            planosAtuais.set(index, plano);
+        } else {
+            logger.warning("Plano de treino não encontrado para modificação.");
+            return;
+        }
+        
+        planoRepository.salvarPlanos(planosAtuais, usuario);
         logger.info("Plano de treino atualizado com sucesso!");
     }
 

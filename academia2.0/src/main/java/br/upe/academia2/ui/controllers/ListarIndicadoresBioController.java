@@ -21,12 +21,14 @@ public class ListarIndicadoresBioController {
     @FXML private Button fechar;
 
     private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
-    private Usuario usuarioLogado;
     private Stage stageAnterior;
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    public void setStageAnterior(Stage stageAnterior) {
+        this.stageAnterior = stageAnterior;
+    }
 
+    public void setUsuarioLogado(Usuario usuarioLogado) {
+        // Variável local para usuário dentro do método
         List<IndicadorBiomedico> indicadores = indicadorBusiness.listarIndicadores(usuarioLogado);
         logger.info(() -> "Total de indicadores encontrados: " + indicadores.size());
 
@@ -38,10 +40,6 @@ public class ListarIndicadoresBioController {
         ).toList();
 
         listaIndicadores.setItems(FXCollections.observableArrayList(listaFormatada));
-    }
-
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
     }
 
     @FXML

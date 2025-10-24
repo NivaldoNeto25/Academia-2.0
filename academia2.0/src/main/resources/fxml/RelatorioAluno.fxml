@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600"
-            xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/17.0.12"
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.upe.academia2.ui.controllers.RelatoriosAlunoController"
-            style="-fx-background-color: #f9f9f9;">
+            prefWidth="500" prefHeight="410"
+            style="-fx-background-color: #0f4c83;">
+    <Pane prefWidth="500" prefHeight="52"
+          style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" text="Relatórios"
+               style="-fx-font-size:18; -fx-font-weight: bold;"/>
+    </Pane>
 
-    <Label layoutX="250" layoutY="40" text="Relatórios"
-           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-
-    <Button layoutX="210" layoutY="110" 
-            prefWidth="180" prefHeight="30"
-            text="Relatório Geral"
-            onAction="#handleRelatorioGeral"/>
-
-    <Button layoutX="210" layoutY="160"
-            prefWidth="180" prefHeight="30"
-            text="Relatório Comparativo"
-            onAction="#handleRelatorioComparativo"/>
-
-    <TextArea fx:id="txtSaida"
-              layoutX="100" layoutY="210"
-              prefWidth="400" prefHeight="120"
-              wrapText="true" editable="false"
-              style="-fx-font-family: Consolas; -fx-font-size: 12px;"/>
-
-    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+    <VBox layoutX="50" layoutY="70" spacing="18" prefWidth="400">
+        <HBox alignment="CENTER" spacing="22">
+            <Button text="Relatório Geral"
+                    prefWidth="180" prefHeight="30"
+                    onAction="#handleRelatorioGeral"/>
+            <Button text="Relatório Comparativo"
+                    prefWidth="180" prefHeight="30"
+                    onAction="#handleRelatorioComparativo"/>
+        </HBox>
+        <TextArea fx:id="txtSaida"
+                  promptText="Resultado do relatório..."
+                  prefWidth="380" prefHeight="140"
+                  wrapText="true" editable="false"
+                  style="-fx-font-family: Consolas; -fx-font-size: 12px;"/>
+        <HBox alignment="CENTER">
+            <Button fx:id="btnVoltar" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+        </HBox>
+    </VBox>
 </AnchorPane>
