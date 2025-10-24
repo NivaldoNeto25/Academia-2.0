@@ -52,7 +52,7 @@ public class AlunoMenuController implements Initializable {
     }
 
     @FXML public void handleSecao(ActionEvent event) {
-        loadContent("/fxml/Secao.fxml");
+        loadContent("/fxml/SecaoTreino.fxml");
     }
 
     @FXML
@@ -82,6 +82,8 @@ public class AlunoMenuController implements Initializable {
                 usuariodependente.setUsuario(aluno);
             } else if (controller instanceof PlanoTreinoAlunoController planotreinoalunocontroller) {
                 planotreinoalunocontroller.setUsuario(this.aluno);
+            } else if (controller instanceof SecaoTreinoController secaotreinocontroller) {
+                secaotreinocontroller.setUsuario(this.aluno);
             }
 
             mainPane.setCenter(view);
