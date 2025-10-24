@@ -52,7 +52,7 @@ public class AlunoMenuController implements Initializable {
     }
 
     @FXML public void handleSecao(ActionEvent event) {
-        loadContent("/fxml/Secao.fxml");
+        loadContent("/fxml/SecaoTreino.fxml");
     }
 
     @FXML
