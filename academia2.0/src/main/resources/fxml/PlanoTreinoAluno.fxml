@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<AnchorPane prefHeight="600.0" prefWidth="580.0" styleClass="content-area" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.PlanoTreinoAlunoController">
+<AnchorPane prefHeight="600.0" prefWidth="580.0" styleClass="content-area" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.PlanoTreinoAlunoController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" spacing="10.0">
          <children>
@@ -21,14 +15,14 @@
                   <Image url="@../img/PlanoTreinoVermelho.png" />
                </image>
             </ImageView>
-            <Label text="Plano de Treino" styleClass="content-title">
+            <Label styleClass="content-title" text="Plano de Treino">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <ComboBox fx:id="comboPlanos" layoutX="14.0" layoutY="58.0" prefWidth="250.0" promptText="Selecione um Plano" />
+      <ComboBox fx:id="comboPlanos" layoutX="24.0" layoutY="58.0" prefWidth="250.0" promptText="Selecione um Plano" />
       <HBox layoutX="300.0" layoutY="58.0" spacing="10.0">
          <children>
             <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarPlano" style="-fx-background-color: #07579D" text="Cadastrar" textFill="white" />

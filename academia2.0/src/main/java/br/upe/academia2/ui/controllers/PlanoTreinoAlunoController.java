@@ -178,6 +178,7 @@ public class PlanoTreinoAlunoController implements Initializable{
             Parent root = loader.load();
             Object controller = loader.getController();
 
+            invocarMetodoSeExiste(controller, "setUsuarioLogado", Usuario.class, this.usuarioLogado);
 
             // Passa o plano selecionado (se existir)
             if (plano != null) {
