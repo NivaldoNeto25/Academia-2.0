@@ -21,6 +21,10 @@ public class SecaoTreinoBusiness {
         );
     }
 
+    public SecaoTreinoBusiness(PlanoTreinoBusiness planoTreinoBusiness) {
+        this.planoTreinoBusiness = planoTreinoBusiness;
+    }
+
     public void iniciarSessao(PlanoTreino plano) {
         if (plano != null) {
             logger.info("Iniciando seção de treino para o plano: " + plano.getNomePlano());

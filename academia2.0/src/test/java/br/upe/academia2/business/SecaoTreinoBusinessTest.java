@@ -1,3 +1,5 @@
+// Em SecaoTreinoBusinessTest.java
+
 package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.Exercicio;
@@ -6,56 +8,56 @@ import br.upe.academia2.data.beans.PlanoTreino;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class) // Habilita mocks do Mockito
 class SecaoTreinoBusinessTest {
 
+    // 1. Mocks para as dependências e dados
+    @Mock
+    private PlanoTreinoBusiness mockPlanoTreinoBusiness; // Dependência mockada
+    @Mock
+    private PlanoTreino mockPlano;                     // Objeto de dados mockado
+    @Mock
+    private ItemPlanoTreino mockItem;                  // Objeto de dados mockado
+    @Mock
+    private Exercicio mockExercicio;
+
+    // 2. A classe sob teste
     private SecaoTreinoBusiness secaoTreinoBusiness;
 
-    // Este método é executado antes de cada teste.
     @BeforeEach
     void setUp() {
-        secaoTreinoBusiness = new SecaoTreinoBusiness();
+        // CORREÇÃO AQUI: Usa o novo construtor para injetar o mock
+        secaoTreinoBusiness = new SecaoTreinoBusiness(mockPlanoTreinoBusiness);
     }
 
     @Test
-    @DisplayName("Deve iniciar a sessão de treino sem lançar exceções")
-    void testIniciarSessao_ComPlanoValido_NaoDeveLancarExcecao() {
-        // Arrange (Organização)
-        PlanoTreino plano = new PlanoTreino(0, "Treino A", null, null, null);
+    @DisplayName("Deve atualizar o item e chamar a modificação do plano")
+    void testRegistrarPerformance_DeveAtualizarItemESalvarPlano() {
+        // --- Arrange (Preparação) ---
+        int novaCarga = 100;
+        int novasRepeticoes = 8;
+        int novasSeries = 4;
 
-        // Act & Assert (Ação e Verificação)
-        // O teste verifica se a chamada do método ocorre sem erros.
-        // Testar a saída do logger geralmente não é feito em testes unitários.
-        assertDoesNotThrow(() -> secaoTreinoBusiness.iniciarSessao(plano));
-    }
+        when(mockItem.getExercicio()).thenReturn(mockExercicio);
+        when(mockExercicio.getNome()).thenReturn("Exercício Mockado");
+        // --- Act (Ação) ---
+        // Chama o método que queremos testar
 
-    @Test
-    @DisplayName("Deve registrar a performance atualizando os dados do item de treino")
-    void testRegistrarPerformance_DeveAtualizarValoresDoItem() {
-        // Arrange
-        // Cria os objetos necessários para o teste
-        Exercicio exercicio = new Exercicio("Supino Reto", "Peitoral", "Barra");
-        ItemPlanoTreino itemOriginal = new ItemPlanoTreino(exercicio, 3, 10, 50); // series, reps, carga
+        secaoTreinoBusiness.registrarPerformance(mockPlano, mockItem, novaCarga, novasRepeticoes, novasSeries);
 
-        // Define os novos valores de performance
-        int cargaRealizada = 55;
-        int repeticoesRealizadas = 8;
-        int seriesRealizadas = 3;
-
-        // Verifica os valores iniciais (opcional, mas bom para garantir)
-        assertEquals(50, itemOriginal.getCarga());
-        assertEquals(10, itemOriginal.getRepeticoes());
-        assertEquals(3, itemOriginal.getSeries());
-
-        // Act
-        secaoTreinoBusiness.registrarPerformance(itemOriginal, cargaRealizada, repeticoesRealizadas, seriesRealizadas);
-
-        // Assert
-        // Verifica se os valores do objeto 'itemOriginal' foram alterados para os novos valores
-        assertEquals(cargaRealizada, itemOriginal.getCarga(), "A carga deveria ter sido atualizada.");
-        assertEquals(repeticoesRealizadas, itemOriginal.getRepeticoes(), "As repetições deveriam ter sido atualizadas.");
-        assertEquals(seriesRealizadas, itemOriginal.getSeries(), "As séries deveriam ter sido atualizadas.");
+        // --- Assert (Verificação) ---
+        // 1. Verifica se os setters do ItemPlanoTreino foram chamados com os valores corretos
+        verify(mockItem).setCarga(novaCarga);
+        verify(mockItem).setRepeticoes(novasRepeticoes);
+        verify(mockItem).setSeries(novasSeries);
+        verify(mockPlanoTreinoBusiness).modificarPlanoDeTreino(mockPlano);
     }
 }
