@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="br.upe.academia2.ui.controllers.SecaoTreinoController"
-            prefWidth="600" prefHeight="400">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.upe.academia2.ui.controllers.SecaoTreinoController"
+      spacing="16">
 
-    <Label fx:id="labelPlanoNome" layoutX="150" layoutY="80" style="-fx-font-size: 24px;" text="Plano de Treino" />
+    <!-- Adicionando Padding para garantir espaçamento -->
+    <padding><Insets top="16" right="24" bottom="24" left="24"/></padding>
 
-    <Button fx:id="btnIniciarSessao" layoutX="220" layoutY="150" prefWidth="160" text="Iniciar Sessão" />
-    <Button fx:id="btnVoltar" layoutX="20" layoutY="350" prefWidth="100" text="Voltar" />
+    <!-- Título da Página -->
+    <Label fx:id="tituloPagina" text="Seção"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0F4C83;"/>
 
-</AnchorPane>
+    <!-- ComboBox para Seleção do Plano de Treino -->
+    <ComboBox fx:id="comboPlanos" prefWidth="320" promptText="Selecione um Plano" />
+
+    <!-- Botão para Realizar Sessões -->
+    <Button fx:id="btnRealizarSecao" onAction = "#handleRealizarSecaoTreino" text="Realizar Seções do plano selecionado" style="-fx-background-color:#0F4C83; -fx-text-fill:white; -fx-background-radius:8"/>
+
+    <!-- Tabela para Exibir os Exercícios -->
+    <TableView fx:id="tabelaExercicios" prefWidth="320" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaExercicio" prefWidth="150.0" text="Exercício" />
+            <TableColumn fx:id="colunaSecao" prefWidth="100.0" text="Seção" />
+            <TableColumn fx:id="colunaSeries" prefWidth="75.0" text="Séries" />
+            <TableColumn fx:id="colunaReps" prefWidth="75.0" text="Repetições" />
+            <TableColumn fx:id="colunaCarga" prefWidth="75.0" text="Carga (kg)" />
+        </columns>
+    </TableView>
+</VBox>

@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.PlanoTreinoAlunoController">
-    <Label layoutX="237.0" layoutY="40.0" style="-fx-font-size: 24" text="Plano de Treino" />
-    <Button fx:id="btnCadastrar" layoutX="220" layoutY="100" onAction="#handleCadastrarPlano" prefWidth="200" text="Cadastrar Plano de Treino" />
-    <Button fx:id="btnListar" layoutX="220" layoutY="150" onAction="#handleListarPlano" prefWidth="200" text="Listar Plano de Treino" />
-    <Button fx:id="btnModificar" layoutX="220" layoutY="200" onAction="#handleModificarPlano" prefWidth="200" text="Modificar Plano de Treino" />
-    <Button fx:id="btnSecaoTreino" layoutX="220" layoutY="250" onAction="#handleSecaoTreino" prefWidth="200" text="Seção Treino" />
-    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+<AnchorPane prefHeight="600.0" prefWidth="580.0" styleClass="content-area" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.PlanoTreinoAlunoController">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" spacing="10.0">
+         <children>
+            <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/PlanoTreinoVermelho.png" />
+               </image>
+            </ImageView>
+            <Label styleClass="content-title" text="Plano de Treino">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <ComboBox fx:id="comboPlanos" layoutX="24.0" layoutY="58.0" prefWidth="250.0" promptText="Selecione um Plano" />
+      <HBox layoutX="300.0" layoutY="58.0" spacing="10.0">
+         <children>
+            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarPlano" style="-fx-background-color: #07579D" text="Cadastrar" textFill="white" />
+            <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#handleModificarPlano" style="-fx-background-color: #07579D" text="Modificar" textFill="WHITE" />
+         </children>
+      </HBox>
+
+      <TableView fx:id="tabelaExercicios" layoutX="14.0" layoutY="110.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="110.0">
+         <columns>
+            <TableColumn fx:id="colunaExercicio" prefWidth="150.0" text="Exercício" />
+            <TableColumn fx:id="colunaSecao" prefWidth="100.0" text="Seção" />
+            <TableColumn fx:id="colunaSeries" prefWidth="75.0" text="Séries" />
+            <TableColumn fx:id="colunaReps" prefWidth="75.0" text="Repetições" />
+            <TableColumn fx:id="colunaCarga" prefWidth="75.0" text="Carga (kg)" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </AnchorPane>

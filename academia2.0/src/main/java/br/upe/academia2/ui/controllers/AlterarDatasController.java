@@ -2,7 +2,6 @@ package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.beans.PlanoTreino;
-import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
@@ -21,10 +20,11 @@ public class AlterarDatasController {
     @FXML private Button btnSalvar;
     @FXML private Button btnVoltar;
 
-    private Usuario usuarioLogado;
+    // private Usuario usuarioLogado; // REMOVIDO
+    private PlanoTreino planoParaModificar; // ADICIONADO
     private PlanoTreinoBusiness planoTreinoBusiness;
-    private Stage stageAnterior;
 
+    @FXML
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
                 UsuarioCsvRepository.getInstance(),
@@ -32,22 +32,21 @@ public class AlterarDatasController {
         );
     }
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    /**
+     * NOVO MÉTODO: Recebe o plano específico do ModificarPlanoTreinoController.
+     */
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
         carregarDatasAtuais();
     }
 
-    public void setStageAnterior(Stage stage) {
-        this.stageAnterior = stage;
-    }
-
     public void carregarDatasAtuais() {
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano != null) {
-            if (plano.getInicioPlano() != null)
-                dataInicioPicker.setValue(plano.getInicioPlano().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            if (plano.getFimPlano() != null)
-                dataFimPicker.setValue(plano.getFimPlano().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        
+        if (planoParaModificar != null) {
+            if (planoParaModificar.getInicioPlano() != null)
+                dataInicioPicker.setValue(planoParaModificar.getInicioPlano().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            if (planoParaModificar.getFimPlano() != null)
+                dataFimPicker.setValue(planoParaModificar.getFimPlano().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         }
     }
 
@@ -61,26 +60,24 @@ public class AlterarDatasController {
         Date dataInicio = Date.from(dataInicioPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date dataFim = Date.from(dataFimPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano == null) {
+        // MUDANÇA: Usa o objeto 'planoParaModificar' recebido
+        if (planoParaModificar == null) {
             mostrarAlerta("Erro", "Plano de treino não encontrado.", Alert.AlertType.ERROR);
             return;
         }
 
-        plano.setInicioPlano(dataInicio);
-        plano.setFimPlano(dataFim);
-        planoTreinoBusiness.modificarPlanoDeTreino(plano);
+        planoParaModificar.setInicioPlano(dataInicio);
+        planoParaModificar.setFimPlano(dataFim);
+        planoTreinoBusiness.modificarPlanoDeTreino(planoParaModificar);
 
         mostrarAlerta("Sucesso", "Datas atualizadas com sucesso!", Alert.AlertType.INFORMATION);
+        handleVoltar(); // Fecha a janela após salvar
     }
 
     @FXML
     public void handleVoltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) {
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String conteudo, Alert.AlertType tipo) {

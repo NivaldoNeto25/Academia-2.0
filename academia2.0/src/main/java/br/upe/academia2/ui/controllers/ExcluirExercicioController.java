@@ -34,6 +34,8 @@ public class ExcluirExercicioController {
         exercicio.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Exercicio excluído!");
         nomeField.clear();
+        Stage stageAtual = (Stage) nomeField.getScene().getWindow();
+        stageAtual.close();
     }}
 
     @FXML

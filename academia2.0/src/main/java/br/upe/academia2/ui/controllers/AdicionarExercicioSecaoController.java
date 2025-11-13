@@ -6,26 +6,27 @@ import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class AdicionarExercicioSecaoController {
 
-    @FXML private TextField secaoField;
-    @FXML private TextField exercicioField;
+    @FXML private ComboBox<String> secaoComboBox; // MUDANÇA
+    @FXML private ListView<Exercicio> exerciciosListView; 
     @FXML private TextField seriesField;
     @FXML private TextField repeticoesField;
     @FXML private TextField cargaField;
     @FXML private Button btnAdicionar;
     @FXML private Button btnVoltar;
 
-    private Usuario usuarioLogado;
-    private Stage stageAnterior;
-
+    private PlanoTreino planoParaModificar; // ADICIONADO
+    
     private PlanoTreinoBusiness planoTreinoBusiness;
     private ExercicioBusiness exercicioBusiness;
 
+    @FXML
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
                 UsuarioCsvRepository.getInstance(),
@@ -33,27 +34,73 @@ public class AdicionarExercicioSecaoController {
         );
         exercicioBusiness = new ExercicioBusiness();
 
+        carregarListaExercicios();
+
         btnAdicionar.setOnAction(e -> adicionarExercicio());
         btnVoltar.setOnAction(e -> voltar());
     }
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    /**
+     * NOVO MÉTODO: Recebe o plano específico.
+     */
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
+        carregarSecoesDoPlano();
     }
 
-    public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
+    // O método setUsuarioLogado(Usuario usuario) foi REMOVIDO
+
+    private void carregarListaExercicios() {
+        exerciciosListView.setCellFactory(param -> new ListCell<Exercicio>() {
+            @Override
+            protected void updateItem(Exercicio item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getNome() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getNome() + " | " + item.getDescricao());
+                }
+            }
+        });
+        
+        var exercicios = exercicioBusiness.listarExercicios();
+        exerciciosListView.setItems(FXCollections.observableArrayList(exercicios));
+    }
+
+    /**
+     * NOVO MÉTODO: Popula o ComboBox de seções.
+     */
+    private void carregarSecoesDoPlano() {
+        secaoComboBox.getItems().clear();
+        if (planoParaModificar != null) {
+            for (SecaoTreino secao : planoParaModificar.getSecoes()) {
+                secaoComboBox.getItems().add(secao.getNomeTreino());
+            }
+        }
     }
 
     public void adicionarExercicio() {
-        String nomeSecao = secaoField.getText().trim();
-        String nomeExercicio = exercicioField.getText().trim();
+        // MUDANÇA: Pega o valor do ComboBox (que pode ser digitado, pois é 'editable')
+        String nomeSecao = secaoComboBox.getEditor().getText().trim();
+        Exercicio exercicio = exerciciosListView.getSelectionModel().getSelectedItem();
+        
         String seriesStr = seriesField.getText().trim();
         String repeticoesStr = repeticoesField.getText().trim();
         String cargaStr = cargaField.getText().trim();
 
-        if (nomeSecao.isEmpty() || nomeExercicio.isEmpty() || seriesStr.isEmpty() || repeticoesStr.isEmpty() || cargaStr.isEmpty()) {
-            mostrarAlerta("Erro", "Preencha todos os campos.", Alert.AlertType.WARNING);
+        if (nomeSecao.isEmpty() || seriesStr.isEmpty() || repeticoesStr.isEmpty() || cargaStr.isEmpty()) {
+            mostrarAlerta("Erro", "Preencha todos os campos (seção, séries, repetições e carga).", Alert.AlertType.WARNING);
+            return;
+        }
+
+        if (exercicio == null) {
+            mostrarAlerta("Erro", "Selecione um exercício da lista.", Alert.AlertType.ERROR);
+            return;
+        }
+        
+        // MUDANÇA: Usa o 'planoParaModificar'
+        if (planoParaModificar == null) {
+            mostrarAlerta("Erro", "Nenhum plano de treino foi selecionado.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -62,26 +109,16 @@ public class AdicionarExercicioSecaoController {
             int repeticoes = Integer.parseInt(repeticoesStr);
             int carga = Integer.parseInt(cargaStr);
 
-            Exercicio exercicio = exercicioBusiness.buscarExercicioPorNome(nomeExercicio);
-            if (exercicio == null) {
-                mostrarAlerta("Erro", "Exercício não encontrado. Cadastre-o primeiro.", Alert.AlertType.ERROR);
-                return;
-            }
-
-            PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-            if (plano == null) {
-                mostrarAlerta("Erro", "Você não possui um plano de treino cadastrado.", Alert.AlertType.ERROR);
-                return;
-            }
-
-            SecaoTreino secao = plano.getOuCriarSecao(nomeSecao);
+            // MUDANÇA: Não busca mais o plano, usa o objeto recebido
+            SecaoTreino secao = planoParaModificar.getOuCriarSecao(nomeSecao);
             ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
             secao.addItemSecao(item);
 
-            planoTreinoBusiness.modificarPlanoDeTreino(plano);
+            planoTreinoBusiness.modificarPlanoDeTreino(planoParaModificar);
 
             mostrarAlerta("Sucesso", "Exercício adicionado à seção com sucesso!", Alert.AlertType.INFORMATION);
-
+            
+            carregarSecoesDoPlano(); // Atualiza a lista de seções caso uma nova tenha sido criada
             limparCampos();
 
         } catch (NumberFormatException ex) {
@@ -90,8 +127,9 @@ public class AdicionarExercicioSecaoController {
     }
 
     public void limparCampos() {
-        secaoField.clear();
-        exercicioField.clear();
+        secaoComboBox.getEditor().clear(); // Limpa o editor do ComboBox
+        secaoComboBox.setValue(null);
+        exerciciosListView.getSelectionModel().clearSelection(); 
         seriesField.clear();
         repeticoesField.clear();
         cargaField.clear();
@@ -100,9 +138,6 @@ public class AdicionarExercicioSecaoController {
     public void voltar() {
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) {
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {

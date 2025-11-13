@@ -1,12 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="br.upe.academia2.ui.controllers.IndicadoresAlunoController">
-    <Label layoutX="194.0" layoutY="39.0" style="-fx-font-size: 24" text="Indicadores Biomédicos" />
-    <Button fx:id="btnCadastrar" layoutX="220" layoutY="100" onAction="#handleCadastrarIndicadores" prefWidth="200" text="Cadastrar Indicadores" />
-    <Button fx:id="btnListar" layoutX="220" layoutY="150" onAction="#handleListarIndicadores" prefWidth="200" text="Listar Indicadores" />
-    <Button fx:id="btnImportar" layoutX="220" layoutY="200" onAction="#handleImportarIndicadores" prefWidth="200" text="Importar Indicadores CSV" />
-    <Button fx:id="btnVoltar" layoutX="40" layoutY="350" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="600.0" prefWidth="580.0" styleClass="content-area" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.IndicadoresAlunoController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefWidth="552.0" spacing="14.0" />
+
+    <TableView fx:id="tabelaIndicadores" layoutX="14.0" layoutY="168.0" prefHeight="220.0" prefWidth="552.0">
+        <columns>
+            <TableColumn fx:id="colData" prefWidth="90.0" text="Data" />
+            <TableColumn fx:id="colPeso" prefWidth="90.0" text="Peso" />
+            <TableColumn fx:id="colAltura" prefWidth="90.0" text="Altura" />
+            <TableColumn fx:id="colPercentualGordura" prefWidth="130.0" text="Gordura" />
+            <TableColumn fx:id="colPercentualMassaMagra" prefWidth="130.0" text="Massa Magra" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+
+    <HBox alignment="CENTER" layoutX="14.0" layoutY="340.0" prefWidth="552.0" />
+     <Button fx:id="btnGerarRelatorio" layoutX="200.0" layoutY="404.0" onAction="#handleGerarRelatorio" prefHeight="32" prefWidth="180" style="-fx-background-color: #0f4c83;" text="Gerar Relatório" textFill="WHITE">
+      <font>
+         <Font name="Calibri Bold" size="12.0" />
+      </font>
+   </Button>
+     <HBox alignment="CENTER" layoutX="168.0" layoutY="120.0" spacing="10.0">
+         <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#handleCadastrarIndicadores" prefHeight="32" prefWidth="120" style="-fx-background-color: #0f4c83;" text="Cadastrar" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Button>
+         <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#handleImportarIndicadores" prefHeight="32" prefWidth="120" style="-fx-background-color: #0f4c83;" text="Importar CSV" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Button>
+     </HBox>
+    <HBox layoutX="14.0" layoutY="14.0" alignment="CENTER_LEFT" spacing="10">
+         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="/img/UsuarioVermelho.png" />
+                </image>
+            </ImageView>
+     <Label layoutX="50.0" layoutY="14.0" styleClass="content-title" text="Indicadores Biomédicos">
+         <font>
+             <Font name="Calibri Bold" size="24.0" />
+         </font>
+     </Label>
+    </HBox>
 </AnchorPane>

@@ -7,7 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+import java.io.File;
+import javafx.scene.image.Image;
 
 public class CadastrarExercicioController {
     @FXML private TextField nomeField;
@@ -16,6 +20,10 @@ public class CadastrarExercicioController {
     @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
     @FXML private Button btnCadastrar;
+    @FXML private ImageView gifPreview;
+    @FXML private Button btnImportar;
+
+    private String caminhoGifSelecionado;
 
     private Stage stageAnterior;
     private final ExercicioBusiness exercicio = new ExercicioBusiness();
@@ -24,11 +32,32 @@ public class CadastrarExercicioController {
         this.stageAnterior = stageAnterior;
     }
 
+    public void handleImportarGif() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecionar GIF do Exercício");
+
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imagens GIF", "*.gif")
+        );
+
+        File file = fileChooser.showOpenDialog(btnImportar.getScene().getWindow());
+
+        if (file != null) {
+            caminhoGifSelecionado = file.toURI().toString();
+
+            Image image = new Image(caminhoGifSelecionado);
+            gifPreview.setImage(image);
+
+            gifPreview.setStyle("-fx-background-color: #FFFFFF;");
+            mensagemLabel.setText("");
+        }
+    }
+
     @FXML
     public void handleCadastrar() {
         String nome = nomeField.getText();
         String descricao = descricaoField.getText();
-        String caminhoGif = caminhoGifField.getText();
+        String caminhoGif = caminhoGifSelecionado;
 
         if (nome.isBlank() || descricao.isBlank() || caminhoGif.isBlank()) {
             mensagemLabel.setText("Todos os campos são obrigatórios.");
@@ -43,6 +72,9 @@ public class CadastrarExercicioController {
         exercicio.salvar(novoExercicio);
         exercicio.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Exercicio cadastrado com sucesso!");
+
+        Stage stageAtual = (Stage) btnCadastrar.getScene().getWindow();
+        stageAtual.close();
     }
         @FXML
         public void handleVoltar() {

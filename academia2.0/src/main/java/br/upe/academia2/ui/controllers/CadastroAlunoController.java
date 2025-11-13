@@ -5,7 +5,6 @@ import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -14,13 +13,19 @@ public class CadastroAlunoController {
     @FXML private TextField nomeField;
     @FXML private TextField emailField;
     @FXML private TextField senhaField;
-    @FXML private Button btnVoltar;
     @FXML private Label mensagemLabel;
 
     private Stage stageAnterior;
+    private AdmMenuController admMenuController;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
-    public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
+    public void setStageAnterior(Stage stageAnterior) {
+        this.stageAnterior = stageAnterior;
+    }
+
+    public void setAdmMenuController(AdmMenuController admMenuController) {
+        this.admMenuController = admMenuController;
+    }
 
     @FXML
     public void handleCadastrar() {
@@ -36,16 +41,19 @@ public class CadastroAlunoController {
             mensagemLabel.setText("Já existe um aluno com esse e-mail.");
             return;
         }
+
         Usuario novo = new Comum(nome, null, email, senha, null, null, null);
         usuarioBusiness.cadastrarUsuario(novo);
         mensagemLabel.setText("Aluno cadastrado com sucesso!");
-        nomeField.clear(); emailField.clear(); senhaField.clear();
-    }
 
-    @FXML
-    public void handleVoltar() {
-        Stage atual = (Stage) btnVoltar.getScene().getWindow();
+        // Atualizar tabela do menu
+        if (admMenuController != null) {
+            admMenuController.atualizarTabelaAlunos();
+        }
+
+        // Fecha a tela de cadastro ao salvar
+        Stage atual = (Stage) nomeField.getScene().getWindow();
         atual.close();
-        if (stageAnterior != null) stageAnterior.show();
+
     }
 }

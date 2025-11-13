@@ -1,12 +1,15 @@
 package br.upe.academia2.data.repository;
 
+import br.upe.academia2.business.ExercicioBusiness;
 import br.upe.academia2.data.beans.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -14,132 +17,179 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class PlanoTreinoCsvRepositoryTest {
 
-    private PlanoTreinoCsvRepository planoRepository;
-    private String originalUserDir;
+    @Mock
+    private Usuario mockUsuario;
+    @Mock
+    private ExercicioBusiness mockExercicioBusiness;
 
+    // JUnit 5 vai criar e limpar um diretório temporário para nós
     @TempDir
     Path tempDir;
 
-    private Path dataDir;
-    private Path planosDir;
-    private Path exerciciosFile;
+    private PlanoTreinoCsvRepository repository;
+    private String testBaseDir;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @BeforeEach
-    void setUp() throws IOException {
-        originalUserDir = System.getProperty("user.dir");
+    void setUp() {
+        // Configura o repositório para usar o diretório de teste e o business mockado
+        testBaseDir = tempDir.toString() + File.separator;
+        repository = new PlanoTreinoCsvRepository(testBaseDir, mockExercicioBusiness);
 
-        System.setProperty("user.dir", tempDir.toAbsolutePath().toString());
-
-        dataDir = tempDir.resolve("data");
-        planosDir = dataDir.resolve("planos");
-        exerciciosFile = dataDir.resolve("exercicios.csv");
-
-        Files.createDirectories(planosDir);
-
-        String exerciciosContent = """
-        nome,descricao,caminhoGif
-        Supino,Para peito,supino.gif
-        Agachamento,Para pernas,agachamento.gif
-        Puxada,Para costas,puxada.gif
-        """;
-        Files.write(exerciciosFile, exerciciosContent.getBytes());
-
-        planoRepository = new PlanoTreinoCsvRepository();
-    }
-
-    @AfterEach
-    void tearDown() {
-
-        System.setProperty("user.dir", originalUserDir);
+        // Configuração padrão do mock de usuário
+        when(mockUsuario.getEmail()).thenReturn("test@user.com");
     }
 
     @Test
-    void testSalvarPlano() throws IOException {
-        Usuario usuario = new Comum("user@example.com", "User Test", "senha123", "11987654321", 70.0, 1.75, 20.0);
-        Date inicio = new Date();
-        Date fim = new Date(inicio.getTime() + 7 * 24 * 60 * 60 * 1000);
+    void testSalvarPlanos_DeveEscreverArquivoCorretamente() throws Exception {
+        // --- Arrange (Preparação) ---
+        
+        Exercicio ex1 = new Exercicio("Supino Reto", "Peito", null);
+        Exercicio ex2 = new Exercicio("Agachamento", "Perna", null);
+        ItemPlanoTreino item1 = new ItemPlanoTreino(ex1, 3, 12, 50);
+        ItemPlanoTreino item2 = new ItemPlanoTreino(ex2, 4, 10, 80);
 
-        PlanoTreino plano = new PlanoTreino(1, "Plano de Teste", inicio, fim, usuario);
+        SecaoTreino secaoA = new SecaoTreino("sec1", "Peito, Ombros", null); // Testa o escape de vírgula
+        secaoA.addItemSecao(item1);
+        SecaoTreino secaoB = new SecaoTreino("sec2", "Pernas", null);
+        secaoB.addItemSecao(item2);
 
-        SecaoTreino secao = plano.getOuCriarSecao("Treino A");
-        Exercicio supino = new Exercicio("Supino", "Para peito", "supino.gif");
-        secao.addItemSecao(new ItemPlanoTreino(supino, 3, 10, 50));
+        Date data = dateFormat.parse("2025-01-01 12:00:00");
+        PlanoTreino plano1 = new PlanoTreino(1, "Plano Força", data, data, mockUsuario);
+        plano1.setSecoes(List.of(secaoA, secaoB));
 
-        planoRepository.salvarPlano(plano);
+        List<PlanoTreino> planosParaSalvar = List.of(plano1);
 
-        Path savedFilePath = planosDir.resolve("plano_" + usuario.getEmail().replaceAll("[^a-zA-Z0-9]", "_") + ".csv");
-        assertTrue(Files.exists(savedFilePath), "O arquivo do plano deve ser salvo.");
+        // --- Act (Ação) ---
+        repository.salvarPlanos(planosParaSalvar, mockUsuario);
 
-        List<String> lines = Files.readAllLines(savedFilePath);
-        assertFalse(lines.isEmpty(), "O arquivo salvo não deve estar vazio.");
+        // --- Assert (Verificação) ---
+        // 1. Verificar se o arquivo foi criado
+        File arquivoSalvo = new File(testBaseDir + "plano_test_user_com.csv");
+        assertTrue(arquivoSalvo.exists());
 
-        // Verifica se a primeira linha é o cabeçalho
-        assertTrue(lines.get(0).startsWith("id,nomePlano,inicioPlano,fimPlano,emailUsuario"), "O cabeçalho do CSV de metadados está incorreto.");
-        // Verifica se a segunda linha contém os metadados do plano
-        assertTrue(lines.get(1).contains("1,Plano de Teste,"), "Os metadados do plano estão incorretos.");
-        // Verifica se as linhas subsequentes contêm os itens do plano
-        assertTrue(lines.contains("Treino A,Supino,3,10,50"), "Os itens do plano de treino estão incorretos.");
+        // 2. Verificar o conteúdo do arquivo
+        List<String> linhas = Files.readAllLines(arquivoSalvo.toPath());
+        
+        
+        assertEquals(5, linhas.size()); 
+        
+        assertEquals("id,nomePlano,inicioPlano,fimPlano,emailUsuario", linhas.get(0));
+        assertEquals("1,Plano Força,2025-01-01 12:00:00,2025-01-01 12:00:00,test@user.com", linhas.get(1));
+        
+        // CORREÇÃO 2: Esperar a string escapada
+        assertEquals("Peito\\, Ombros,Supino Reto,3,12,50", linhas.get(2)); 
+        
+        assertEquals("Pernas,Agachamento,4,10,80", linhas.get(3));
+        assertEquals("PLANO_END", linhas.get(4));
+        
+        
     }
 
     @Test
-    void testCarregarPlano() throws IOException {
-        Usuario usuario = new Comum("loaduser@example.com", "Load User", "loadpass", "11999999999", 75.0, 1.80, 15.0);
-        Date inicio = new Date();
-        Date fim = new Date(inicio.getTime() + 14 * 24 * 60 * 60 * 1000);
+    void testCarregarPlanos_DeveLerArquivoCorretamente() throws Exception {
+        // --- Arrange (Preparação) ---
+        // 1. Mocar as dependências
+        Exercicio ex1 = new Exercicio("Supino Reto", "Peito", null);
+        Exercicio ex2 = new Exercicio("Barra Fixa", "Costas", null);
+        when(mockExercicioBusiness.buscarExercicioPorNome("Supino Reto")).thenReturn(ex1);
+        when(mockExercicioBusiness.buscarExercicioPorNome("Barra Fixa")).thenReturn(ex2);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 2. Criar o arquivo CSV falso
+        String dateStr = "2025-10-23 00:00:00";
+        Date expectedDate = dateFormat.parse(dateStr);
+        String conteudoCsv = "id,nomePlano,inicioPlano,fimPlano,emailUsuario\n" +
+                             "1,Plano A," + dateStr + "," + dateStr + ",test@user.com\n" +
+                             "Peito,Supino Reto,3,10,70\n" +
+                             "PLANO_END\n" +
+                             "2,Plano B," + dateStr + "," + dateStr + ",test@user.com\n" +
+                             "Costas,Barra Fixa,4,8,0\n" +
+                             "PLANO_END\n";
+        
+        File arquivoPlano = new File(testBaseDir + "plano_test_user_com.csv");
+        Files.writeString(arquivoPlano.toPath(), conteudoCsv);
 
-        Path planoFilePath = planosDir.resolve("plano_" + usuario.getEmail().replaceAll("[^a-zA-Z0-9]", "_") + ".csv");
+        // --- Act (Ação) ---
+        List<PlanoTreino> planosCarregados = repository.carregarPlanos(mockUsuario);
 
+        // --- Assert (Verificação) ---
+        assertNotNull(planosCarregados);
+        assertEquals(2, planosCarregados.size());
 
-        String planoContent = String.format("""
-                        id,nomePlano,inicioPlano,fimPlano,emailUsuario
-                        2,Plano Carregado,%s,%s,%s
-                        Treino B,Agachamento,4,12,60
-                        Treino B,Supino,3,8,45""",
-                dateFormat.format(inicio), dateFormat.format(fim), usuario.getEmail());
-        Files.write(planoFilePath, planoContent.getBytes());
+        // Verifica Plano 1
+        PlanoTreino plano1 = planosCarregados.get(0);
+        assertEquals(1, plano1.getId());
+        assertEquals("Plano A", plano1.getNomePlano());
+        assertEquals(expectedDate, plano1.getInicioPlano());
+        assertEquals(mockUsuario, plano1.getUsuario());
+        assertEquals(1, plano1.getSecoes().size());
+        SecaoTreino secao1 = plano1.getSecaoPorNome("Peito");
+        assertNotNull(secao1);
+        assertEquals("Supino Reto", secao1.getItensPlano().get(0).getExercicio().getNome());
+        assertEquals(3, secao1.getItensPlano().get(0).getSeries());
+        assertEquals(10, secao1.getItensPlano().get(0).getRepeticoes());
 
-        PlanoTreino loadedPlano = planoRepository.carregarPlano(usuario);
-
-        assertNotNull(loadedPlano, "O plano carregado não deve ser nulo.");
-        assertEquals(2, loadedPlano.getId(), "O ID do plano deve ser 2.");
-        assertEquals("Plano Carregado", loadedPlano.getNomePlano(), "O nome do plano deve ser 'Plano Carregado'.");
-        assertEquals(usuario.getEmail(), loadedPlano.getUsuario().getEmail(), "O email do usuário deve corresponder.");
-
-        List<SecaoTreino> secoes = loadedPlano.getSecoes();
-        assertFalse(secoes.isEmpty(), "Deve haver seções no plano carregado.");
-        assertEquals(1, secoes.size(), "Deve haver apenas uma seção (Treino B).");
-        assertEquals("Treino B", secoes.get(0).getNomeTreino(), "O nome da seção deve ser 'Treino B'.");
-
-        List<ItemPlanoTreino> itens = secoes.get(0).getItensPlano();
-        assertNotNull(itens, "A lista de itens da seção não deve ser nula.");
-        assertEquals(2, itens.size(), "A seção deve conter 2 itens.");
-
-        ItemPlanoTreino item1 = itens.get(0);
-        assertEquals("Agachamento", item1.getExercicio().getNome(), "O primeiro item deve ser 'Agachamento'.");
-        assertEquals(4, item1.getSeries(), "O número de séries do primeiro item está incorreto.");
-        assertEquals(12, item1.getRepeticoes(), "O número de repetições do primeiro item está incorreto.");
-        assertEquals(60, item1.getCarga(), "A carga do primeiro item está incorreta.");
-
-        ItemPlanoTreino item2 = itens.get(1);
-        assertEquals("Supino", item2.getExercicio().getNome(), "O segundo item deve ser 'Supino'.");
-        assertEquals(3, item2.getSeries(), "O número de séries do segundo item está incorreto.");
-        assertEquals(8, item2.getRepeticoes(), "O número de repetições do segundo item está incorreto.");
-        assertEquals(45, item2.getCarga(), "A carga do segundo item está incorreta.");
+        // Verifica Plano 2
+        PlanoTreino plano2 = planosCarregados.get(1);
+        assertEquals(2, plano2.getId());
+        assertEquals("Plano B", plano2.getNomePlano());
+        assertEquals(1, plano2.getSecoes().size());
+        SecaoTreino secao2 = plano2.getSecaoPorNome("Costas");
+        assertNotNull(secao2);
+        assertEquals("Barra Fixa", secao2.getItensPlano().get(0).getExercicio().getNome());
+        assertEquals(4, secao2.getItensPlano().get(0).getSeries());
+        assertEquals(8, secao2.getItensPlano().get(0).getRepeticoes());
     }
 
     @Test
-    void testCarregarPlanoInexistente() {
-        Usuario usuario = new Comum("nonexistent@example.com", "Non Existent", "pass", "123", 60.0, 1.60, 25.0);
+    void testCarregarPlanos_ArquivoNaoExiste_DeveRetornarListaVazia() {
+        // --- Act ---
+        // Nenhum arquivo foi criado
+        List<PlanoTreino> planosCarregados = repository.carregarPlanos(mockUsuario);
 
-        PlanoTreino loadedPlano = planoRepository.carregarPlano(usuario);
+        // --- Assert ---
+        assertNotNull(planosCarregados);
+        assertTrue(planosCarregados.isEmpty());
+    }
 
-        assertNotNull(loadedPlano, "O plano carregado não deve ser nulo (espera-se um plano de erro).");
-        assertEquals(0, loadedPlano.getId(), "O ID deve ser 0 para um plano 'erro'.");
-        assertEquals("Erro ao carregar", loadedPlano.getNomePlano(), "O nome do plano deve indicar erro.");
+    @Test
+    void testCarregarPlanos_ExercicioNaoEncontrado_DeveIgnorarItem() throws Exception {
+        // --- Arrange ---
+        // "Exercicio Fantasma" não será mockado
+        Exercicio ex1 = new Exercicio("Supino Reto", "Peito", null);
+        when(mockExercicioBusiness.buscarExercicioPorNome("Supino Reto")).thenReturn(ex1);
+        when(mockExercicioBusiness.buscarExercicioPorNome("Exercicio Fantasma")).thenReturn(null);
+
+        String dateStr = "2025-10-23 00:00:00";
+        String conteudoCsv = "id,nomePlano,inicioPlano,fimPlano,emailUsuario\n" +
+                             "1,Plano A," + dateStr + "," + dateStr + ",test@user.com\n" +
+                             "Peito,Supino Reto,3,10,70\n" +
+                             "Ombros,Exercicio Fantasma,3,15,10\n" + // Este item será ignorado
+                             "PLANO_END\n";
+        
+        File arquivoPlano = new File(testBaseDir + "plano_test_user_com.csv");
+        Files.writeString(arquivoPlano.toPath(), conteudoCsv);
+
+        // --- Act ---
+        List<PlanoTreino> planosCarregados = repository.carregarPlanos(mockUsuario);
+
+        // --- Assert ---
+        assertEquals(1, planosCarregados.size());
+        PlanoTreino plano = planosCarregados.get(0);
+        assertEquals(2, plano.getSecoes().size()); // A seção "Ombros" é criada
+
+        SecaoTreino secaoPeito = plano.getSecaoPorNome("Peito");
+        SecaoTreino secaoOmbros = plano.getSecaoPorNome("Ombros");
+
+        assertNotNull(secaoPeito);
+        assertNotNull(secaoOmbros);
+        
+        assertEquals(1, secaoPeito.getItensPlano().size()); // Item do Supino foi adicionado
+        assertTrue(secaoOmbros.getItensPlano().isEmpty()); // Item "Fantasma" foi ignorado
     }
 }

@@ -3,25 +3,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="br.upe.academia2.ui.controllers.CadastrarIndicadorBioController">
-    <Label layoutX="135.0" layoutY="28.0" prefHeight="84.0" prefWidth="331.0"
-           text="Cadastrar Indicadores Biomédicos" style="-fx-font-size: 22px;" />
-    <Label layoutX="63.0" layoutY="129.0" prefHeight="32.0" prefWidth="63.0" text="Peso (KG):" />
-    <TextField fx:id="peso" layoutX="151.0" layoutY="135.0" prefHeight="25.0" prefWidth="63.0" />
-    <Label layoutX="63.0" layoutY="207.0" text="Altura (cm):" />
-    <TextField fx:id="altura" layoutX="151.0" layoutY="203.0" prefHeight="25.0" prefWidth="63.0" />
-    <Label layoutX="261.0" layoutY="137.0" text="Percentual de Gordura (%):" />
-    <TextField fx:id="percGordura" layoutX="446.0" layoutY="132.0" prefHeight="25.0" prefWidth="88.0" />
-    <Label layoutX="261.0" layoutY="205.0" text="Percentual de Massa Magra (%):" />
-    <TextField fx:id="massaMagra" layoutX="446.0" layoutY="201.0" prefHeight="25.0" prefWidth="88.0" />
-    <Button layoutX="256.0" layoutY="286.0" prefHeight="32.0" prefWidth="88.0"
-            onAction="#handleCadastrarIndicadores" text="Salvar" style="-fx-font-size: 15px;" />
-    <Button fx:id="btnVoltar" layoutX="14.0" layoutY="354.0" prefHeight="32.0" prefWidth="56.0"
-            onAction="#handleVoltar" text="Voltar" />
-    <Label fx:id="mensagemLabel" layoutX="63.0" layoutY="250.0" prefHeight="25.0" prefWidth="400.0" text="" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.upe.academia2.ui.controllers.CadastrarIndicadorBioController"
+            prefWidth="370" prefHeight="370"
+            style="-fx-background-color: #0f4c83;">
+    <!-- Barra branca superior para o título -->
+    <Pane prefWidth="370" prefHeight="52"
+          style="-fx-background-color: white;">
+        <Label layoutX="16" layoutY="14" text="Cadastro de Indicador Biomédico"
+               style="-fx-font-size:18; -fx-font-weight: bold;"/>
+    </Pane>
 
+    <!-- Formulário direto sobre fundo cinza -->
+    <VBox layoutX="30" layoutY="70" spacing="14" prefWidth="310">
+        <TextField fx:id="pesoField" promptText="Peso (kg)" prefWidth="230"/>
+        <TextField fx:id="alturaField" promptText="Altura (cm)" prefWidth="230"/>
+        <TextField fx:id="percGorduraField" promptText="Percentual de Gordura (%)" prefWidth="230"/>
+        <TextField fx:id="massaMagraField" promptText="Percentual de Massa Magra (%)" prefWidth="230"/>
+        <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
+        <HBox alignment="CENTER">
+            <Button text="Salvar" onAction="#handleCadastrarIndicadores" prefWidth="100"/>
+        </HBox>
+    </VBox>
 </AnchorPane>
-

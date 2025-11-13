@@ -14,13 +14,13 @@ import java.util.List;
 
 public class RemoverExercicioSecaoController {
 
-    @FXML private TextField secaoField;
+    @FXML private ComboBox<String> secaoComboBox;
     @FXML private ComboBox<String> exerciciosComboBox;
     @FXML private Button btnRemover;
     @FXML private Button btnVoltar;
 
-    private Usuario usuarioLogado;
-    private Stage stageAnterior;
+    
+    private PlanoTreino planoParaModificar; // MUDANÇA DE NOME
 
     private PlanoTreinoBusiness planoTreinoBusiness;
 
@@ -34,31 +34,33 @@ public class RemoverExercicioSecaoController {
         btnRemover.setOnAction(e -> removerExercicio());
         btnVoltar.setOnAction(e -> voltar());
 
-        secaoField.textProperty().addListener((obs, oldText, newText) -> atualizarListaExercicios(newText));
+        secaoComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> atualizarListaExercicios(newVal));
     }
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
+    
+    public void setPlanoParaModificar(PlanoTreino plano) {
+        this.planoParaModificar = plano;
+        carregarSecoes(); 
     }
 
-    public void setStageAnterior(Stage stage) {
-        this.stageAnterior = stage;
+    private void carregarSecoes() {
+        secaoComboBox.getItems().clear();
+        if (this.planoParaModificar != null) {
+            for (SecaoTreino secao : planoParaModificar.getSecoes()) {
+                secaoComboBox.getItems().add(secao.getNomeTreino());
+            }
+        }
     }
+
 
     public void atualizarListaExercicios(String nomeSecao) {
         exerciciosComboBox.getItems().clear();
 
-        if (nomeSecao == null || nomeSecao.trim().isEmpty()) {
+        if (nomeSecao == null || nomeSecao.trim().isEmpty() || this.planoParaModificar == null) {
             return;
         }
 
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-
-        if (plano == null) {
-            return;
-        }
-
-        SecaoTreino secao = plano.getSecaoPorNome(nomeSecao);
+        SecaoTreino secao = planoParaModificar.getSecaoPorNome(nomeSecao);
         if (secao == null) {
             return;
         }
@@ -70,21 +72,16 @@ public class RemoverExercicioSecaoController {
     }
 
     public void removerExercicio() {
-        String nomeSecao = secaoField.getText().trim();
+        String nomeSecao = secaoComboBox.getValue();
         String nomeExercicio = exerciciosComboBox.getValue();
 
-        if (nomeSecao.isEmpty() || nomeExercicio == null) {
+        if (nomeSecao == null || nomeExercicio == null) {
             mostrarAlerta("Erro", "Informe a seção e selecione um exercício para remover.", Alert.AlertType.WARNING);
             return;
         }
-
-        PlanoTreino plano = planoTreinoBusiness.carregarPlanoDoUsuario(usuarioLogado);
-        if (plano == null) {
-            mostrarAlerta("Erro", "Plano de treino não encontrado.", Alert.AlertType.ERROR);
-            return;
-        }
-
-        SecaoTreino secao = plano.getSecaoPorNome(nomeSecao);
+        
+        // MUDANÇA: Usa o 'planoParaModificar'
+        SecaoTreino secao = planoParaModificar.getSecaoPorNome(nomeSecao);
         if (secao == null) {
             mostrarAlerta("Erro", "Seção não encontrada no plano.", Alert.AlertType.ERROR);
             return;
@@ -93,7 +90,7 @@ public class RemoverExercicioSecaoController {
         boolean removido = secao.getItensPlano().removeIf(item -> item.getExercicio().getNome().equals(nomeExercicio));
 
         if (removido) {
-            planoTreinoBusiness.modificarPlanoDeTreino(plano);
+            planoTreinoBusiness.modificarPlanoDeTreino(planoParaModificar); // Salva o plano modificado
             mostrarAlerta("Sucesso", "Exercício removido com sucesso!", Alert.AlertType.INFORMATION);
             atualizarListaExercicios(nomeSecao);
         } else {
@@ -104,9 +101,6 @@ public class RemoverExercicioSecaoController {
     public void voltar(){
         Stage atual = (Stage) btnVoltar.getScene().getWindow();
         atual.close();
-        if(stageAnterior != null){
-            stageAnterior.show();
-        }
     }
 
     public void mostrarAlerta(String titulo, String mensagem, Alert.AlertType tipo) {
