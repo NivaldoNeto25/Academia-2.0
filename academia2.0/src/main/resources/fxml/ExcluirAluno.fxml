@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="170" prefWidth="330" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="210" prefWidth="330" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="br.upe.academia2.ui.controllers.ExcluirAlunoController"
             style="-fx-background-color: #0f4c83;">
     <!-- Barra branca superior fixando título -->
@@ -17,7 +17,10 @@
 
     <!-- Área dos campos -->
     <VBox layoutX="35" layoutY="62" spacing="14" prefWidth="260">
+
+        <Label text="Email do aluno" style="-fx-text-fill: white;"/>
         <TextField fx:id="emailField" promptText="Email do aluno" prefWidth="200"/>
+
         <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
         <HBox alignment="CENTER">
             <Button text="Excluir" onAction="#handleExcluir" prefWidth="100"/>

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="280" prefWidth="330" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="350" prefWidth="330" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="br.upe.academia2.ui.controllers.ModificarAlunoController"
             style="-fx-background-color: #0f4c83;">
     <!-- Barra branca superior -->
@@ -17,9 +17,16 @@
 
     <!-- Área dos campos -->
     <VBox layoutX="35" layoutY="62" spacing="14" prefWidth="260">
+
+        <Label text="Email" style="-fx-text-fill: white;"/>
         <TextField fx:id="emailField" promptText="Email" prefWidth="200"/>
+
+        <Label text="Novo nome" style="-fx-text-fill: white;"/>
         <TextField fx:id="nomeField" promptText="Novo nome" prefWidth="200"/>
+
+        <Label text="Nova senha" style="-fx-text-fill: white;"/>
         <TextField fx:id="senhaField" promptText="Nova senha" prefWidth="200"/>
+
         <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
         <HBox alignment="CENTER">
             <Button text="Modificar" onAction="#handleModificar" prefWidth="100"/>

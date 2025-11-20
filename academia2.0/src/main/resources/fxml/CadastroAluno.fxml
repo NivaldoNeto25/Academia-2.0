@@ -10,7 +10,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.upe.academia2.ui.controllers.CadastroAlunoController"
-            prefWidth="370" prefHeight="340"
+            prefWidth="370" prefHeight="360"
             style="-fx-background-color: #0f4c83;">
     <!-- Barra branca superior para o título -->
     <Pane prefWidth="370" prefHeight="52"
@@ -21,9 +21,16 @@
 
     <!-- Formulário direto sobre fundo cinza -->
     <VBox layoutX="30" layoutY="70" spacing="14" prefWidth="310">
+
+        <Label text="Nome" style="-fx-text-fill: white;"/>
         <TextField fx:id="nomeField" promptText="Nome" prefWidth="230"/>
+
+        <Label text="Email" style="-fx-text-fill: white;"/>
         <TextField fx:id="emailField" promptText="Email" prefWidth="230"/>
+
+        <Label text="Senha" style="-fx-text-fill: white;"/>
         <PasswordField fx:id="senhaField" promptText="Senha" prefWidth="230"/>
+
         <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
         <HBox alignment="CENTER">
             <Button text="Cadastrar" onAction="#handleCadastrar" prefWidth="100"/>

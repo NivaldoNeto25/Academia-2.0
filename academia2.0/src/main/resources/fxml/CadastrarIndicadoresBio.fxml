@@ -5,7 +5,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.upe.academia2.ui.controllers.CadastrarIndicadorBioController"
-            prefWidth="370" prefHeight="370"
+            prefWidth="370" prefHeight="430"
             style="-fx-background-color: #0f4c83;">
     <!-- Barra branca superior para o título -->
     <Pane prefWidth="370" prefHeight="52"
@@ -16,10 +16,19 @@
 
     <!-- Formulário direto sobre fundo cinza -->
     <VBox layoutX="30" layoutY="70" spacing="14" prefWidth="310">
+
+        <Label text="Peso (kg)" style="-fx-text-fill: white;"/>
         <TextField fx:id="pesoField" promptText="Peso (kg)" prefWidth="230"/>
+
+        <Label text="Altura (cm)" style="-fx-text-fill: white;"/>
         <TextField fx:id="alturaField" promptText="Altura (cm)" prefWidth="230"/>
+
+        <Label text="Percentual de Gordura (%)" style="-fx-text-fill: white;"/>
         <TextField fx:id="percGorduraField" promptText="Percentual de Gordura (%)" prefWidth="230"/>
+
+        <Label text="Percentual de Massa Magra (%)" style="-fx-text-fill: white;"/>
         <TextField fx:id="massaMagraField" promptText="Percentual de Massa Magra (%)" prefWidth="230"/>
+
         <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
         <HBox alignment="CENTER">
             <Button text="Salvar" onAction="#handleCadastrarIndicadores" prefWidth="100"/>
