@@ -33,6 +33,8 @@ public class CadastroAlunoController {
         String email = emailField.getText();
         String senha = senhaField.getText();
 
+        mensagemLabel.setText(""); // Limpa mensagem anterior
+
         if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
             mensagemLabel.setText("Todos os campos são obrigatórios.");
             return;
@@ -43,17 +45,22 @@ public class CadastroAlunoController {
         }
 
         Usuario novo = new Comum(nome, null, email, senha, null, null, null);
-        usuarioBusiness.cadastrarUsuario(novo);
-        mensagemLabel.setText("Aluno cadastrado com sucesso!");
+        try {
+            usuarioBusiness.cadastrarUsuario(novo);
+            mensagemLabel.setStyle("-fx-text-fill: green;");
+            mensagemLabel.setText("Aluno cadastrado com sucesso!");
 
-        // Atualizar tabela do menu
-        if (admMenuController != null) {
-            admMenuController.atualizarTabelaAlunos();
+            // Atualizar tabela do menu
+            if (admMenuController != null) {
+                admMenuController.atualizarTabelaAlunos();
+            }
+
+            // Fecha a tela de cadastro ao salvar
+            Stage atual = (Stage) nomeField.getScene().getWindow();
+            atual.close();
+        } catch (IllegalArgumentException ex) {
+            mensagemLabel.setStyle("-fx-text-fill: red;");
+            mensagemLabel.setText("Digite um e-mail válido!");
         }
-
-        // Fecha a tela de cadastro ao salvar
-        Stage atual = (Stage) nomeField.getScene().getWindow();
-        atual.close();
-
     }
 }
