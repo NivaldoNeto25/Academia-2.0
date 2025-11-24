@@ -32,8 +32,6 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
 
     private final ExercicioBusiness exercicio = new ExercicioBusiness();
 
-    private Usuario usuario;
-
     private BorderPane mainPane;
 
     private final Logger logger = Logger.getLogger(ExercicioMenuController.class.getName());
@@ -43,7 +41,6 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
 
     @Override
     public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public void setMainPane(BorderPane mainPane) {
