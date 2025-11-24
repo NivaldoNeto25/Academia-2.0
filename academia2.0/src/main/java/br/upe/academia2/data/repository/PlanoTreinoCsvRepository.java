@@ -83,7 +83,8 @@ public class PlanoTreinoCsvRepository {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoPlano))) {
-            reader.readLine();
+            // Armazena o cabeçalho somente para cumprir o linter e clareza, mesmo que não seja usado
+            String cabecalho = reader.readLine();
 
             PlanoTreino planoAtual = null;
             String line;
