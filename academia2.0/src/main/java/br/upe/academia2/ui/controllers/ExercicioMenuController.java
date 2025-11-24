@@ -41,6 +41,7 @@ public class ExercicioMenuController implements AlunoMenuController.UsuarioDepen
 
     @Override
     public void setUsuario(Usuario usuario) {
+        // Este método está presente para atender à interface UsuarioDependente.
     }
 
     public void setMainPane(BorderPane mainPane) {

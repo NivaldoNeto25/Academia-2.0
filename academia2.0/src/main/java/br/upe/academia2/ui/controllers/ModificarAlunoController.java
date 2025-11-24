@@ -19,7 +19,10 @@ public class ModificarAlunoController {
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) {
+        // Método reservado para ser implementado se for necessário passar Stage entre telas.
+        // Não faz nada por padrão.
     }
+
     public void setAdmMenuController(AdmMenuController admMenuController) { this.admMenuController = admMenuController; }
 
     @FXML
