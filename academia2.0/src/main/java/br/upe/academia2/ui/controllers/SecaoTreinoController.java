@@ -46,7 +46,6 @@ public class SecaoTreinoController implements Initializable {
 
     // --- Atributos de Lógica (Copiados do PlanoTreinoAlunoController) ---
     private Usuario usuarioLogado;
-    private List<PlanoTreino> planosDoUsuario;
     private PlanoTreinoBusiness planoTreinoBusiness;
 
     /**
@@ -119,7 +118,7 @@ public class SecaoTreinoController implements Initializable {
 
     private void carregarPlanosDoUsuario() {
         if (usuarioLogado != null) {
-            this.planosDoUsuario = planoTreinoBusiness.listarPlanosPorUsuario(usuarioLogado);
+            List<PlanoTreino> planosDoUsuario = planoTreinoBusiness.listarPlanosPorUsuario(usuarioLogado);
             comboPlanos.setItems(FXCollections.observableArrayList(planosDoUsuario));
         }
     }
