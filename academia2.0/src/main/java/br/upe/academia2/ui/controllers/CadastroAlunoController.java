@@ -15,12 +15,10 @@ public class CadastroAlunoController {
     @FXML private TextField senhaField;
     @FXML private Label mensagemLabel;
 
-    private Stage stageAnterior;
     private AdmMenuController admMenuController;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) {
-        this.stageAnterior = stageAnterior;
     }
 
     public void setAdmMenuController(AdmMenuController admMenuController) {
