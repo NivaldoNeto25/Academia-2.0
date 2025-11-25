@@ -10,10 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class CadastroAlunoController {
-    @FXML private TextField nomeField;
-    @FXML private TextField emailField;
-    @FXML private TextField senhaField;
-    @FXML private Label mensagemLabel;
+    @FXML
+    public TextField nomeField;
+    @FXML
+    public TextField emailField;
+    @FXML
+    public TextField senhaField;
+    @FXML
+    public Label mensagemLabel;
 
     private AdmMenuController admMenuController;
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
