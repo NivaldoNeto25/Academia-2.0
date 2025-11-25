@@ -68,7 +68,7 @@ public class AlunoMenuController implements Initializable {
         }
     }
 
-    private void loadContent(String fxmlPath) {
+    public void loadContent(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
 
