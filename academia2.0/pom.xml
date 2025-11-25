@@ -18,11 +18,11 @@
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.release>21</maven.compiler.release>
     <javafx.version>21.0.2</javafx.version>
-    <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version> 
-    <sonar.projectKey>NivaldoNeto25_Academia-2.0</sonar.projectKey>
-    <sonar.organization>nivaldoneto25</sonar.organization> 
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+    <hibernate.version>6.4.2.Final</hibernate.version>
+    <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+    <h2.version>2.2.224</h2.version>
+    <!-- E mantenha os demais properties do seu projeto -->
   </properties>
 
   <dependencies>
@@ -33,7 +33,6 @@
       <version>5.11.0</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
@@ -41,7 +40,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Jacoco -->
+    <!-- Jacoco (plugin) -->
     <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
@@ -55,7 +54,6 @@
       <artifactId>javafx-controls</artifactId>
       <version>${javafx.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
@@ -68,6 +66,25 @@
       <artifactId>mockito-junit-jupiter</artifactId>
       <version>5.12.0</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- JPA -->
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>${jakarta.persistence.version}</version>
+    </dependency>
+    <!-- Hibernate -->
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <!-- H2 Database -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${h2.version}</version>
     </dependency>
   </dependencies>
 
@@ -94,7 +111,7 @@
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.8</version>
+        <version>${javafx.maven.plugin.version}</version>
         <configuration>
           <mainClass>br.upe.academia2.Main</mainClass>
           <launcher>app</launcher>
@@ -107,7 +124,7 @@
         </configuration>
       </plugin>
 
-      <!-- Jacoco -->
+      <!-- Jacoco Cobertura -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
