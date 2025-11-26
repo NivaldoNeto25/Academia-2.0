@@ -46,3 +46,6 @@ out/
 .code-workspace
 
 *.csv
+
+src/main/resources/META-INF/persistence.xml
+academiaDB.mv.db
