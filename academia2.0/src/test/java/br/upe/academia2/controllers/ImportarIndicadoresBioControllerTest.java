@@ -34,17 +34,17 @@ class ImportarIndicadoresBioControllerTest {
         campoArquivo = new TextField();
         mensagemLabel = new Label();
 
-        // Injetando campoArquivo
+        // injet campo de arquivo
         Field f1 = ImportarIndicadoresBioController.class.getDeclaredField("campoArquivo");
         f1.setAccessible(true);
         f1.set(controller, campoArquivo);
 
-        // Injetando mensagemLabel
+        // mengem label
         Field f2 = ImportarIndicadoresBioController.class.getDeclaredField("mensagemLabel");
         f2.setAccessible(true);
         f2.set(controller, mensagemLabel);
 
-        // Injetando mock de IndicadorBiomedicoBusiness
+        // mock de IndicadorBiomedicoBusiness
         Field f3 = ImportarIndicadoresBioController.class.getDeclaredField("indicadorBusiness");
         f3.setAccessible(true);
         f3.set(controller, indicadorBusiness);
