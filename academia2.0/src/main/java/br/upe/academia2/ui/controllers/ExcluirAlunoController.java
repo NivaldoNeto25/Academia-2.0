@@ -1,7 +1,7 @@
 package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.UsuarioBusiness;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,11 +11,14 @@ public class ExcluirAlunoController {
     @FXML private TextField emailField;
     @FXML private Label mensagemLabel;
 
-    private AdmMenuController admMenuController; // Referência para atualizar a tabela no menu
+    private AdmMenuController admMenuController;
 
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
+    private final UsuarioBusiness usuarioBusiness =
+            new UsuarioBusiness(UsuarioJpaRepository.getInstance());
 
-    public void setAdmMenuController(AdmMenuController admMenuController) { this.admMenuController = admMenuController; }
+    public void setAdmMenuController(AdmMenuController admMenuController) {
+        this.admMenuController = admMenuController;
+    }
 
     @FXML
     public void handleExcluir() {
@@ -26,7 +29,6 @@ public class ExcluirAlunoController {
         }
 
         UsuarioBusiness.ResultadoExclusao resultado = usuarioBusiness.deletarUsuario(email);
-        usuarioBusiness.salvarAlteracoesNoCsv();
 
         switch (resultado) {
             case SUCESSO -> {

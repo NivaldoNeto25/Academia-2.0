@@ -2,7 +2,7 @@ package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.IndBioRepoImpl;
+import br.upe.academia2.data.repository.IndBioJpaRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDependente {
 
     private Usuario usuarioLogado;
-    private IndBioRepoImpl repo = new IndBioRepoImpl("db/usuario.csv");
+    private IndBioJpaRepository repo = new IndBioJpaRepository();
 
     @FXML private Button btnCadastrar;
     @FXML private Button btnImportar;
@@ -60,7 +60,9 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
         if (usuarioLogado != null) {
             List<IndicadorBiomedico> todos = repo.findAll();
             List<IndicadorBiomedico> filtraUsuario = todos.stream()
-                    .filter(ind -> ind.getEmail().equals(usuarioLogado.getEmail()))
+                    .filter(ind -> ind.getUsuario() != null &&
+                            ind.getUsuario().getEmail().equals(usuarioLogado.getEmail()))
+
                     .toList();
             ObservableList<IndicadorBiomedico> obsList = FXCollections.observableArrayList(filtraUsuario);
             tabelaIndicadores.setItems(obsList);

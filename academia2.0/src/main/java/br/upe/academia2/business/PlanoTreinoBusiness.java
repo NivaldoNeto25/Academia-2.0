@@ -2,21 +2,19 @@ package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
+import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlanoTreinoBusiness {
-
     private final IUsuarioRepository usuarioRepository;
-    private final PlanoTreinoCsvRepository planoRepository;
+    private final PlanoTreinoJpaRepository planoRepository;
     private final Logger logger = Logger.getLogger(PlanoTreinoBusiness.class.getName());
 
-    public PlanoTreinoBusiness(IUsuarioRepository usuarioRepository, PlanoTreinoCsvRepository planoRepository) {
+    public PlanoTreinoBusiness(IUsuarioRepository usuarioRepository, PlanoTreinoJpaRepository planoRepository) {
         this.usuarioRepository = usuarioRepository;
         this.planoRepository = planoRepository;
     }
@@ -26,20 +24,10 @@ public class PlanoTreinoBusiness {
             logger.warning("Usuário ou Plano de Treino nulos.");
             return;
         }
-
         plano.setUsuario(usuario);
-
-        List<PlanoTreino> planosAtuais = planoRepository.listarPlanosPorUsuario(usuario);
-
-        plano.setId((int) (System.currentTimeMillis() % 100000));
-        planosAtuais.add(plano);
-
-        planoRepository.salvarPlanos(planosAtuais, usuario);
-
-        usuario.setPlanTreinos(planosAtuais);
-
+        planoRepository.salvarOuAtualizarPlano(plano);
+        usuario.getPlanTreinos().add(plano);
         usuarioRepository.update(usuario);
-
         logger.info("Plano de treino '" + plano.getNomePlano() + "' cadastrado para o usuário " + usuario.getNome());
     }
 
@@ -48,14 +36,8 @@ public class PlanoTreinoBusiness {
             logger.warning("Usuário nulo.");
             return null;
         }
-
         List<PlanoTreino> planos = planoRepository.listarPlanosPorUsuario(usuario);
-
-        if (planos != null && !planos.isEmpty()) {
-            return planos.get(0);
-        }
-
-        return null;
+        return (planos != null && !planos.isEmpty()) ? planos.get(0) : null;
     }
 
     public void modificarPlanoDeTreino(PlanoTreino plano) {
@@ -63,45 +45,15 @@ public class PlanoTreinoBusiness {
             logger.warning("Plano ou usuário nulos.");
             return;
         }
-
-        Usuario usuario = plano.getUsuario();
-        List<PlanoTreino> planosAtuais = planoRepository.listarPlanosPorUsuario(usuario);
-
-        int index = -1;
-        for (int i = 0; i < planosAtuais.size(); i++) {
-            if (planosAtuais.get(i).getId() == plano.getId()) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index != -1) {
-            planosAtuais.set(index, plano);
-        } else {
-            logger.warning("Plano de treino não encontrado para modificação.");
-            return;
-        }
-        
-        planoRepository.salvarPlanos(planosAtuais, usuario);
+        planoRepository.salvarOuAtualizarPlano(plano);
         logger.info("Plano de treino atualizado com sucesso!");
     }
 
-    public void exibirPlanoDeTreino(PlanoTreino plano) {
-        logger.info("Plano: " + plano.getNomePlano());
-
-        for (var secao : plano.getSecoes()) {
-            logger.info(" - Seção: " + secao.getNomeTreino());
-            for (var item : secao.getItensPlano()) {
-                if (logger.isLoggable(Level.INFO)) {
-                    logger.info(String.format(
-                            "     - %s: %d séries x %d reps (carga: %dkg)",
-                            item.getExercicio().getNome(),
-                            item.getSeries(),
-                            item.getRepeticoes(),
-                            item.getCarga()
-                    ));
-                }
-            }
+    public void deletarPlanoDeTreino(int id) {
+        if (planoRepository.deletarPlano(id)) {
+            logger.info("Plano de treino deletado com sucesso!");
+        } else {
+            logger.warning("Plano de treino não encontrado para deletar!");
         }
     }
 
@@ -110,22 +62,6 @@ public class PlanoTreinoBusiness {
             logger.warning("Usuário nulo ao tentar listar planos.");
             return new ArrayList<>();
         }
-
-        List<PlanoTreino> planos = planoRepository.listarPlanosPorUsuario(usuario);
-
-        if (planos == null || planos.isEmpty()) {
-            logger.info("Nenhum plano encontrado para o usuário " + usuario.getNome());
-            return new ArrayList<>();
-        }
-
-        for (PlanoTreino plano : planos) {
-            plano.setUsuario(usuario);
-        }
-
-        if (logger.isLoggable(Level.INFO)) {
-            logger.info(String.format("Listagem de planos concluída. Total: %d", planos.size()));
-        }
-
-        return planos;
+        return planoRepository.listarPlanosPorUsuario(usuario);
     }
 }

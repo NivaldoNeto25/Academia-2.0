@@ -2,7 +2,7 @@ package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
+import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
 import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,7 @@ class PlanoTreinoBusinessTest {
     @Mock
     private IUsuarioRepository mockUsuarioRepository;
     @Mock
-    private PlanoTreinoCsvRepository mockPlanoRepository;
+    private PlanoTreinoJpaRepository mockPlanoRepository;
 
     // 2. A Classe que estamos testando
     private PlanoTreinoBusiness planoTreinoBusiness;

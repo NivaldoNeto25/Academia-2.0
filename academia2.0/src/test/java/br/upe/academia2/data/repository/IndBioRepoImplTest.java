@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IndBioRepoImplTest {
 
-    private IndBioRepoImpl indBioRepository;
+    private IndBioJpaRepository indBioRepository;
     private File tempFile;
 
     @BeforeEach
@@ -20,7 +20,7 @@ class IndBioRepoImplTest {
         tempFile = File.createTempFile("indicadores-test", ".csv");
         tempFile.deleteOnExit();
 
-        indBioRepository = new IndBioRepoImpl(tempFile.getAbsolutePath());
+        indBioRepository = new IndBioJpaRepository(tempFile.getAbsolutePath());
 
         indBioRepository.limparDados();
     }

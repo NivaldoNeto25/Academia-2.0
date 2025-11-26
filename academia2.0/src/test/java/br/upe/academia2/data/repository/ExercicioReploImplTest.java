@@ -16,7 +16,7 @@ class ExercicioRepoImplTest {
 
     private static final String TEST_BASE_DIR = System.getProperty("user.dir") + File.separator + "test-data";
     private static final String TEST_CSV_PATH = TEST_BASE_DIR + File.separator + "data" + File.separator + "exercicios.csv";
-    private ExercicioRepoImpl repository;
+    private ExercicioJpaRepository repository;
 
     @BeforeAll
     static void setupAll() {
@@ -31,7 +31,7 @@ class ExercicioRepoImplTest {
         if (testCsvFile.exists()) {
             testCsvFile.delete();
         }
-        repository = new ExercicioRepoImpl();
+        repository = new ExercicioJpaRepository();
         assertEquals(0, repository.findAll().size(), "O repositório deve estar vazio no início de cada teste.");
     }
 

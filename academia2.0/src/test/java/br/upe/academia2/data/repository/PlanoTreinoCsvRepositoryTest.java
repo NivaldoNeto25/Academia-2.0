@@ -31,7 +31,7 @@ class PlanoTreinoCsvRepositoryTest {
     @TempDir
     Path tempDir;
 
-    private PlanoTreinoCsvRepository repository;
+    private PlanoTreinoJpaRepository repository;
     private String testBaseDir;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -39,7 +39,7 @@ class PlanoTreinoCsvRepositoryTest {
     void setUp() {
         // Configura o repositório para usar o diretório de teste e o business mockado
         testBaseDir = tempDir.toString() + File.separator;
-        repository = new PlanoTreinoCsvRepository(testBaseDir, mockExercicioBusiness);
+        repository = new PlanoTreinoJpaRepository(testBaseDir, mockExercicioBusiness);
 
         // Configuração padrão do mock de usuário
         when(mockUsuario.getEmail()).thenReturn("test@user.com");

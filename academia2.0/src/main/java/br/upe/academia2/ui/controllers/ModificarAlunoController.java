@@ -2,7 +2,7 @@ package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +16,7 @@ public class ModificarAlunoController {
 
     private AdmMenuController admMenuController; // Referência para atualizar a tabela no menu
 
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
+    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioJpaRepository.getInstance());
 
     public void setStageAnterior(Stage stageAnterior) {
         // Método reservado para ser implementado se for necessário passar Stage entre telas.
@@ -44,7 +44,6 @@ public class ModificarAlunoController {
         if (!senha.isBlank()) existente.setSenha(senha);
 
         usuarioBusiness.atualizarUsuario(existente);
-        usuarioBusiness.salvarAlteracoesNoCsv();
 
         // Atualiza a tabela do menu administrador
         if (admMenuController != null) {

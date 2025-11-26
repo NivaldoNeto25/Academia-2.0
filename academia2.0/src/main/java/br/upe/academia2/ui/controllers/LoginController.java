@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -33,7 +33,7 @@ public class LoginController {
     @FXML
     private ImageView logoImageView;
 
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
+    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioJpaRepository.getInstance());
 
     Logger logger = Logger.getLogger(LoginController.class.getName());
 
@@ -55,7 +55,7 @@ public class LoginController {
         String tipoUsuario = usuarioBusiness.autenticar(usuario, senha);
 
         if (tipoUsuario != null) {
-            Usuario usuarioLogado = UsuarioCsvRepository.getInstance().findByEmail(usuario);
+            Usuario usuarioLogado = UsuarioJpaRepository.getInstance().findByEmail(usuario);
             if (usuarioLogado == null) {
                 mensagemLabel.setText("Usuário autenticado mas não encontrado.");
                 return;

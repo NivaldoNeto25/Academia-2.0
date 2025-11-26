@@ -19,9 +19,10 @@ public class ImportarIndicadoresBioController {
     @FXML private Label mensagemLabel;
 
     private final IndicadorBiomedicoBusiness indicadorBusiness = new IndicadorBiomedicoBusiness();
+    private Usuario usuarioLogado;
 
     public void setUsuarioLogado(Usuario usuario) {
-        // Configurações adicionais, se necessário
+        this.usuarioLogado = usuario;
     }
 
     public void setUsuario(Usuario usuario) {
@@ -35,8 +36,12 @@ public class ImportarIndicadoresBioController {
             mensagemLabel.setText("Selecione um arquivo CSV válido.");
             return;
         }
+        if (usuarioLogado == null) {
+            mensagemLabel.setText("Usuário não logado.");
+            return;
+        }
 
-        boolean sucesso = indicadorBusiness.importarIndicadoresDeCSV(campoArquivo.getText());
+        boolean sucesso = indicadorBusiness.importarIndicadoresDeCSV(caminho, usuarioLogado);
         if (sucesso) {
             mensagemLabel.setText("Importação realizada com sucesso!");
         } else {

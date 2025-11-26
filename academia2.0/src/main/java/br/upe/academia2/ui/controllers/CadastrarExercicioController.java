@@ -70,7 +70,6 @@ public class CadastrarExercicioController {
 
         Exercicio novoExercicio = new Exercicio(nome, descricao, caminhoGif);
         exercicio.salvar(novoExercicio);
-        exercicio.salvarAlteracoesNoCsv();
         mensagemLabel.setText("Exercicio cadastrado com sucesso!");
 
         Stage stageAtual = (Stage) btnCadastrar.getScene().getWindow();
