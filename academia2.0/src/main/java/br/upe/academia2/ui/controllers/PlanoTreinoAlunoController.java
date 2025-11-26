@@ -35,7 +35,6 @@ import javafx.util.StringConverter;
 
 public class PlanoTreinoAlunoController implements Initializable{
     private Usuario usuarioLogado;
-    private List<PlanoTreino> planosDoUsuario;
     private PlanoTreinoBusiness planoTreinoBusiness;
 
     @FXML private Button btnCadastrar;
@@ -138,7 +137,7 @@ public class PlanoTreinoAlunoController implements Initializable{
 
     private void carregarPlanosDoUsuario() {
         if (usuarioLogado != null) {
-            this.planosDoUsuario = planoTreinoBusiness.listarPlanosPorUsuario(usuarioLogado);
+            List<PlanoTreino> planosDoUsuario = planoTreinoBusiness.listarPlanosPorUsuario(usuarioLogado);
             comboPlanos.setItems(FXCollections.observableArrayList(planosDoUsuario));
         }
     }

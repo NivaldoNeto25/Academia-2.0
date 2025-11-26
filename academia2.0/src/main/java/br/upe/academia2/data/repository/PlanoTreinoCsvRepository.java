@@ -31,14 +31,14 @@ public class PlanoTreinoCsvRepository {
     }
 
     public PlanoTreinoCsvRepository(String baseDir, ExercicioBusiness exercicioBusiness) {
-    this.baseDir = baseDir;
-    this.exercicioBusiness = exercicioBusiness; // Recebe o mock
+        this.baseDir = baseDir;
+        this.exercicioBusiness = exercicioBusiness;
 
-    File dir = new File(baseDir);
-    if (!dir.exists()) {
-        dir.mkdirs();
+        File dir = new File(baseDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
     }
-}
 
     private String getArquivoPlano(Usuario usuario) {
         return baseDir + "plano_" + usuario.getEmail().replaceAll("[^a-zA-Z0-9]", "_") + ".csv";
@@ -46,10 +46,8 @@ public class PlanoTreinoCsvRepository {
 
     public void salvarPlanos(List<PlanoTreino> planos, Usuario usuario) {
         String filePath = getArquivoPlano(usuario);
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("id,nomePlano,inicioPlano,fimPlano,emailUsuario\n");
-
             for (PlanoTreino plano : planos) {
                 writer.write(String.format("%d,%s,%s,%s,%s%n",
                         plano.getId(),
@@ -57,7 +55,6 @@ public class PlanoTreinoCsvRepository {
                         dateFormat.format(plano.getInicioPlano()),
                         dateFormat.format(plano.getFimPlano()),
                         escape(plano.getUsuario().getEmail())));
-
                 for (SecaoTreino secao : plano.getSecoes()) {
                     for (ItemPlanoTreino item : secao.getItensPlano()) {
                         writer.write(String.format("%s,%s,%d,%d,%d%n",
@@ -68,7 +65,6 @@ public class PlanoTreinoCsvRepository {
                                 item.getCarga()));
                     }
                 }
-
                 writer.write("PLANO_END\n");
             }
         } catch (IOException e) {
@@ -87,60 +83,68 @@ public class PlanoTreinoCsvRepository {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoPlano))) {
-            @SuppressWarnings("unused")
-            String jump = reader.readLine();
+            // Armazena o cabeçalho somente para cumprir o linter e clareza, mesmo que não seja usado
+            String cabecalho = reader.readLine();
 
             PlanoTreino planoAtual = null;
             String line;
-
             while ((line = reader.readLine()) != null) {
-                if (line.trim().equals("PLANO_END")) {
-                    if (planoAtual != null) {
-                        planos.add(planoAtual);
-                    }
+                if (isFimDoPlano(line)) {
+                    adicionaPlanoSeNaoNulo(planos, planoAtual);
                     planoAtual = null;
-                    continue;
-                }
-
-                String[] partes = line.split(",", -1);
-
-                if (planoAtual == null) {
-
-                    if(partes.length >= 5) {
-                        int id = Integer.parseInt(partes[0]);
-                        String nomePlano = unescape(partes[1]);
-                        Date inicioPlano = dateFormat.parse(partes[2]);
-                        Date fimPlano = dateFormat.parse(partes[3]);
-
-                        planoAtual = new PlanoTreino(id, nomePlano, inicioPlano, fimPlano, usuario);
-                    }
+                } else if (planoAtual == null) {
+                    planoAtual = criarPlanoTreino(line, usuario);
                 } else {
-                    if (partes.length >= 5) {
-                        String nomeSecao = unescape(partes[0]);
-                        String nomeExercicio = unescape(partes[1]);
-                        int series = Integer.parseInt(partes[2]);
-                        int repeticoes = Integer.parseInt(partes[3]);
-                        int carga = Integer.parseInt(partes[4]);
-
-                        SecaoTreino secao = planoAtual.getOuCriarSecao(nomeSecao);
-                        Exercicio exercicio = exercicioBusiness.buscarExercicioPorNome(nomeExercicio);
-
-                        if (exercicio != null) {
-                            ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
-                            secao.addItemSecao(item);
-                        } else {
-                            logger.log(Level.WARNING, () -> "O exercício ''" + nomeExercicio + "'' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.");
-                        }
-                    }
+                    adicionarItemOuLogWarning(line, planoAtual);
                 }
-                
             }
-
             return planos;
-
         } catch (IOException | ParseException | NumberFormatException e) {
             logger.log(Level.SEVERE, e, () -> "Erro ao carregar plano de treino: " + e.getMessage());
             return planos;
+        }
+    }
+
+    private boolean isFimDoPlano(String line) {
+        return line.trim().equals("PLANO_END");
+    }
+
+    private void adicionaPlanoSeNaoNulo(List<PlanoTreino> planos, PlanoTreino planoAtual) {
+        if (planoAtual != null) {
+            planos.add(planoAtual);
+        }
+    }
+
+    private PlanoTreino criarPlanoTreino(String line, Usuario usuario) throws ParseException {
+        String[] partes = line.split(",", -1);
+        if (partes.length >= 5) {
+            int id = Integer.parseInt(partes[0]);
+            String nomePlano = unescape(partes[1]);
+            Date inicioPlano = dateFormat.parse(partes[2]);
+            Date fimPlano = dateFormat.parse(partes[3]);
+            return new PlanoTreino(id, nomePlano, inicioPlano, fimPlano, usuario);
+        }
+        return null;
+    }
+
+    private void adicionarItemOuLogWarning(String line, PlanoTreino planoAtual) {
+        String[] partes = line.split(",", -1);
+        if (partes.length >= 5) {
+            String nomeSecao = unescape(partes[0]);
+            String nomeExercicio = unescape(partes[1]);
+            int series = Integer.parseInt(partes[2]);
+            int repeticoes = Integer.parseInt(partes[3]);
+            int carga = Integer.parseInt(partes[4]);
+
+            SecaoTreino secao = planoAtual.getOuCriarSecao(nomeSecao);
+            Exercicio exercicio = exercicioBusiness.buscarExercicioPorNome(nomeExercicio);
+
+            if (exercicio != null) {
+                ItemPlanoTreino item = new ItemPlanoTreino(exercicio, series, repeticoes, carga);
+                secao.addItemSecao(item);
+            } else {
+                logger.log(Level.WARNING, () -> "O exercício ''" + nomeExercicio + "'' listado no plano de treino não foi encontrado no arquivo de exercícios e será ignorado.");
+            }
         }
     }
 

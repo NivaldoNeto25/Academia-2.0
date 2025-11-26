@@ -37,9 +37,19 @@ public class UsuarioBusiness {
     }
 
     public void cadastrarUsuario(Usuario usuario) {
+        if (!isEmailValido(usuario.getEmail())) {
+            logger.warning("Formato de e-mail inválido!");
+            throw new IllegalArgumentException("E-mail em formato inválido.");
+        }
         usuarioRepository.create(usuario);
         logger.info("Usuário cadastrado com sucesso!");
     }
+
+    private boolean isEmailValido(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email != null && email.matches(emailRegex);
+    }
+
 
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.listarTodos();

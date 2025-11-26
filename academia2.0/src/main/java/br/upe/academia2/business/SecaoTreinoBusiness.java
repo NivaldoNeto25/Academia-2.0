@@ -6,7 +6,6 @@ import br.upe.academia2.data.beans.ItemPlanoTreino;
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
 import br.upe.academia2.data.repository.UsuarioCsvRepository;
-import br.upe.academia2.business.PlanoTreinoBusiness;
 
 public class SecaoTreinoBusiness {
 

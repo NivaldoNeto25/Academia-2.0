@@ -14,12 +14,15 @@ public class ModificarAlunoController {
     @FXML private TextField senhaField;
     @FXML private Label mensagemLabel;
 
-    private Stage stageAnterior;
     private AdmMenuController admMenuController; // Referência para atualizar a tabela no menu
 
     private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
 
-    public void setStageAnterior(Stage stageAnterior) { this.stageAnterior = stageAnterior; }
+    public void setStageAnterior(Stage stageAnterior) {
+        // Método reservado para ser implementado se for necessário passar Stage entre telas.
+        // Não faz nada por padrão.
+    }
+
     public void setAdmMenuController(AdmMenuController admMenuController) { this.admMenuController = admMenuController; }
 
     @FXML
