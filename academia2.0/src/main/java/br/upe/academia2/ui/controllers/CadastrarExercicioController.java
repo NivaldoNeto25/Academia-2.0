@@ -23,7 +23,7 @@ public class CadastrarExercicioController {
     @FXML private ImageView gifPreview;
     @FXML private Button btnImportar;
 
-    private String caminhoGifSelecionado;
+    String caminhoGifSelecionado;
 
     private Stage stageAnterior;
     private final ExercicioBusiness exercicio = new ExercicioBusiness();
