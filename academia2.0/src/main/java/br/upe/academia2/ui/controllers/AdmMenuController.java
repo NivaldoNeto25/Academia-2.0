@@ -32,8 +32,12 @@ public class AdmMenuController {
 
     Logger logger = Logger.getLogger(AdmMenuController.class.getName());
 
-    private final UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
+    private UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioCsvRepository.getInstance());
     private ObservableList<Usuario> alunosList;
+
+    public void setUsuarioBusiness(UsuarioBusiness usuarioBusiness) {
+        this.usuarioBusiness = usuarioBusiness;
+    }
 
     public void setAdm(Adm adm) {
         // Método para configurar o administrador atual, se necessário

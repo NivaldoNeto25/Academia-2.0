@@ -1,10 +1,8 @@
 package br.upe.academia2.controllers;
 
-import javafx.embed.swing.JFXPanel;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.ui.controllers.AlunoMenuController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -81,6 +79,7 @@ public class AlunoMenuTest extends Usuario{
         verify(alunoMenuController).loadContent("/fxml/SecaoTreino.fxml");
     }
 
+    @Test
     void handleSair() throws Exception {
 
         Stage stageMock = mock(Stage.class);
