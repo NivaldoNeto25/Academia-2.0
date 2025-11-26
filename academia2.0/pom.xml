@@ -22,7 +22,10 @@
     <hibernate.version>6.4.2.Final</hibernate.version>
     <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
     <h2.version>2.2.224</h2.version>
-    <!-- E mantenha os demais properties do seu projeto -->
+    <sonar.projectKey>NivaldoNeto25_Academia-2.0</sonar.projectKey>
+    <sonar.organization>nivaldoneto25</sonar.organization> 
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencies>
