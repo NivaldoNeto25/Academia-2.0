@@ -60,6 +60,12 @@
       <version>${javafx.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-swing</artifactId>
+      <version>21</version>
+    </dependency>
+
     <!-- Mockito -->
     <dependency>
       <groupId>org.mockito</groupId>

@@ -1,6 +1,6 @@
 package br.upe.academia2.controllers;
 
-
+import javafx.embed.swing.JFXPanel;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.ui.controllers.AlunoMenuController;
@@ -42,11 +42,8 @@ public class AlunoMenuTest extends Usuario{
     @BeforeAll
     public static void initJFX() {
         try {
-            Platform.startup(() -> {});
-        } catch (IllegalStateException e) {
-            // Toolkit já inicializado (caso seja executado mais de uma vez)
-        }
-        // OBS: Se Platform.startup() não funcionar, considere usar a extensão TestFX ou JUnit-JavaFX
+            new javafx.embed.swing.JFXPanel();
+        } catch (Exception ignored) {}
     }
 
     @BeforeEach
