@@ -49,7 +49,7 @@ class IndicadoresAlunoControllerTest {
 
         hoje = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        usuario = new Comum ("Xavier","00000000","Xavier@gmail.com","12345",null, null, null);;
+        usuario = new Comum ("Xavier","00000000","Xavier@gmail.com","12345",null, null, null);
     }
 
     // helper igual ao do seu exemplo

@@ -6,7 +6,6 @@ import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.ui.controllers.AdmMenuController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,31 +26,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
-/*
- @FXML private Button btnCadastrar;
-    @FXML private Button btnEditar;
-    @FXML private Button btnExcluir;
-    @FXML private Button btnSair;
-    @FXML private TextField searchField;
-    @FXML private TableView<Usuario> alunosTable;
-    @FXML private TableColumn<Usuario, String> colNome;
-    @FXML private TableColumn<Usuario, String> colEmail;
-
- */
-
 @ExtendWith(MockitoExtension.class)
-public class AdmMenuControllerTest{
+class AdmMenuControllerTest{
 
     @Spy
     @InjectMocks
     private AdmMenuController admMenuController;
-
-    @Mock
-    private Button btnCadastrar;
-    @Mock
-    private Button btnEditar;
-    @Mock
-    private Button btnExcluir;
     @Mock
     private Button btnSair;
     @Mock

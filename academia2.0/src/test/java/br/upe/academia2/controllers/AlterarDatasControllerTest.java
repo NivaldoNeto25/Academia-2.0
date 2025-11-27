@@ -23,7 +23,7 @@ import java.util.Date;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AlterarDatasControllerTest {
+class AlterarDatasControllerTest {
 
     @Mock
     private AlterarDatasController controller;
