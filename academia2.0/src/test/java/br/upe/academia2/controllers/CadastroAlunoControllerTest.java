@@ -42,7 +42,7 @@ class CadastroAlunoControllerTest {
         mensagem = "";
     }
 
-    // simula handleCadastrar sem JavaFX, ai tu faz uma variavel e testa ela em todos
+    // metodo que simula handleCadastrar sem JavaFX com uma variavel teste ela em todos
     private void handleCadastrarSimulado() {
         mensagem = "";
 

@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,10 +41,12 @@ class ModificarNomePlanoControllerTest {
     private TextField nomePlanoField;
 
     @BeforeAll
-    public static void initJFX() {
+    static void initJFX() {
         try {
             new javafx.embed.swing.JFXPanel();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+           // o objetivo é apenas garantir a inicialização
+        }
     }
 
     @BeforeEach
@@ -67,7 +70,7 @@ class ModificarNomePlanoControllerTest {
         field.setAccessible(true);
 
         Object value = field.get(controller);
-        assert(value == planoParaModificar);
+        assertSame(planoParaModificar, value);
     }
 
     @Test

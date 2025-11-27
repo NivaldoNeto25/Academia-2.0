@@ -74,7 +74,7 @@ class PlanoTreinoJpaRepositoryTest {
         
         // 2. Verifica se tentou deletar os planos antigos desse usuário
         verify(emMock).createQuery(contains("DELETE"));
-        verify(queryMock).setParameter(eq("email"), eq("teste@email.com"));
+        verify(queryMock).setParameter("email", "teste@email.com");
         verify(queryMock).executeUpdate();
 
         // 3. Verifica se persistiu o novo plano
@@ -104,7 +104,7 @@ class PlanoTreinoJpaRepositoryTest {
         // Assert
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
-        verify(typedQueryMock).setParameter(eq("email"), eq("teste@email.com"));
+        verify(typedQueryMock).setParameter("email", "teste@email.com");
         verify(emMock).close();
     }
 

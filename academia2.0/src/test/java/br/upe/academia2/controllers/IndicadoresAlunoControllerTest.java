@@ -4,7 +4,6 @@ import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.repository.IndBioJpaRepository; // Import do Repositório
 import br.upe.academia2.ui.controllers.IndicadoresAlunoController;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;

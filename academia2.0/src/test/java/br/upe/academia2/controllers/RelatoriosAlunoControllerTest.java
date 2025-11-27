@@ -30,7 +30,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RelatoriosAlunoControllerTest extends ApplicationTest {
+class RelatoriosAlunoControllerTest extends ApplicationTest {
 
     @Mock
     private IndicadorBiomedicoBusiness indicadorBusinessMock;
@@ -60,14 +60,14 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void deveExibirErroSeUsuarioNaoEstiverLogado() {
+    void deveExibirErroSeUsuarioNaoEstiverLogado() {
         clickOn("Relatório Geral");
         
         // Espera a UI atualizar
@@ -78,7 +78,7 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveExibirMensagemVaziaSeNaoHouverIndicadoresGeral() {
+    void deveExibirMensagemVaziaSeNaoHouverIndicadoresGeral() {
         Usuario usuarioMock = mock(Usuario.class);
         
         // Garante execução na Thread JavaFX
@@ -95,7 +95,7 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveGerarRelatorioGeralComDados() {
+    void deveGerarRelatorioGeralComDados() {
         Usuario usuarioMock = mock(Usuario.class);
         interact(() -> controller.setUsuario(usuarioMock));
 
@@ -122,7 +122,7 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveExibirMensagemSePoucosDadosParaComparativo() {
+    void deveExibirMensagemSePoucosDadosParaComparativo() {
         Usuario usuarioMock = mock(Usuario.class);
         interact(() -> controller.setUsuario(usuarioMock));
         
@@ -144,7 +144,7 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveGerarRelatorioComparativoPrimeiroEUltimo() {
+    void deveGerarRelatorioComparativoPrimeiroEUltimo() {
         Usuario usuarioMock = mock(Usuario.class);
         interact(() -> controller.setUsuario(usuarioMock));
 

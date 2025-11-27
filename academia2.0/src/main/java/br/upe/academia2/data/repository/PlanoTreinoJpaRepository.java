@@ -29,7 +29,7 @@ public class PlanoTreinoJpaRepository {
             tx.commit();
             logger.info("Planos de treino salvos com sucesso para o usuário " + usuario.getEmail());
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao salvar planos de treino (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, ()-> "Erro ao salvar planos de treino (JPA): " + e.getMessage());
             if (tx.isActive()) tx.rollback();
         } finally {
             em.close();
@@ -65,7 +65,7 @@ public class PlanoTreinoJpaRepository {
             }
             tx.commit();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao salvar/atualizar plano de treino (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE,e,() -> "Erro ao salvar/atualizar plano de treino (JPA): " + e.getMessage());
             if (tx.isActive()) tx.rollback();
         } finally {
             em.close();
@@ -85,7 +85,7 @@ public class PlanoTreinoJpaRepository {
             }
             tx.commit();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao remover plano de treino (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, ()-> "Erro ao remover plano de treino (JPA): " + e.getMessage());
             if (tx.isActive()) tx.rollback();
         } finally {
             em.close();
@@ -103,7 +103,7 @@ public class PlanoTreinoJpaRepository {
                     .setParameter("email", usuario.getEmail())
                     .getResultList();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao listar planos por usuário (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, () -> "Erro ao listar planos por usuário (JPA): " + e.getMessage());
         } finally {
             em.close();
         }
@@ -117,7 +117,7 @@ public class PlanoTreinoJpaRepository {
         try {
             plano = em.find(PlanoTreino.class, id);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao buscar plano de treino (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e, ()-> "Erro ao buscar plano de treino (JPA): " + e.getMessage());
         } finally {
             em.close();
         }

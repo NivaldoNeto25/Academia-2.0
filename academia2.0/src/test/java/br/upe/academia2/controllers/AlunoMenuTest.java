@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,10 +39,12 @@ class AlunoMenuTest extends Usuario{
 
 
     @BeforeAll
-    public static void initJFX() {
+    static void initJFX() {
         try {
             new javafx.embed.swing.JFXPanel();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            //o objetivo é apenas garantir a inicialização
+        }
     }
 
     @BeforeEach
@@ -80,7 +83,7 @@ class AlunoMenuTest extends Usuario{
     }
 
     @Test
-    void handleSair() throws Exception {
+    void handleSair() {
 
         Stage stageMock = mock(Stage.class);
         var sceneMock = mock(javafx.scene.Scene.class);
@@ -97,14 +100,17 @@ class AlunoMenuTest extends Usuario{
     // nao mexa aqui
     @Test
     void loadContent() {
+        boolean excecaoLancada = false;
+        doThrow(new RuntimeException("Falhou")).when(alunoMenuController).loadContent("/fxml/Falha.fxml");
         try {
             // Simula a falha de Runtime que você havia definido
-            doThrow(new RuntimeException("Falhou")).when(alunoMenuController).loadContent("/fxml/Falha.fxml");
-
             alunoMenuController.loadContent("/fxml/Falha.fxml");
+            Assertions.fail("O método deveria ter lançado uma RuntimeException, mas não lançou.");
 
         } catch (RuntimeException expected) {
+            excecaoLancada = true;
         }
+        Assertions.assertTrue(excecaoLancada, "A exceção não foi lançada e capturada.");
     }
 
 }

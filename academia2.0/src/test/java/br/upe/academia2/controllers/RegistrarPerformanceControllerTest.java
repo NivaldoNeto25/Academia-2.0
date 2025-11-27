@@ -8,7 +8,6 @@ import br.upe.academia2.ui.controllers.RegistrarPerformanceController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -32,7 +31,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 @ExtendWith(MockitoExtension.class)
-public class RegistrarPerformanceControllerTest extends ApplicationTest {
+class RegistrarPerformanceControllerTest extends ApplicationTest {
 
     @Mock
     private SecaoTreinoBusiness secaoTreinoBusinessMock;
@@ -74,14 +73,14 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void devePreencherCamposAoInicializar() {
+    void devePreencherCamposAoInicializar() {
         verifyThat("#exercicioLabel", hasText("Exercício: Supino Reto"));
         verifyThat("#seriesPlanoLabel", hasText("3"));
         verifyThat("#repsPlanoLabel", hasText("10"));
@@ -94,7 +93,7 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveSalvarSemAlteracoes() {
+    void deveSalvarSemAlteracoes() {
         // Ação: Clicar em salvar sem mudar nada
         clickOn("#btnSalvar");
 
@@ -110,7 +109,7 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveSalvarComAlteracoesConfirmadas() {
+    void deveSalvarComAlteracoesConfirmadas() {
         doubleClickOn("#seriesField").write("4");
         doubleClickOn("#repsField").write("12");
         doubleClickOn("#cargaField").write("60");
@@ -136,7 +135,7 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveNaoSalvarSeCancelarConfirmacao() {
+    void deveNaoSalvarSeCancelarConfirmacao() {
         // Ação: Modificar valor
         doubleClickOn("#cargaField").write("100");
 
@@ -153,7 +152,7 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveMostrarErroSeEntradaInvalida() {
+    void deveMostrarErroSeEntradaInvalida() {
         // Ação: Digitar texto inválido
         doubleClickOn("#seriesField").write("abc");
         clickOn("#btnSalvar");

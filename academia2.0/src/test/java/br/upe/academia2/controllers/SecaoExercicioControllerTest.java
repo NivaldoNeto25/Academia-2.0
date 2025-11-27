@@ -20,8 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.util.WaitForAsyncUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +32,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 @ExtendWith(MockitoExtension.class)
-public class SecaoExercicioControllerTest extends ApplicationTest {
+class SecaoExercicioControllerTest extends ApplicationTest {
 
     private SecaoExercicioController controller;
     private PlanoTreino planoTeste;
@@ -78,21 +76,21 @@ public class SecaoExercicioControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void deveCarregarSecoesNoComboBox() {
+    void deveCarregarSecoesNoComboBox() {
         ComboBox<SecaoTreino> combo = lookup("#comboSecao").queryComboBox();
         assertEquals(1, combo.getItems().size());
         assertEquals("Membros Superiores", combo.getItems().get(0).getNomeTreino());
     }
 
     @Test
-    public void deveCarregarExerciciosNaListaAoSelecionarSecao() {
+    void deveCarregarExerciciosNaListaAoSelecionarSecao() {
         // Ação: Selecionar a seção no ComboBox
         clickOn("#comboSecao").clickOn("Membros Superiores");
 
@@ -102,8 +100,8 @@ public class SecaoExercicioControllerTest extends ApplicationTest {
         
         
         
-        String textoEsperado = "Supino Reto (4 séries x 10 reps, Carga: 30kg)";
-        
+        //String textoEsperado = "Supino Reto (4 séries x 10 reps, Carga: 30kg)";
+
         Set<ListCell> celulas = lookup(".list-cell").queryAllAs(ListCell.class);
         
         boolean encontrou = celulas.stream()
@@ -113,7 +111,7 @@ public class SecaoExercicioControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveExibirAlertaSeTentarEscolherSemSelecao() {
+    void deveExibirAlertaSeTentarEscolherSemSelecao() {
         clickOn("#comboSecao").clickOn("Membros Superiores");
         
         // Clica no botão sem selecionar nada na lista
@@ -125,7 +123,7 @@ public class SecaoExercicioControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveLimparListaSeSecaoForNula() {
+    void deveLimparListaSeSecaoForNula() {
         clickOn("#comboSecao").clickOn("Membros Superiores");
         
         ListView<ItemPlanoTreino> lista = lookup("#listaExercicios").queryListView();

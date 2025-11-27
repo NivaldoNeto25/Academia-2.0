@@ -6,7 +6,6 @@ import br.upe.academia2.ui.controllers.SecaoTreinoController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -23,15 +22,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 @ExtendWith(MockitoExtension.class)
-public class SecaoTreinoControllerTest extends ApplicationTest {
+class SecaoTreinoControllerTest extends ApplicationTest {
 
     @Mock
     private PlanoTreinoBusiness planoTreinoBusinessMock;
@@ -53,14 +50,14 @@ public class SecaoTreinoControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void deveIdentificarNomeDaSecaoNaTabela() {
+    void deveIdentificarNomeDaSecaoNaTabela() {
         Usuario usuarioMock = mock(Usuario.class);
         
         // --- ARRANGE COM OBJETOS REAIS (BEANS) ---
@@ -108,6 +105,6 @@ public class SecaoTreinoControllerTest extends ApplicationTest {
         // verifyThat procura na cena inteira. Se a string existir em alguma célula, passa.
         // O erro anterior "was Supino" indicava que ele pegava o primeiro Label que achava.
         // Usamos hasText para garantir que ALGUM nó visível tem esse texto.
-        verifyThat("Treino A - Peito", (javafx.scene.Node node) -> node.isVisible());
+        verifyThat("Treino A - Peito", (javafx.scene.Node::isVisible));
     }
 }

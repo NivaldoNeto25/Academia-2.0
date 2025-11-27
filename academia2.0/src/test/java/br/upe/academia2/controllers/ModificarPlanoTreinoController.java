@@ -41,6 +41,7 @@ class ModificarPlanoTreinoControllerTest {
         try {
             new javafx.embed.swing.JFXPanel();
         } catch (Exception ignored) {
+            //o objetivo é apenas garantir a inicialização
         }
     }
 

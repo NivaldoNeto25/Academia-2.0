@@ -3,7 +3,6 @@ package br.upe.academia2.controllers;
 import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.beans.*;
 import br.upe.academia2.ui.controllers.PlanoTreinoAlunoController;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,7 +30,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 @ExtendWith(MockitoExtension.class)
-public class PlanoTreinoControllerTest extends ApplicationTest {
+class PlanoTreinoControllerTest extends ApplicationTest {
 
     @Mock
     private PlanoTreinoBusiness planoTreinoBusinessMock;
@@ -56,14 +55,14 @@ public class PlanoTreinoControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void deveCarregarPlanosNoComboBoxAoSetarUsuario() {
+    void deveCarregarPlanosNoComboBoxAoSetarUsuario() {
         // Cenário
         Usuario usuarioMock = mock(Usuario.class);
         PlanoTreino planoA = mock(PlanoTreino.class);
@@ -87,7 +86,7 @@ public class PlanoTreinoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void devePreencherTabelaAoSelecionarPlano() {
+    void devePreencherTabelaAoSelecionarPlano() {
         // --- CONFIGURAÇÃO DE DADOS MOCKADOS ---
         Usuario usuarioMock = mock(Usuario.class);
         

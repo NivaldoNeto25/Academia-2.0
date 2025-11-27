@@ -47,10 +47,12 @@ class AdmMenuControllerTest{
     private UsuarioBusiness usuarioBusiness;
 
     @BeforeAll
-    public static void initJFX() {
+    static void initJFX() {
         try {
             new javafx.embed.swing.JFXPanel();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            // o objetivo é apenas garantir a inicialização
+        }
     }
 
     @BeforeEach
@@ -88,7 +90,7 @@ class AdmMenuControllerTest{
 }
 
     @Test
-    void handleSair() throws Exception {
+    void handleSair() {
 
         Stage stageMock = mock(Stage.class);
         var sceneMock = mock(javafx.scene.Scene.class);

@@ -20,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.util.WaitForAsyncUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -89,14 +88,14 @@ class RemoverExercicioSecaoControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void deveCarregarSecoesNoComboBox() {
+    void deveCarregarSecoesNoComboBox() {
         // Verifica se o ComboBox de seção foi preenchido corretamente pelo setPlanoParaModificar
         ComboBox<String> comboSecao = lookup("#secaoComboBox").queryComboBox();
         
@@ -105,7 +104,7 @@ class RemoverExercicioSecaoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveCarregarExerciciosAoSelecionarSecao() {
+    void deveCarregarExerciciosAoSelecionarSecao() {
         // Ação: Selecionar a seção no ComboBox
         clickOn("#secaoComboBox").clickOn("Treino A - Peito");
 
@@ -117,7 +116,7 @@ class RemoverExercicioSecaoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveMostrarAlertaSeTentarRemoverSemSelecao() {
+    void deveMostrarAlertaSeTentarRemoverSemSelecao() {
         // Ação: Clicar em Remover sem selecionar nada
         clickOn("#btnRemover");
 
@@ -130,7 +129,7 @@ class RemoverExercicioSecaoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveRemoverExercicioComSucesso() {
+    void deveRemoverExercicioComSucesso() {
         // Ação: Selecionar Seção e Exercício
         clickOn("#secaoComboBox").clickOn("Treino A - Peito");
         clickOn("#exerciciosComboBox").clickOn("Supino Reto");

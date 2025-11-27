@@ -2,7 +2,6 @@ package br.upe.academia2.data.repository;
 
 import br.upe.academia2.data.beans.Exercicio;
 import org.junit.jupiter.api.*;
-import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
