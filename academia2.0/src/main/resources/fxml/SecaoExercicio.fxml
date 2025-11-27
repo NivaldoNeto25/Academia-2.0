@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.upe.academia2.ui.controllers.SecaoExercicioController"
+      spacing="16">
+
+    <padding><Insets top="16" right="24" bottom="24" left="24"/></padding>
+
+    <Label text="Escolha a Seção" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <ComboBox fx:id="comboSecao" prefWidth="320" promptText="Selecione a Seção" />
+
+    <Label text="Exercícios da Seção" style="-fx-font-size: 14px;"/>
+    
+    <ListView fx:id="listaExercicios" VBox.vgrow="ALWAYS" />
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="btnVoltar" text="Voltar" />
+        <Button fx:id="btnEscolherExercicio" text="Escolher Exercício" style="-fx-background-color:#0F4C83; -fx-text-fill:white;"/>
+    </HBox>
+
+</VBox>

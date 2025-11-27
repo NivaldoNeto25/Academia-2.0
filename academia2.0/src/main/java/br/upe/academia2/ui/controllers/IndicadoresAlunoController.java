@@ -1,5 +1,6 @@
 package br.upe.academia2.ui.controllers;
 
+import br.upe.academia2.business.IndicadorBiomedicoBusiness;
 import br.upe.academia2.data.beans.IndicadorBiomedico;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.IndBioJpaRepository;
@@ -25,6 +26,7 @@ public class IndicadoresAlunoController implements AlunoMenuController.UsuarioDe
 
     private Usuario usuarioLogado;
     private IndBioJpaRepository repo = new IndBioJpaRepository();
+    private IndicadorBiomedicoBusiness business = new IndicadorBiomedicoBusiness();
 
     @FXML private Button btnCadastrar;
     @FXML private Button btnImportar;

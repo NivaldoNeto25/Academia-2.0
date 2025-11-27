@@ -99,7 +99,7 @@
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.10.2</version>
+        <version>5.11.0</version>
         <scope>test</scope>
     </dependency>
 
@@ -114,7 +114,6 @@
         <artifactId>testfx-junit5</artifactId>
         <version>4.0.16-alpha</version>
         <scope>test</scope>
-        
     </dependency>
 
   </dependencies>

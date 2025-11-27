@@ -23,6 +23,9 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import java.lang.reflect.Field;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -44,17 +47,12 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
         Parent root = loader.load();
         controller = loader.getController();
 
-        // --- INJEÇÃO DE DEPENDÊNCIA VIA REFLEXÃO ---
-        // Substitui a instância real criada no initialize() pelo Mock
         Field field = RegistrarPerformanceController.class.getDeclaredField("secaoTreinoBusiness");
         field.setAccessible(true);
         field.set(controller, secaoTreinoBusinessMock);
-        // -------------------------------------------
-
-        // Configuração dos dados Mockados
+        
         setupDadosMocks();
         
-        // Injeta os dados no controlador (simulando a passagem de parâmetros entre telas)
         controller.setPlanoPai(planoMock);
         controller.setItemParaRegistrar(itemMock);
 
@@ -84,16 +82,15 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
 
     @Test
     public void devePreencherCamposAoInicializar() {
-        // Verifica se os Labels mostram os dados do plano original
         verifyThat("#exercicioLabel", hasText("Exercício: Supino Reto"));
         verifyThat("#seriesPlanoLabel", hasText("3"));
         verifyThat("#repsPlanoLabel", hasText("10"));
         verifyThat("#cargaPlanoLabel", hasText("50"));
 
         // Verifica se os TextFields foram preenchidos com os valores padrão
-        verifyThat("#seriesField", hasText("3"));
-        verifyThat("#repsField", hasText("10"));
-        verifyThat("#cargaField", hasText("50"));
+        assertEquals("3", lookup("#seriesField").queryTextInputControl().getText());
+        assertEquals("10", lookup("#repsField").queryTextInputControl().getText());
+        assertEquals("50", lookup("#cargaField").queryTextInputControl().getText());
     }
 
     @Test
@@ -114,24 +111,22 @@ public class RegistrarPerformanceControllerTest extends ApplicationTest {
 
     @Test
     public void deveSalvarComAlteracoesConfirmadas() {
-        // Ação: Modificar os valores nos campos
         doubleClickOn("#seriesField").write("4");
         doubleClickOn("#repsField").write("12");
         doubleClickOn("#cargaField").write("60");
 
         clickOn("#btnSalvar");
 
-        // 1. Verifica Alerta de Confirmação
+        
         verifyThat(".alert", isVisible());
         verifyThat(".dialog-pane .content", hasText("Deseja atualizar o seu plano de treino com estes novos valores?"));
         
-        // Confirma (Pressiona Enter no botão OK)
+        
         type(KeyCode.ENTER);
 
-        // Aguarda processamento da UI
+
         WaitForAsyncUtils.waitForFxEvents();
 
-        // 2. Verifica Alerta de Sucesso após confirmação
         verifyThat(".alert", isVisible());
         verifyThat(".dialog-pane .content", hasText("Plano de treino atualizado com a nova performance!"));
         type(KeyCode.ENTER);

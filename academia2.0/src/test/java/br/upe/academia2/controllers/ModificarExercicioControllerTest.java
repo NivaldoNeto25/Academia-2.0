@@ -25,7 +25,7 @@ class ModificarExercicioControllerTest {
 
     @Mock
     private ExercicioBusiness exercicioBusiness;
-    //simula dnv igual todos os outros
+
     private String nome;
     private String descricao;
     private String novoGif;
@@ -35,9 +35,13 @@ class ModificarExercicioControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
+        Field field;
+        try {
+            field = ModificarExercicioController.class.getDeclaredField("exercicioBusiness");
+        } catch (NoSuchFieldException e) {
+            field = ModificarExercicioController.class.getDeclaredField("exercicio");
+        }
 
-        // injeta mock
-        Field field = ModificarExercicioController.class.getDeclaredField("exercicio");
         field.setAccessible(true);
         field.set(controller, exercicioBusiness);
 
@@ -48,6 +52,7 @@ class ModificarExercicioControllerTest {
         encontrado = null;
     }
 
+    // Simula a lógica do botão Buscar
     private void handleBuscarSimulado() {
         mensagem = "";
 
@@ -65,9 +70,9 @@ class ModificarExercicioControllerTest {
     }
 
     private void handleModificarSimulado() {
-
         mensagem = "";
 
+        // Re-busca para garantir
         List<Exercicio> lista = exercicioBusiness.listarExercicios();
         encontrado = lista.stream()
                 .filter(e -> e.getNome().equalsIgnoreCase(nome))
@@ -79,21 +84,24 @@ class ModificarExercicioControllerTest {
             return;
         }
 
-        if (!nome.isBlank()) encontrado.setNome(nome);
-        if (!descricao.isBlank()) encontrado.setDescricao(descricao);
+        // Atualiza campos se não estiverem vazios
+        if (descricao != null && !descricao.isBlank()) encontrado.setDescricao(descricao);
         if (novoGif != null && !novoGif.isBlank()) encontrado.setCaminhoGif(novoGif);
 
-        exercicioBusiness.atualizarExercicio(encontrado);
-        exercicioBusiness.salvarAlteracoesNoCsv();
-
-        mensagem = "Exercicio modificado com sucesso!";
-        nome = "";
-        descricao = "";
+        try {
+            // Apenas chama atualizar (o banco salva automaticamente)
+            exercicioBusiness.atualizarExercicio(encontrado);
+            
+            mensagem = "Exercicio modificado com sucesso!";
+            nome = "";
+            descricao = "";
+        } catch (Exception e) {
+            mensagem = "Erro ao modificar!";
+        }
     }
 
     @Test
     void testBuscarNaoEncontrado() {
-
         nome = "Supino";
 
         when(exercicioBusiness.listarExercicios()).thenReturn(new ArrayList<>());
@@ -104,7 +112,6 @@ class ModificarExercicioControllerTest {
 
     @Test
     void testBuscarEncontrado() {
-
         nome = "Agachamento";
 
         List<Exercicio> lista = List.of(new Exercicio("Agachamento", "Pernas", "gif"));
@@ -117,7 +124,6 @@ class ModificarExercicioControllerTest {
 
     @Test
     void testModificarNaoEncontrado() {
-
         nome = "Supino";
         when(exercicioBusiness.listarExercicios()).thenReturn(new ArrayList<>());
 
@@ -129,7 +135,6 @@ class ModificarExercicioControllerTest {
 
     @Test
     void testModificarComSucesso() {
-
         nome = "Remada";
         descricao = "Costas";
 
@@ -137,22 +142,20 @@ class ModificarExercicioControllerTest {
 
         when(exercicioBusiness.listarExercicios()).thenReturn(List.of(ex));
 
+        // Mock do comportamento void
         doNothing().when(exercicioBusiness).atualizarExercicio(any());
-        doNothing().when(exercicioBusiness).salvarAlteracoesNoCsv();
 
         handleModificarSimulado();
 
         assertEquals("Exercicio modificado com sucesso!", mensagem);
-        assertEquals("", nome);
+        assertEquals("", nome); // Verifica se limpou os campos
         assertEquals("", descricao);
 
         verify(exercicioBusiness).atualizarExercicio(ex);
-        verify(exercicioBusiness).salvarAlteracoesNoCsv();
     }
 
     @Test
     void testModificarComNovoGif() {
-
         nome = "Tríceps";
         descricao = "Braço";
         novoGif = "novo.gif";
@@ -169,7 +172,6 @@ class ModificarExercicioControllerTest {
 
     @Test
     void testErroAoModificar() {
-
         nome = "Puxada";
         descricao = "Costas";
 
@@ -177,13 +179,14 @@ class ModificarExercicioControllerTest {
 
         when(exercicioBusiness.listarExercicios()).thenReturn(List.of(ex));
 
-        doThrow(new RuntimeException("Erro"))
+        // Simula erro vindo do Business/Banco
+        doThrow(new RuntimeException("Erro de conexão"))
                 .when(exercicioBusiness).atualizarExercicio(any());
 
-        try {
-            handleModificarSimulado();
-        } catch (Exception ignored) {}
+        handleModificarSimulado();
 
+        assertEquals("Erro ao modificar!", mensagem);
+        
         verify(exercicioBusiness).atualizarExercicio(ex);
     }
 }

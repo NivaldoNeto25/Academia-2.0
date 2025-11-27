@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UsuarioJpaRepository implements IUsuarioRepository {
 
-    private static final EntityManagerFactory emf =
+    private static EntityManagerFactory emf =
             Persistence.createEntityManagerFactory("academiaPU");
 
     private static UsuarioJpaRepository instance;

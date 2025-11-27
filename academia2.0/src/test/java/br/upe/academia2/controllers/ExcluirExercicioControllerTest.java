@@ -27,15 +27,20 @@ class ExcluirExercicioControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-
-        // Injeta o mock no campo final via reflexão
-        Field field = ExcluirExercicioController.class.getDeclaredField("exercicio");
+        Field field;
+        try {
+            field = ExcluirExercicioController.class.getDeclaredField("exercicioBusiness");
+        } catch (NoSuchFieldException e) {
+            field = ExcluirExercicioController.class.getDeclaredField("exercicio");
+        }
+        
         field.setAccessible(true);
         field.set(controller, exercicioBusiness);
 
         nome = "";
         mensagem = "";
     }
+
     private void handleExcluirSimulado() {
 
         mensagem = "";
@@ -44,15 +49,19 @@ class ExcluirExercicioControllerTest {
             mensagem = "Informe o nome.";
             return;
         }
+        
+        // Verifica existência
         Exercicio existente = exercicioBusiness.buscarExercicioPorNome(nome);
 
         if (existente == null) {
             mensagem = "Exercício não existe";
             return;
         }
+        
         try {
+            // Apenas deleta (o banco de dados persiste automaticamente)
             exercicioBusiness.deletarExercicio(nome);
-            exercicioBusiness.salvarAlteracoesNoCsv();
+            
             mensagem = "Exercicio excluído!";
             nome = "";
         } catch (Exception e) {
@@ -83,19 +92,20 @@ class ExcluirExercicioControllerTest {
     void testExcluirComSucesso() {
         nome = "Agachamento";
 
+        // Mock para encontrar o exercício
         when(exercicioBusiness.buscarExercicioPorNome("Agachamento"))
                 .thenReturn(new Exercicio("Agachamento", "Pernas", "gif"));
 
+       
         doNothing().when(exercicioBusiness).deletarExercicio("Agachamento");
-        doNothing().when(exercicioBusiness).salvarAlteracoesNoCsv();
+        
 
         handleExcluirSimulado();
 
         assertEquals("Exercicio excluído!", mensagem);
-        assertEquals("", nome);
+        assertEquals("", nome); // Verifica se limpou o campo nome
 
         verify(exercicioBusiness).deletarExercicio("Agachamento");
-        verify(exercicioBusiness).salvarAlteracoesNoCsv();
     }
 
     @Test

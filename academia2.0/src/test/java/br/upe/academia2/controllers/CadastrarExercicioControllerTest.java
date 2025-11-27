@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,17 @@ class CadastrarExercicioControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-
-        // injeta mock
-        var campo = CadastrarExercicioController.class.getDeclaredField("exercicio");
+        
+        Field campo;
+        try {
+            campo = CadastrarExercicioController.class.getDeclaredField("exercicioBusiness");
+        } catch (NoSuchFieldException e) {
+            campo = CadastrarExercicioController.class.getDeclaredField("exercicio");
+        }
+        
         campo.setAccessible(true);
         campo.set(controller, exercicioBusiness);
+        
         nome = "";
         descricao = "";
         caminhoGif = "";
@@ -54,6 +61,7 @@ class CadastrarExercicioControllerTest {
             return;
         }
 
+        
         List<Exercicio> exerciciosExistentes = exercicioBusiness.listarExercicios();
         if (exerciciosExistentes.stream()
                 .anyMatch(e -> e.getNome().equalsIgnoreCase(nome))) {
@@ -66,7 +74,6 @@ class CadastrarExercicioControllerTest {
 
         try {
             exercicioBusiness.salvar(novo);
-            exercicioBusiness.salvarAlteracoesNoCsv();
             mensagem = "Exercicio cadastrado com sucesso!";
         } catch (Exception ex) {
             mensagem = "Erro ao salvar exercício!";
@@ -109,15 +116,12 @@ class CadastrarExercicioControllerTest {
 
         when(exercicioBusiness.listarExercicios()).thenReturn(new ArrayList<>());
 
-        doNothing().when(exercicioBusiness).salvar(any());
-        doNothing().when(exercicioBusiness).salvarAlteracoesNoCsv();
-
+        
         handleCadastrarSimulado();
 
         assertEquals("Exercicio cadastrado com sucesso!", mensagem);
 
         verify(exercicioBusiness).salvar(any(Exercicio.class));
-        verify(exercicioBusiness).salvarAlteracoesNoCsv();
     }
 
     @Test
@@ -127,7 +131,9 @@ class CadastrarExercicioControllerTest {
         caminhoGif = "blublu.gif";
 
         when(exercicioBusiness.listarExercicios()).thenReturn(new ArrayList<>());
-        doThrow(new RuntimeException("Falha"))
+        
+        // Simula um erro vindo do banco de dados/business
+        doThrow(new RuntimeException("Falha de conexão"))
                 .when(exercicioBusiness).salvar(any(Exercicio.class));
 
         handleCadastrarSimulado();
