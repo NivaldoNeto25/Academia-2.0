@@ -26,14 +26,21 @@ public class AdicionarExercicioSecaoController {
     private PlanoTreinoBusiness planoTreinoBusiness;
     private ExercicioBusiness exercicioBusiness;
 
-    @FXML
-    public void initialize() {
-        planoTreinoBusiness = new PlanoTreinoBusiness(
+    public AdicionarExercicioSecaoController() {
+        this.planoTreinoBusiness = new PlanoTreinoBusiness(
                 UsuarioJpaRepository.getInstance(),
                 new PlanoTreinoJpaRepository()
         );
-        exercicioBusiness = new ExercicioBusiness();
+        this.exercicioBusiness = new ExercicioBusiness();
+    }
 
+    public AdicionarExercicioSecaoController(PlanoTreinoBusiness pb, ExercicioBusiness eb) {
+        this.planoTreinoBusiness = pb;
+        this.exercicioBusiness = eb;
+    }
+
+    @FXML
+    public void initialize() {
         carregarListaExercicios();
 
         btnAdicionar.setOnAction(e -> adicionarExercicio());

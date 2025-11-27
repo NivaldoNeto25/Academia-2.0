@@ -20,7 +20,7 @@ public class RemoverExercicioSecaoController {
     @FXML private Button btnVoltar;
 
     
-    private PlanoTreino planoParaModificar; // MUDANÇA DE NOME
+    private PlanoTreino planoParaModificar; 
 
     private PlanoTreinoBusiness planoTreinoBusiness;
 

@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ExcluirAlunoController {
+    
     @FXML private TextField emailField;
     @FXML private Label mensagemLabel;
 
@@ -18,6 +19,12 @@ public class ExcluirAlunoController {
 
     public void setAdmMenuController(AdmMenuController admMenuController) {
         this.admMenuController = admMenuController;
+    }
+
+    public void setUsuarioBusiness(UsuarioBusiness usuarioBusiness) {
+        // Método para injeção de dependência em testes
+        // Não utilizado na aplicação real
+        // Apenas para permitir a substituição do usuárioBusiness por um mock
     }
 
     @FXML

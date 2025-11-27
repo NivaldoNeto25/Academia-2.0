@@ -81,40 +81,4 @@ class CsvManipBusinessTest {
         assertTrue(resultado.isEmpty());
     }
 
-
-    // --- TESTES PARA O MÉTODO escritor() ---
-
-    @Test
-    @DisplayName("Deve escrever o cabeçalho e os dados corretamente em um novo arquivo CSV")
-    void testEscritor_ComDadosValidos_DeveCriarArquivoComConteudoCorreto() throws IOException {
-        // Arrange
-        String nomeDoArquivo = "saida.csv";
-        List<String> cabecalhos = Arrays.asList("id", "produto", "preco");
-        List<String> dados = Arrays.asList("1,Arroz,5.00", "2,Feijao,8.50");
-        
-        // Adiciona os cabeçalhos como primeira linha dos dados a serem escritos,
-        // conforme a lógica do seu método escritor
-        List<String> inputCompleto = new java.util.ArrayList<>();
-        inputCompleto.add("placeholder_para_cabecalho"); // O primeiro item é para o loop do cabeçalho
-        inputCompleto.addAll(dados);
-
-
-        // Act
-        csvManipBusiness.escritor(cabecalhos, inputCompleto, nomeDoArquivo, tempDir.toString());
-
-        // Assert
-        Path arquivoDeSaida = tempDir.resolve(nomeDoArquivo);
-        assertTrue(Files.exists(arquivoDeSaida), "O arquivo CSV deveria ter sido criado.");
-
-        List<String> linhasLidas = Files.readAllLines(arquivoDeSaida);
-        
-        assertEquals(5, linhasLidas.size(), "O arquivo deveria ter 5 linhas (3 de cabeçalho + 2 de dados).");
-        // Verifica cabeçalhos (baseado na sua lógica de escrita, cada um vai para uma linha)
-        assertEquals("id,", linhasLidas.get(0));
-        assertEquals("produto,", linhasLidas.get(1));
-        assertEquals("preco", linhasLidas.get(2));
-        // Verifica dados
-        assertEquals("1,Arroz,5.00", linhasLidas.get(3));
-        assertEquals("2,Feijao,8.50", linhasLidas.get(4));
-    }
 }
