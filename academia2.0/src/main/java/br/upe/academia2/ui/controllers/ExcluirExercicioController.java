@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
-
 public class ExcluirExercicioController {
     @FXML private TextField nomeField;
     @FXML private Button btnVoltar;
@@ -26,17 +25,18 @@ public class ExcluirExercicioController {
             mensagemLabel.setText("Informe o nome.");
             return;
         }
+
         Exercicio exercicioExistente = exercicio.buscarExercicioPorNome(nome);
-        if(exercicioExistente == null){
+        if (exercicioExistente == null) {
             mensagemLabel.setText("Exercício não existe");
-        }else{
-        exercicio.deletarExercicio(nome);
-        exercicio.salvarAlteracoesNoCsv();
-        mensagemLabel.setText("Exercicio excluído!");
-        nomeField.clear();
-        Stage stageAtual = (Stage) nomeField.getScene().getWindow();
-        stageAtual.close();
-    }}
+        } else {
+            exercicio.deletarExercicio(nome); // já deleta no banco
+            mensagemLabel.setText("Exercício excluído!");
+            nomeField.clear();
+            Stage stageAtual = (Stage) nomeField.getScene().getWindow();
+            stageAtual.close();
+        }
+    }
 
     @FXML
     public void handleVoltar() {
@@ -47,4 +47,3 @@ public class ExcluirExercicioController {
         }
     }
 }
-

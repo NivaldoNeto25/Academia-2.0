@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UsuarioCsvRepositoryTest {
 
-    private UsuarioCsvRepository usuarioRepository;
+    private UsuarioJpaRepository usuarioRepository;
     private Path tempDir;
     private Path tempCsvPath;
 
@@ -22,7 +22,7 @@ class UsuarioCsvRepositoryTest {
     void setUp() throws IOException {
         tempDir = Files.createTempDirectory("teste-usuarios");
         tempCsvPath = tempDir.resolve("usuarios.csv");
-        usuarioRepository = new UsuarioCsvRepository(tempCsvPath.toString());
+        usuarioRepository = new UsuarioJpaRepository(tempCsvPath.toString());
     }
 
     @AfterEach
@@ -142,7 +142,7 @@ class UsuarioCsvRepositoryTest {
         usuarioRepository.create(adm);
         usuarioRepository.create(comum);
 
-        UsuarioCsvRepository novoRepositorio = new UsuarioCsvRepository(tempCsvPath.toString());
+        UsuarioJpaRepository novoRepositorio = new UsuarioJpaRepository(tempCsvPath.toString());
         List<Usuario> usuariosCarregados = novoRepositorio.listarTodos();
 
         assertEquals(2, usuariosCarregados.size());

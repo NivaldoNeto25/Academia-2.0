@@ -3,8 +3,8 @@ package br.upe.academia2.ui.controllers;
 import br.upe.academia2.data.beans.*;
 import br.upe.academia2.business.ExercicioBusiness;
 import br.upe.academia2.business.PlanoTreinoBusiness;
-import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
+import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepository;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -29,8 +29,8 @@ public class AdicionarExercicioSecaoController {
     @FXML
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
-                UsuarioCsvRepository.getInstance(),
-                new PlanoTreinoCsvRepository()
+                UsuarioJpaRepository.getInstance(),
+                new PlanoTreinoJpaRepository()
         );
         exercicioBusiness = new ExercicioBusiness();
 

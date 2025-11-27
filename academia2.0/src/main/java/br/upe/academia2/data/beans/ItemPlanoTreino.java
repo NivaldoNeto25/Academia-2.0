@@ -1,13 +1,25 @@
 package br.upe.academia2.data.beans;
 
-public class ItemPlanoTreino {
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "itens_plano_treino")
+public class ItemPlanoTreino {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="exercicio_nome")
     private Exercicio exercicio;
+
+    @ManyToOne
+    @JoinColumn(name="secao_id")
+    private SecaoTreino secaoTreino;
+
     private int series;
     private int repeticoes;
     private int carga;
-
-
 
     public ItemPlanoTreino(Exercicio exercicio, int series, int repeticoes, int carga) {
         this.exercicio = exercicio;
@@ -15,36 +27,16 @@ public class ItemPlanoTreino {
         this.repeticoes = repeticoes;
         this.carga = carga;
     }
+    public ItemPlanoTreino() {}
 
-    public Exercicio getExercicio() {
-        return exercicio;
-    }
-
-    public void setExercicio(Exercicio exercicio) {
-        this.exercicio = exercicio;
-    }
-
-    public int getSeries() {
-        return series;
-    }
-
-    public void setSeries(int series) {
-        this.series = series;
-    }
-
-    public int getRepeticoes() {
-        return repeticoes;
-    }
-
-    public void setRepeticoes(int repeticoes) {
-        this.repeticoes = repeticoes;
-    }
-
-    public int getCarga() {
-        return carga;
-    }
-
-    public void setCarga(int carga) {
-        this.carga = carga;
-    }
+    public Exercicio getExercicio() { return exercicio; }
+    public void setExercicio(Exercicio exercicio) { this.exercicio = exercicio; }
+    public int getSeries() { return series; }
+    public void setSeries(int series) { this.series = series; }
+    public int getRepeticoes() { return repeticoes; }
+    public void setRepeticoes(int repeticoes) { this.repeticoes = repeticoes; }
+    public int getCarga() { return carga; }
+    public void setCarga(int carga) { this.carga = carga; }
+    public SecaoTreino getSecaoTreino() { return secaoTreino; }
+    public void setSecaoTreino(SecaoTreino secaoTreino) { this.secaoTreino = secaoTreino; }
 }

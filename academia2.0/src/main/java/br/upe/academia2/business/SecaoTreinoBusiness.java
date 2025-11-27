@@ -4,19 +4,18 @@ import java.util.logging.Logger;
 
 import br.upe.academia2.data.beans.ItemPlanoTreino;
 import br.upe.academia2.data.beans.PlanoTreino;
-import br.upe.academia2.data.repository.PlanoTreinoCsvRepository;
-import br.upe.academia2.data.repository.UsuarioCsvRepository;
+import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepository;
 
 public class SecaoTreinoBusiness {
 
     private Logger logger = Logger.getLogger(SecaoTreinoBusiness.class.getName());
-
     private PlanoTreinoBusiness planoTreinoBusiness;
 
     public SecaoTreinoBusiness() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness(
-            UsuarioCsvRepository.getInstance(), 
-            new PlanoTreinoCsvRepository()
+                UsuarioJpaRepository.getInstance(),
+                new PlanoTreinoJpaRepository()
         );
     }
 
@@ -30,7 +29,11 @@ public class SecaoTreinoBusiness {
         }
     }
 
-    public void registrarPerformance(PlanoTreino planoTreino, ItemPlanoTreino itemOriginal, int cargaRealizada, int repeticoesRealizadas, int seriesRealizadas) {
+    public void registrarPerformance(PlanoTreino planoTreino,
+                                     ItemPlanoTreino itemOriginal,
+                                     int cargaRealizada,
+                                     int repeticoesRealizadas,
+                                     int seriesRealizadas) {
         logger.info("Atualizando dados do exercício '" + itemOriginal.getExercicio().getNome() + "' em memória.");
 
         itemOriginal.setCarga(cargaRealizada);

@@ -1,12 +1,12 @@
 package br.upe.academia2.data.beans;
 
-public class Comum extends Usuario {
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "comum")
+public class Comum extends Usuario {
     public Comum(String nome, String telefone, String email, String senha, Double pesoAtual, Double alturaAtual, Double percGorduraAtual) {
         super(nome, telefone, email, senha, pesoAtual, alturaAtual, percGorduraAtual);
     }
-
-    public Comum() {
-        super();
-    }
+    public Comum() { super(); }
 }

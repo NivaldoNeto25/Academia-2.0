@@ -1,22 +1,31 @@
 package br.upe.academia2.data.beans;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "usuarios")
 public abstract class Usuario {
+    @Id
+    @Column(nullable = false, unique = true)
+    private String email;
+
     private String nome;
     private String telefone;
-    private String email;
     private String senha;
     private Double pesoAtual;
     private Double alturaAtual;
     private Double percGorduraAtual;
 
-    private List<PlanoTreino> planTreinos;
-    private List<IndicadorBiomedico> indicaBio;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoTreino> planTreinos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<IndicadorBiomedico> indicaBio = new ArrayList<>();
 
-    protected Usuario(String nome, String telefone, String email, String senha, Double pesoAtual, Double alturaAtual, Double percGorduraAtual){
+    protected Usuario(String nome, String telefone, String email, String senha, Double pesoAtual, Double alturaAtual, Double percGorduraAtual) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -24,23 +33,18 @@ public abstract class Usuario {
         this.pesoAtual = pesoAtual;
         this.alturaAtual = alturaAtual;
         this.percGorduraAtual = percGorduraAtual;
-        this.planTreinos = new ArrayList<>();
-        this.indicaBio = new ArrayList<>();
-    }
-    
-    
-    protected Usuario() {
-        
     }
 
+    protected Usuario() {}
 
     public void addPlanoTreino(PlanoTreino plano) {
         if (this.planTreinos == null) {
             this.planTreinos = new ArrayList<>();
         }
+        plano.setUsuario(this);
         this.planTreinos.add(plano);
     }
-    
+
     // Getters e Setters
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }

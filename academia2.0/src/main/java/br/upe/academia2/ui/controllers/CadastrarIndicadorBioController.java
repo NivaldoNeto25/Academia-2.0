@@ -43,11 +43,12 @@ public class CadastrarIndicadorBioController {
                 mensagemLabel.setText("Peso e altura devem ser maiores que zero.");
                 return;
             }
+
             double imc = peso / (altura * altura);
 
-            IndicadorBiomedico indicador = new IndicadorBiomedico(
-                    usuarioLogado.getEmail(), peso, altura, percGordura, percMassaMagra, imc, new java.util.Date()
-            );
+            IndicadorBiomedico indicador = new IndicadorBiomedico(peso, altura, percGordura, percMassaMagra, imc, new java.util.Date());
+
+            indicador.setUsuario(usuarioLogado);
 
             indicadorbio.cadastrarIndicador(usuarioLogado, indicador);
 

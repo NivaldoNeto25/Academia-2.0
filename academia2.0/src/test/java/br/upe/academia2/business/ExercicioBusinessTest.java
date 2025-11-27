@@ -1,7 +1,7 @@
 package br.upe.academia2.business;
 
 import br.upe.academia2.data.beans.Exercicio;
-import br.upe.academia2.data.repository.ExercicioRepoImpl;
+import br.upe.academia2.data.repository.ExercicioJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ class ExercicioBusinessTest {
     // Cria um "mock" (objeto falso) do repositório.
     // Nós vamos controlar o comportamento deste objeto em cada teste.
     @Mock
-    private ExercicioRepoImpl exercicioRepository;
+    private ExercicioJpaRepository exercicioRepository;
 
     // Injeta os mocks (neste caso, exercicioRepository) na classe que queremos testar.
     @InjectMocks
