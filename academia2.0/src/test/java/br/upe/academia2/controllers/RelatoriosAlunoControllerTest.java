@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -27,8 +28,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 @ExtendWith(MockitoExtension.class)
 public class RelatoriosAlunoControllerTest extends ApplicationTest {
@@ -44,12 +43,17 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
         Parent root = loader.load();
         controller = loader.getController();
 
-        // --- INJEÇÃO DE DEPENDÊNCIA VIA REFLEXÃO ---
-        // Necessário pois 'indicadorBusiness' é private final e instanciado internamente
-        Field field = RelatoriosAlunoController.class.getDeclaredField("indicadorBusiness");
-        field.setAccessible(true);
-        field.set(controller, indicadorBusinessMock);
-        // -------------------------------------------
+        // Injeção de dependência via reflexão (campo 'indicadorBusiness')
+        try {
+            Field field = RelatoriosAlunoController.class.getDeclaredField("indicadorBusiness");
+            field.setAccessible(true);
+            field.set(controller, indicadorBusinessMock);
+        } catch (NoSuchFieldException e) {
+            // Fallback caso o nome seja antigo
+            Field field = RelatoriosAlunoController.class.getDeclaredField("repo");
+            field.setAccessible(true);
+            field.set(controller, indicadorBusinessMock);
+        }
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -64,97 +68,108 @@ public class RelatoriosAlunoControllerTest extends ApplicationTest {
 
     @Test
     public void deveExibirErroSeUsuarioNaoEstiverLogado() {
-        // Ação: Clicar no botão sem definir usuário (controller.usuario é null)
         clickOn("Relatório Geral");
+        
+        // Espera a UI atualizar
+        WaitForAsyncUtils.waitForFxEvents();
 
-        // Verificação
         TextArea txtSaida = lookup("#txtSaida").query();
         assertTrue(txtSaida.getText().contains("Usuário não definido"));
     }
 
     @Test
     public void deveExibirMensagemVaziaSeNaoHouverIndicadoresGeral() {
-        // Cenário
         Usuario usuarioMock = mock(Usuario.class);
-        controller.setUsuario(usuarioMock);
+        
+        // Garante execução na Thread JavaFX
+        interact(() -> controller.setUsuario(usuarioMock));
+        
         when(indicadorBusinessMock.listarIndicadores(usuarioMock)).thenReturn(Collections.emptyList());
 
-        // Ação
         clickOn("Relatório Geral");
+        
+        WaitForAsyncUtils.waitForFxEvents();
 
-        // Verificação
         TextArea txtSaida = lookup("#txtSaida").query();
         assertTrue(txtSaida.getText().contains("Nenhum indicador encontrado"));
     }
 
     @Test
     public void deveGerarRelatorioGeralComDados() {
-        // Cenário
         Usuario usuarioMock = mock(Usuario.class);
-        controller.setUsuario(usuarioMock);
+        interact(() -> controller.setUsuario(usuarioMock));
 
         IndicadorBiomedico ind1 = new IndicadorBiomedico(70.0, 1.75, 15.0, 45.0, 22.8, new Date());
-        IndicadorBiomedico ind2 = new IndicadorBiomedico(72.0, 1.75, 14.0, 46.0, 23.5, new Date());
+        IndicadorBiomedico ind2 = new IndicadorBiomedico(72.5, 1.75, 14.0, 46.0, 23.5, new Date());
         
         when(indicadorBusinessMock.listarIndicadores(usuarioMock)).thenReturn(List.of(ind1, ind2));
 
-        // Ação
         clickOn("Relatório Geral");
+        
+        WaitForAsyncUtils.waitForFxEvents();
 
-        // Verificação
         TextArea txtSaida = lookup("#txtSaida").query();
         String texto = txtSaida.getText();
 
         assertTrue(texto.contains("Relatório Geral gerado com sucesso!"));
-        assertTrue(texto.contains("Peso: 70,00 kg")); // Verifica dado do 1º
-        assertTrue(texto.contains("Peso: 72,00 kg")); // Verifica dado do 2º
+        
+        // CORREÇÃO: Usar String.format para garantir compatibilidade com Locale (Ponto ou Vírgula)
+        String esperado1 = String.format("Peso: %.2f kg", 70.0);
+        String esperado2 = String.format("Peso: %.2f kg", 72.5);
+
+        assertTrue(texto.contains(esperado1), "Esperado encontrar: " + esperado1 + " | Texto real: " + texto);
+        assertTrue(texto.contains(esperado2), "Esperado encontrar: " + esperado2 + " | Texto real: " + texto);
     }
 
     @Test
     public void deveExibirMensagemSePoucosDadosParaComparativo() {
-        // Cenário: Apenas 1 registro
         Usuario usuarioMock = mock(Usuario.class);
-        controller.setUsuario(usuarioMock);
+        interact(() -> controller.setUsuario(usuarioMock));
         
         IndicadorBiomedico ind1 = new IndicadorBiomedico(80.0, 1.80, 20.0, 40.0, 24.7, new Date());
         when(indicadorBusinessMock.listarIndicadores(usuarioMock)).thenReturn(List.of(ind1));
 
-        // Ação
         clickOn("Relatório Comparativo");
+        
+        WaitForAsyncUtils.waitForFxEvents();
 
-        // Verificação
         TextArea txtSaida = lookup("#txtSaida").query();
-        assertTrue(txtSaida.getText().contains("Apenas um registro encontrado"));
-        assertTrue(txtSaida.getText().contains("Peso: 80,00 kg"));
+        String texto = txtSaida.getText();
+        
+        assertTrue(texto.contains("Apenas um registro encontrado"));
+        
+        // Correção Locale
+        String esperado = String.format("Peso: %.2f kg", 80.0);
+        assertTrue(texto.contains(esperado), "Esperado: " + esperado);
     }
 
     @Test
     public void deveGerarRelatorioComparativoPrimeiroEUltimo() {
-        // Cenário: 3 registros, deve pegar o primeiro e o terceiro
         Usuario usuarioMock = mock(Usuario.class);
-        controller.setUsuario(usuarioMock);
+        interact(() -> controller.setUsuario(usuarioMock));
 
         IndicadorBiomedico primeiro = new IndicadorBiomedico(100.0, 1.80, 30.0, 40.0, 30.8, new Date());
         IndicadorBiomedico meio = new IndicadorBiomedico(95.0, 1.80, 28.0, 42.0, 29.3, new Date());
         IndicadorBiomedico ultimo = new IndicadorBiomedico(90.0, 1.80, 25.0, 45.0, 27.7, new Date());
 
-        // A lista deve estar ordenada como viria do banco/business
         when(indicadorBusinessMock.listarIndicadores(usuarioMock)).thenReturn(List.of(primeiro, meio, ultimo));
 
-        // Ação
         clickOn("Relatório Comparativo");
+        
+        WaitForAsyncUtils.waitForFxEvents();
 
-        // Verificação
         TextArea txtSaida = lookup("#txtSaida").query();
         String texto = txtSaida.getText();
 
         assertTrue(texto.contains("Comparando o primeiro e o último"));
         assertTrue(texto.contains("Primeiro registro:"));
-        assertTrue(texto.contains("Peso: 100,00 kg")); // Dados do primeiro
         assertTrue(texto.contains("Último registro:"));
-        assertTrue(texto.contains("Peso: 90,00 kg"));  // Dados do último
-        
-        // Garante que o do meio NÃO aparece explicitamente como bloco principal, 
-        // mas como estamos testando String contains, basta garantir que os extremos estão lá.
+
+        // Correção Locale
+        String esperadoPrimeiro = String.format("Peso: %.2f kg", 100.0);
+        String esperadoUltimo = String.format("Peso: %.2f kg", 90.0);
+
+        assertTrue(texto.contains(esperadoPrimeiro), "Deveria conter dados do primeiro: " + esperadoPrimeiro); 
+        assertTrue(texto.contains(esperadoUltimo), "Deveria conter dados do último: " + esperadoUltimo);
     }
 }

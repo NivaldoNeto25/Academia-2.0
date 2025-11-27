@@ -49,3 +49,4 @@ out/
 
 src/main/resources/META-INF/persistence.xml
 academiaDB.mv.db
+academiaDB.trace.db
