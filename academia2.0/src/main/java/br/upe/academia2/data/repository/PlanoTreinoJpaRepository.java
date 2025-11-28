@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class PlanoTreinoJpaRepository {
     private static final Logger logger = Logger.getLogger(PlanoTreinoJpaRepository.class.getName());
-    private static final String EMAIL = "email";
+    //private static final String EMAIL = "email";
 
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 
@@ -21,7 +21,7 @@ public class PlanoTreinoJpaRepository {
             tx.begin();
             // Remove todos os planos antigos do usuário
             em.createQuery("DELETE FROM PlanoTreino pt WHERE pt.usuario.email = :email")
-                    .setParameter(EMAIL, usuario.getEmail())
+                    .setParameter("email", usuario.getEmail())
                     .executeUpdate();
             // Salva os novos planos na base
             for (PlanoTreino plano : planos) {
@@ -45,7 +45,7 @@ public class PlanoTreinoJpaRepository {
             lista = em.createQuery(
                             "SELECT pt FROM PlanoTreino pt WHERE pt.usuario.email = :email",
                             PlanoTreino.class)
-                    .setParameter(EMAIL, usuario.getEmail())
+                    .setParameter("email", usuario.getEmail())
                     .getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e,()-> "Erro ao carregar planos de treino (JPA): " + e.getMessage());
@@ -102,7 +102,7 @@ public class PlanoTreinoJpaRepository {
             lista = em.createQuery(
                             "SELECT pt FROM PlanoTreino pt WHERE pt.usuario.email = :email",
                             PlanoTreino.class)
-                    .setParameter(EMAIL, usuario.getEmail())
+                    .setParameter("email", usuario.getEmail())
                     .getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e, () -> "Erro ao listar planos por usuário (JPA): " + e.getMessage());
