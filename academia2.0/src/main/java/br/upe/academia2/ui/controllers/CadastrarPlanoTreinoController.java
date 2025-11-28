@@ -4,7 +4,7 @@ import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -29,7 +29,7 @@ public class CadastrarPlanoTreinoController {
 
     public CadastrarPlanoTreinoController() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness(
-                UsuarioJpaRepository.getInstance(),
+                UsuarioJpaRepositorySingleton.getInstance(),
                 new PlanoTreinoJpaRepository()
         );
     }

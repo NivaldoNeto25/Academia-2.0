@@ -3,7 +3,7 @@ package br.upe.academia2.ui.controllers;
 import br.upe.academia2.business.UsuarioBusiness;
 import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,7 +32,7 @@ public class AdmMenuController {
 
     Logger logger = Logger.getLogger(AdmMenuController.class.getName());
 
-    private UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioJpaRepository.getInstance());
+    private UsuarioBusiness usuarioBusiness = new UsuarioBusiness(UsuarioJpaRepositorySingleton.getInstance());
     private ObservableList<Usuario> alunosList;
 
     public void setUsuarioBusiness(UsuarioBusiness usuarioBusiness) {

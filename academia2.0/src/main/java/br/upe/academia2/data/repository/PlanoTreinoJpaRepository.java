@@ -46,7 +46,7 @@ public class PlanoTreinoJpaRepository {
                     .setParameter("email", usuario.getEmail())
                     .getResultList();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao carregar planos de treino (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e,()-> "Erro ao carregar planos de treino (JPA): " + e.getMessage());
         } finally {
             em.close();
         }

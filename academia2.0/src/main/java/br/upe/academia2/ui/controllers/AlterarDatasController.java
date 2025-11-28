@@ -3,7 +3,7 @@ package br.upe.academia2.ui.controllers;
 import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -27,7 +27,7 @@ public class AlterarDatasController {
     @FXML
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
-                UsuarioJpaRepository.getInstance(),
+                UsuarioJpaRepositorySingleton.getInstance(),
                 new PlanoTreinoJpaRepository()
         );
     }

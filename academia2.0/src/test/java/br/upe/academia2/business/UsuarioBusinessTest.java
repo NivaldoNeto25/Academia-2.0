@@ -4,7 +4,7 @@ import br.upe.academia2.business.UsuarioBusiness.ResultadoExclusao;
 import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class UsuarioBusinessTest {
 
     @Mock
-    private UsuarioJpaRepository usuarioRepository;
+    private UsuarioJpaRepositorySingleton usuarioRepository;
 
     private UsuarioBusiness usuarioBusiness;
 

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UsuarioJpaRepositoryTest {
 
-    private UsuarioJpaRepository usuarioRepository;
+    private UsuarioJpaRepositorySingleton usuarioRepository;
 
     @Mock
     private EntityManagerFactory emfMock;
@@ -36,9 +36,9 @@ class UsuarioJpaRepositoryTest {
     @BeforeEach
     void setUp() throws Exception {
         // Obtém a instância Singleton
-        usuarioRepository = UsuarioJpaRepository.getInstance();
+        usuarioRepository = UsuarioJpaRepositorySingleton.getInstance();
 
-        Field field = UsuarioJpaRepository.class.getDeclaredField("emf");
+        Field field = UsuarioJpaRepositorySingleton.class.getDeclaredField("emf");
         field.setAccessible(true);
 
         field.set(null, emfMock); // Passa null no objeto pois o campo é estático

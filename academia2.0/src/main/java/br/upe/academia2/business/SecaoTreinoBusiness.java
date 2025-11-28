@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import br.upe.academia2.data.beans.ItemPlanoTreino;
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 
 public class SecaoTreinoBusiness {
 
@@ -14,7 +14,7 @@ public class SecaoTreinoBusiness {
 
     public SecaoTreinoBusiness() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness(
-                UsuarioJpaRepository.getInstance(),
+                UsuarioJpaRepositorySingleton.getInstance(),
                 new PlanoTreinoJpaRepository()
         );
     }

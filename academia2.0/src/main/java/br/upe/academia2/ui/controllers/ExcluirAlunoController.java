@@ -1,7 +1,7 @@
 package br.upe.academia2.ui.controllers;
 
 import br.upe.academia2.business.UsuarioBusiness;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,7 +15,7 @@ public class ExcluirAlunoController {
     private AdmMenuController admMenuController;
 
     private final UsuarioBusiness usuarioBusiness =
-            new UsuarioBusiness(UsuarioJpaRepository.getInstance());
+            new UsuarioBusiness(UsuarioJpaRepositorySingleton.getInstance());
 
     public void setAdmMenuController(AdmMenuController admMenuController) {
         this.admMenuController = admMenuController;

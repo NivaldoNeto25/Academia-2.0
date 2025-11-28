@@ -4,7 +4,7 @@ import br.upe.academia2.data.beans.*;
 import br.upe.academia2.business.ExercicioBusiness;
 import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -28,7 +28,7 @@ public class AdicionarExercicioSecaoController {
 
     public AdicionarExercicioSecaoController() {
         this.planoTreinoBusiness = new PlanoTreinoBusiness(
-                UsuarioJpaRepository.getInstance(),
+                UsuarioJpaRepositorySingleton.getInstance(),
                 new PlanoTreinoJpaRepository()
         );
         this.exercicioBusiness = new ExercicioBusiness();
