@@ -7,7 +7,6 @@ import br.upe.academia2.ui.controllers.ModificarAlunoController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -59,14 +58,14 @@ class ModificarAlunoControllerTest extends ApplicationTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
 
     @Test
-    public void deveExibirErroQuandoUsuarioNaoEncontrado() {
+    void deveExibirErroQuandoUsuarioNaoEncontrado() {
         // Cenário: A lista de usuários retornada é vazia ou não contém o email
         when(usuarioBusinessMock.listarUsuarios()).thenReturn(Collections.emptyList());
 
@@ -80,7 +79,7 @@ class ModificarAlunoControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void deveModificarNomeESenhaComSucesso() {
+    void deveModificarNomeESenhaComSucesso() {
         // Cenário: Mockando um usuário existente
         String emailAlvo = "existente@teste.com";
         Usuario usuarioMock = mock(Usuario.class);

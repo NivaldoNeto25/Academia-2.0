@@ -37,7 +37,7 @@ class ModificarPlanoTreinoControllerTest {
     private Stage mockStage;
 
     @BeforeAll
-    public static void initJFX() {
+    static void initJFX() {
         try {
             new javafx.embed.swing.JFXPanel();
         } catch (Exception ignored) {

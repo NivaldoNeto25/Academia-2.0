@@ -67,10 +67,6 @@ class CadastrarPlanoTreinoControllerTest {
         controller.setUsuarioLogado(usuario);
     }
 
-    private Date toDate(LocalDate ld) {
-        return Date.from(ld.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
-    }
-
     @Test
     void testCamposVazios() {
         nomeField.setText("");
