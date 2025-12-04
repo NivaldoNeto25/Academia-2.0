@@ -1,179 +1,122 @@
 package br.upe.academia2.data.repository;
 
+import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class UsuarioJpaRepositoryTest {
 
     private UsuarioJpaRepository usuarioRepository;
-
-    @Mock
-    private EntityManagerFactory emfMock;
-    @Mock
-    private EntityManager emMock;
-    @Mock
-    private EntityTransaction txMock;
-    @Mock
-    private TypedQuery<Usuario> typedQueryMock;
+    private EntityManagerFactory emfTest;
 
     @BeforeEach
-    void setUp() throws Exception {
-        // Obtém a instância Singleton
+    void setUp() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+        
+        emfTest = Persistence.createEntityManagerFactory("academiaTestPU");
+        
         usuarioRepository = UsuarioJpaRepository.getInstance();
 
         Field field = UsuarioJpaRepository.class.getDeclaredField("emf");
         field.setAccessible(true);
+        
+        field.set(null, emfTest); 
+    }
 
-        field.set(null, emfMock); // Passa null no objeto pois o campo é estático
-
-        // Configura comportamento padrão do Factory
-        when(emfMock.createEntityManager()).thenReturn(emMock);
+    @AfterEach
+    void tearDown() {
+        // Fecha a fábrica após cada teste para limpar o banco H2 (drop tables)
+        if (emfTest != null && emfTest.isOpen()) {
+            emfTest.close();
+        }
     }
 
     @Test
-    @DisplayName("Deve criar um novo usuário chamando persist")
+    @DisplayName("INTEGRAÇÃO: Deve salvar um usuário no banco H2 e recuperar com sucesso")
     void testCreate_NovoUsuario() {
-        // Arrange
-        // Usamos classe anônima pois Usuario é abstrato
-        Usuario usuario = new Usuario() {}; 
-        usuario.setEmail("teste@email.com");
+        // Arrange (Usamos uma classe concreta 'Comum' pois o JPA precisa instanciar)
+        Usuario usuario = new Comum("João Teste", "8199999", "teste@email.com", "senha123", 80.0, 1.80, 15.0);
 
-        when(emMock.getTransaction()).thenReturn(txMock);
-
-        // Act
-        Usuario resultado = usuarioRepository.create(usuario);
+        // Act - Executa o INSERT real no H2
+        Usuario salvo = usuarioRepository.create(usuario);
 
         // Assert
-        verify(txMock).begin();
-        verify(emMock).persist(usuario);
-        verify(txMock).commit();
-        verify(emMock).close();
-        assertEquals(usuario, resultado);
+        assertNotNull(salvo);
+        
+        // Verificação dupla: Busca no banco para garantir que persistiu
+        Usuario encontrado = usuarioRepository.findByEmail("teste@email.com");
+        assertNotNull(encontrado);
+        assertEquals("João Teste", encontrado.getNome());
     }
 
     @Test
-    @DisplayName("Deve encontrar um usuário pelo email")
-    void testFindByEmail_UsuarioExistente() {
-        // Arrange
-        String email = "teste@find.com";
-        Usuario usuarioEsperado = new Usuario() {};
-        usuarioEsperado.setEmail(email);
-
-        when(emMock.find(Usuario.class, email)).thenReturn(usuarioEsperado);
-
-        // Act
-        Usuario resultado = usuarioRepository.findByEmail(email);
-
-        // Assert
-        assertNotNull(resultado);
-        assertEquals(email, resultado.getEmail());
-        verify(emMock).close();
-    }
-
-    @Test
-    @DisplayName("Deve retornar null se email não existe")
+    @DisplayName("INTEGRAÇÃO: Deve retornar null ao buscar email inexistente")
     void testFindByEmail_NaoEncontrado() {
-        // Arrange
-        when(emMock.find(Usuario.class, "naoexiste@email.com")).thenReturn(null);
-
-        // Act
         Usuario resultado = usuarioRepository.findByEmail("naoexiste@email.com");
-
-        // Assert
         assertNull(resultado);
-        verify(emMock).close();
     }
 
     @Test
-    @DisplayName("Deve atualizar usuário chamando merge")
+    @DisplayName("INTEGRAÇÃO: Deve atualizar os dados no banco real")
     void testUpdate() {
         // Arrange
-        Usuario usuario = new Usuario() {};
-        usuario.setEmail("update@email.com");
-        
-        when(emMock.getTransaction()).thenReturn(txMock);
-        when(emMock.merge(usuario)).thenReturn(usuario);
+        Usuario usuario = new Comum("Maria", "111", "maria@email.com", "123", 60.0, 1.65, 20.0);
+        usuarioRepository.create(usuario);
 
-        // Act
-        Usuario resultado = usuarioRepository.update(usuario);
+        // Modifica o objeto
+        usuario.setNome("Maria Silva");
+        usuario.setPesoAtual(58.0);
+
+        // Act - Executa o UPDATE real
+        Usuario atualizado = usuarioRepository.update(usuario);
 
         // Assert
-        verify(txMock).begin();
-        verify(emMock).merge(usuario);
-        verify(txMock).commit();
-        verify(emMock).close();
-        assertEquals(usuario, resultado);
+        assertEquals("Maria Silva", atualizado.getNome());
+        
+        // Busca nova instância do banco para garantir que o update persistiu
+        Usuario doBanco = usuarioRepository.findByEmail("maria@email.com");
+        assertEquals(58.0, doBanco.getPesoAtual());
     }
 
     @Test
-    @DisplayName("Deve deletar usuário se encontrado")
+    @DisplayName("INTEGRAÇÃO: Deve deletar usuário do banco")
     void testDelete_UsuarioExistente() {
         // Arrange
-        String email = "delete@email.com";
-        Usuario usuario = new Usuario() {};
-        
-        when(emMock.find(Usuario.class, email)).thenReturn(usuario);
-        when(emMock.getTransaction()).thenReturn(txMock);
+        Usuario usuario = new Comum("Pedro", "222", "pedro@email.com", "123", 90.0, 1.85, 10.0);
+        usuarioRepository.create(usuario);
 
-        // Act
-        boolean deletado = usuarioRepository.delete(email);
+        // Garante que existe antes de deletar
+        assertNotNull(usuarioRepository.findByEmail("pedro@email.com"));
+
+        // Act - Executa DELETE
+        boolean deletado = usuarioRepository.delete("pedro@email.com");
 
         // Assert
         assertTrue(deletado);
-        verify(emMock).remove(usuario);
-        verify(txMock).commit();
-        verify(emMock).close();
+        assertNull(usuarioRepository.findByEmail("pedro@email.com"));
     }
 
     @Test
-    @DisplayName("Não deve deletar (e não abrir transação) se usuário não encontrado")
-    void testDelete_UsuarioInexistente() {
-        // Arrange
-        String email = "fantasma@email.com";
-        when(emMock.find(Usuario.class, email)).thenReturn(null);
-
-        // Act
-        boolean deletado = usuarioRepository.delete(email);
-
-        // Assert
-        assertFalse(deletado);
-        verify(emMock, never()).remove(any());
-        verify(emMock, never()).getTransaction(); // Não deve abrir transação
-        verify(emMock).close();
-    }
-
-    @Test
-    @DisplayName("Deve listar todos os usuários via JPQL")
+    @DisplayName("INTEGRAÇÃO: Deve listar todos os usuários salvos")
     void testListarTodos() {
-        // Arrange
-        List<Usuario> listaEsperada = Collections.singletonList(new Usuario() {});
-        
-        when(emMock.createQuery(anyString(), eq(Usuario.class))).thenReturn(typedQueryMock);
-        when(typedQueryMock.getResultList()).thenReturn(listaEsperada);
+        // Arrange - Limpeza implícita ocorre no tearDown/setUp (create-drop), banco começa vazio
+        usuarioRepository.create(new Comum("User1", "1", "u1@t.com", "s", 0.0, 0.0, 0.0));
+        usuarioRepository.create(new Comum("User2", "2", "u2@t.com", "s", 0.0, 0.0, 0.0));
 
         // Act
-        List<Usuario> resultado = usuarioRepository.listarTodos();
+        List<Usuario> lista = usuarioRepository.listarTodos();
 
         // Assert
-        assertEquals(1, resultado.size());
-        verify(emMock).createQuery("SELECT u FROM Usuario u", Usuario.class);
-        verify(emMock).close();
+        assertNotNull(lista);
+        assertEquals(2, lista.size());
     }
 }
