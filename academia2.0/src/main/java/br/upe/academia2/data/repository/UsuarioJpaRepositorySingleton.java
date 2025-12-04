@@ -14,7 +14,7 @@ public class UsuarioJpaRepositorySingleton implements IUsuarioRepository {
 
     private UsuarioJpaRepositorySingleton() { }
 
-    public UsuarioJpaRepositorySingleton getInstance() {
+    public static UsuarioJpaRepositorySingleton getInstance() {
         if (instance == null) {
             instance = new UsuarioJpaRepositorySingleton();
         }
