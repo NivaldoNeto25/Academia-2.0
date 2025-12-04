@@ -5,18 +5,18 @@ import br.upe.academia2.data.repository.interfaces.IUsuarioRepository;
 import jakarta.persistence.*;
 import java.util.List;
 
-public class UsuarioJpaRepository implements IUsuarioRepository {
+public class UsuarioJpaRepositorySingleton implements IUsuarioRepository {
 
     private static EntityManagerFactory emf =
             Persistence.createEntityManagerFactory("academiaPU");
 
-    private static UsuarioJpaRepository instance;
+    private static UsuarioJpaRepositorySingleton instance;
 
-    private UsuarioJpaRepository() { }
+    private UsuarioJpaRepositorySingleton() { }
 
-    public static UsuarioJpaRepository getInstance() {
+    public static UsuarioJpaRepositorySingleton getInstance() {
         if (instance == null) {
-            instance = new UsuarioJpaRepository();
+            instance = new UsuarioJpaRepositorySingleton();
         }
         return instance;
     }

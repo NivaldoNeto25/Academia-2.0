@@ -14,7 +14,7 @@ import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.beans.SecaoTreino;
 import br.upe.academia2.data.beans.Usuario;
 import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -74,7 +74,7 @@ public class PlanoTreinoAlunoController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Inicializa a camada de negócio
-        this.planoTreinoBusiness = new PlanoTreinoBusiness(UsuarioJpaRepository.getInstance(), new PlanoTreinoJpaRepository());
+        this.planoTreinoBusiness = new PlanoTreinoBusiness(UsuarioJpaRepositorySingleton.getInstance(), new PlanoTreinoJpaRepository());
 
         // Configura como cada coluna da tabela vai obter seu valor
         configurarTabela();

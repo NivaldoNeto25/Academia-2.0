@@ -97,10 +97,7 @@ class SecaoExercicioControllerTest extends ApplicationTest {
         // Verificação: A ListView deve mostrar o exercício
         ListView<ItemPlanoTreino> lista = lookup("#listaExercicios").queryListView();
         assertEquals(1, lista.getItems().size());
-        
-        
-        
-        //String textoEsperado = "Supino Reto (4 séries x 10 reps, Carga: 30kg)";
+
 
         Set<ListCell> celulas = lookup(".list-cell").queryAllAs(ListCell.class);
         

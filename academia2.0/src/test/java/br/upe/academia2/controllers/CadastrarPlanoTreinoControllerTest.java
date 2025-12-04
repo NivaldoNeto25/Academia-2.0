@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -65,10 +64,6 @@ class CadastrarPlanoTreinoControllerTest {
         fBusiness.set(controller, planoTreinoBusiness);
 
         controller.setUsuarioLogado(usuario);
-    }
-
-    private Date toDate(LocalDate ld) {
-        return Date.from(ld.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
     }
 
     @Test

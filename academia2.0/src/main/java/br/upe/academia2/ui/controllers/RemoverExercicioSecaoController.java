@@ -4,7 +4,7 @@ import br.upe.academia2.business.PlanoTreinoBusiness;
 import br.upe.academia2.data.beans.*;
 
 import br.upe.academia2.data.repository.PlanoTreinoJpaRepository;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -27,7 +27,7 @@ public class RemoverExercicioSecaoController {
     @FXML
     public void initialize() {
         planoTreinoBusiness = new PlanoTreinoBusiness(
-                UsuarioJpaRepository.getInstance(),
+                UsuarioJpaRepositorySingleton.getInstance(),
                 new PlanoTreinoJpaRepository()
         );
 

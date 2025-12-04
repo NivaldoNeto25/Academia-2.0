@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="br.upe.academia2.ui.controllers.SecaoTreinoController"
-      spacing="16">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #0f4c83;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.upe.academia2.ui.controllers.SecaoTreinoController">
 
-    <!-- Adicionando Padding para garantir espaçamento -->
-    <padding><Insets top="16" right="24" bottom="24" left="24"/></padding>
-
-    <!-- Título da Página -->
-    <Label fx:id="tituloPagina" text="Seção"
-           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0F4C83;"/>
+   <Pane prefHeight="52.0" prefWidth="412.0" style="-fx-background-color: FFF;">
+      <children>
+      
+          <!-- Título da Página -->
+          <Label fx:id="tituloPagina" layoutX="14.0" layoutY="10.0" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="Seção" />
+      </children></Pane>
 
     <!-- ComboBox para Seleção do Plano de Treino -->
-    <ComboBox fx:id="comboPlanos" prefWidth="320" promptText="Selecione um Plano" />
+    <ComboBox fx:id="comboPlanos" layoutX="37.0" layoutY="81.0" prefHeight="26.0" prefWidth="328.0" promptText="Selecione um Plano" />
 
     <!-- Botão para Realizar Sessões -->
-    <Button fx:id="btnRealizarSecao" onAction = "#handleRealizarSecaoTreino" text="Realizar Seções do plano selecionado" style="-fx-background-color:#0F4C83; -fx-text-fill:white; -fx-background-radius:8"/>
+    <Button fx:id="btnRealizarSecao" layoutX="37.0" layoutY="116.0" onAction="#handleRealizarSecaoTreino" text="Realizar Seções do plano selecionado" />
 
     <!-- Tabela para Exibir os Exercícios -->
-    <TableView fx:id="tabelaExercicios" prefWidth="320" VBox.vgrow="ALWAYS">
+    <TableView fx:id="tabelaExercicios" layoutX="38.0" layoutY="159.0" prefHeight="323.0" prefWidth="328.0" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="colunaExercicio" prefWidth="150.0" text="Exercício" />
             <TableColumn fx:id="colunaSecao" prefWidth="100.0" text="Seção" />
@@ -31,4 +28,4 @@
             <TableColumn fx:id="colunaCarga" prefWidth="75.0" text="Carga (kg)" />
         </columns>
     </TableView>
-</VBox>
+</AnchorPane>

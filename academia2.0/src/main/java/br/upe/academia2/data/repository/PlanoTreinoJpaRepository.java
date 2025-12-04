@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 public class PlanoTreinoJpaRepository {
     private static final Logger logger = Logger.getLogger(PlanoTreinoJpaRepository.class.getName());
+    //private static final String EMAIL = "email";
+
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 
     public void salvarPlanos(List<PlanoTreino> planos, Usuario usuario) {
@@ -46,7 +48,7 @@ public class PlanoTreinoJpaRepository {
                     .setParameter("email", usuario.getEmail())
                     .getResultList();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erro ao carregar planos de treino (JPA): " + e.getMessage(), e);
+            logger.log(Level.SEVERE, e,()-> "Erro ao carregar planos de treino (JPA): " + e.getMessage());
         } finally {
             em.close();
         }

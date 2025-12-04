@@ -3,7 +3,7 @@ package br.upe.academia2.business;
 import br.upe.academia2.data.beans.Adm;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.Usuario;
-import br.upe.academia2.data.repository.UsuarioJpaRepository;
+import br.upe.academia2.data.repository.UsuarioJpaRepositorySingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +11,12 @@ import java.util.logging.Logger;
 
 public class UsuarioBusiness {
 
-    private UsuarioJpaRepository usuarioRepository = UsuarioJpaRepository.getInstance();
+    private UsuarioJpaRepositorySingleton usuarioRepository = UsuarioJpaRepositorySingleton.getInstance();
     private Logger logger = Logger.getLogger(UsuarioBusiness.class.getName());
 
     public UsuarioBusiness() { }
 
-    public UsuarioBusiness(UsuarioJpaRepository usuarioRepository) {
+    public UsuarioBusiness(UsuarioJpaRepositorySingleton usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

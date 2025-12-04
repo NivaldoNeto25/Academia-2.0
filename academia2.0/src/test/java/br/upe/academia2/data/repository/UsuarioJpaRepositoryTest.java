@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UsuarioJpaRepositoryTest {
 
-    private UsuarioJpaRepository usuarioRepository;
+    private UsuarioJpaRepositorySingleton usuarioRepository;
     private EntityManagerFactory emfTest;
 
     @BeforeEach
@@ -24,9 +24,9 @@ class UsuarioJpaRepositoryTest {
         
         emfTest = Persistence.createEntityManagerFactory("academiaTestPU");
         
-        usuarioRepository = UsuarioJpaRepository.getInstance();
+        usuarioRepository = usuarioRepository.getInstance();
 
-        Field field = UsuarioJpaRepository.class.getDeclaredField("emf");
+        Field field = UsuarioJpaRepositorySingleton.class.getDeclaredField("emf");
         field.setAccessible(true);
         
         field.set(null, emfTest); 
