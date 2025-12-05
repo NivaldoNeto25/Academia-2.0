@@ -3,177 +3,136 @@ package br.upe.academia2.data.repository;
 import br.upe.academia2.data.beans.Comum;
 import br.upe.academia2.data.beans.PlanoTreino;
 import br.upe.academia2.data.beans.Usuario;
-import jakarta.persistence.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.junit.jupiter.api.*;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class PlanoTreinoJpaRepositoryTest {
 
-    private PlanoTreinoJpaRepository repository;
-
-    @Mock
-    private EntityManagerFactory emfMock;
-    @Mock
-    private EntityManager emMock;
-    @Mock
-    private EntityTransaction txMock;
-    @Mock
-    private TypedQuery<PlanoTreino> typedQueryMock;
-    @Mock
-    private Query queryMock;
+    private PlanoTreinoJpaRepository planoRepository;
+    private EntityManagerFactory emfTest;
 
     @BeforeEach
     void setUp() throws Exception {
-        // Instancia o repositório
-        repository = new PlanoTreinoJpaRepository();
+        emfTest = Persistence.createEntityManagerFactory("academiaTestPU");
+        planoRepository = new PlanoTreinoJpaRepository();
+        Field field = PlanoTreinoJpaRepository.class.getDeclaredField("emf");
+        field.setAccessible(true);
+        field.set(planoRepository, emfTest);
+    }
 
-        // --- REFLEXÃO PARA INJEÇÃO DE DEPENDÊNCIA ---
-        // A classe original cria o EntityManagerFactory internamente (new Persistence...).
-        // Precisamos substituir esse campo privado pelo nosso Mock para controlar o teste.
-        Field emfField = PlanoTreinoJpaRepository.class.getDeclaredField("emf");
-        emfField.setAccessible(true);
-        emfField.set(repository, emfMock);
+    @AfterEach
+    void tearDown() {
+        if (emfTest != null && emfTest.isOpen()) {
+            emfTest.close();
+        }
+    }
 
-        // Configura o comportamento padrão: sempre que pedir um EntityManager, devolve o nosso mock
-        when(emfMock.createEntityManager()).thenReturn(emMock);
+    // Método auxiliar para persistir usuário antes de salvar planos
+    private void persistirUsuario(Usuario usuario) {
+        EntityManager em = emfTest.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(usuario);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Test
-    void testSalvarPlanos_DeveDeletarAntigosESalvarNovos() {
-        // Arrange
-        Usuario usuario = new Comum();
-        usuario.setEmail("teste@email.com");
-        
-        PlanoTreino plano1 = new PlanoTreino();
-        List<PlanoTreino> planos = List.of(plano1);
+    @DisplayName("INTEGRAÇÃO: Deve salvar lista de planos e recarregar com sucesso")
+    void testSalvarECarregarPlanos() {
+        Usuario usuario = new Comum("Charles X", "999", "user@x.com",
+                "s", 70.0, 1.80, 10.0);
+        persistirUsuario(usuario);
 
-        // Mock da Transação
-        when(emMock.getTransaction()).thenReturn(txMock);
+        PlanoTreino p1 = new PlanoTreino(0, "Plano A", new Date(), new Date(), usuario);
+        PlanoTreino p2 = new PlanoTreino(0, "Plano B", new Date(), new Date(), usuario);
 
-        // Mock da Query de Deleção (DELETE FROM ...)
-        when(emMock.createQuery(contains("DELETE"))).thenReturn(queryMock);
-        when(queryMock.setParameter(anyString(), any())).thenReturn(queryMock);
+        planoRepository.salvarPlanos(List.of(p1, p2), usuario);
 
-        // Act
-        repository.salvarPlanos(planos, usuario);
+        List<PlanoTreino> doBanco = planoRepository.carregarPlanos(usuario);
 
-        // Assert
-        // 1. Verifica se iniciou transação
-        verify(txMock).begin();
-        
-        // 2. Verifica se tentou deletar os planos antigos desse usuário
-        verify(emMock).createQuery(contains("DELETE"));
-        verify(queryMock).setParameter("email", "teste@email.com");
-        verify(queryMock).executeUpdate();
-
-        // 3. Verifica se persistiu o novo plano
-        verify(emMock).persist(plano1);
-
-        // 4. Verifica se commitou e fechou
-        verify(txMock).commit();
-        verify(emMock).close();
+        assertEquals(2, doBanco.size());
+        assertTrue(doBanco.stream().anyMatch(pt -> pt.getNomePlano().equals("Plano A")));
+        assertTrue(doBanco.stream().anyMatch(pt -> pt.getNomePlano().equals("Plano B")));
     }
 
     @Test
-    void testCarregarPlanos_DeveRetornarListaDoBanco() {
-        // Arrange
-        Usuario usuario = new Comum();
-        usuario.setEmail("teste@email.com");
-        PlanoTreino planoRetornado = new PlanoTreino();
-        List<PlanoTreino> listaEsperada = List.of(planoRetornado);
+    @DisplayName("INTEGRAÇÃO: Deve salvar e depois atualizar um plano")
+    void testSalvarOuAtualizarPlano() {
+        Usuario usuario = new Comum("MariaMilena", "111", "maria@test.com",
+                "s", 45.0, 1.65, 12.0);
+        persistirUsuario(usuario);
 
-        // Mock da Query de Seleção (SELECT ...)
-        when(emMock.createQuery(contains("SELECT"), eq(PlanoTreino.class))).thenReturn(typedQueryMock);
-        when(typedQueryMock.setParameter(anyString(), any())).thenReturn(typedQueryMock);
-        when(typedQueryMock.getResultList()).thenReturn(listaEsperada);
+        PlanoTreino plano = new PlanoTreino(0, "Plano Inicial", new Date(), new Date(), usuario);
+        planoRepository.salvarOuAtualizarPlano(plano);
 
-        // Act
-        List<PlanoTreino> resultado = repository.carregarPlanos(usuario);
+        assertTrue(plano.getId() > 0);
 
-        // Assert
-        assertNotNull(resultado);
-        assertEquals(1, resultado.size());
-        verify(typedQueryMock).setParameter("email", "teste@email.com");
-        verify(emMock).close();
+        plano.setNomePlano("Plano Atualizado");
+        planoRepository.salvarOuAtualizarPlano(plano);
+
+        PlanoTreino doBanco = planoRepository.buscarPorId(plano.getId());
+        assertEquals("Plano Atualizado", doBanco.getNomePlano());
     }
 
     @Test
-    void testSalvarOuAtualizar_DevePersistirSeIdZero() {
-        // Arrange
-        PlanoTreino novoPlano = new PlanoTreino();
-        novoPlano.setId(0); // ID 0 indica novo cadastro
+    @DisplayName("INTEGRAÇÃO: Deve deletar plano existente")
+    void testDeletarPlano() {
+        Usuario usuario = new Comum("Xavier", "222", "c@t.com",
+                "s", 80.0, 1.75, 8.0);
+        persistirUsuario(usuario);
 
-        when(emMock.getTransaction()).thenReturn(txMock);
+        PlanoTreino plano = new PlanoTreino(0, "Plano Z", new Date(), new Date(), usuario);
+        planoRepository.salvarOuAtualizarPlano(plano);
 
-        // Act
-        repository.salvarOuAtualizarPlano(novoPlano);
+        int id = plano.getId();
+        assertTrue(id > 0);
 
-        // Assert
-        verify(emMock).persist(novoPlano); // Deve chamar persist
-        verify(emMock, never()).merge(any()); // Não deve chamar merge
-        verify(txMock).commit();
-    }
+        assertNotNull(planoRepository.buscarPorId(id));
 
-    @Test
-    void testSalvarOuAtualizar_DeveMergeSeIdMaiorQueZero() {
-        // Arrange
-        PlanoTreino planoExistente = new PlanoTreino();
-        planoExistente.setId(10); // ID existe
+        boolean removido = planoRepository.deletarPlano(id);
 
-        when(emMock.getTransaction()).thenReturn(txMock);
-
-        // Act
-        repository.salvarOuAtualizarPlano(planoExistente);
-
-        // Assert
-        verify(emMock).merge(planoExistente); // Deve chamar merge
-        verify(emMock, never()).persist(any()); // Não deve chamar persist
-        verify(txMock).commit();
-    }
-
-    @Test
-    void testDeletarPlano_ComSucesso() {
-        // Arrange
-        int idParaDeletar = 5;
-        PlanoTreino planoEncontrado = new PlanoTreino();
-        
-        when(emMock.getTransaction()).thenReturn(txMock);
-        when(emMock.find(PlanoTreino.class, idParaDeletar)).thenReturn(planoEncontrado);
-
-        // Act
-        boolean removido = repository.deletarPlano(idParaDeletar);
-
-        // Assert
         assertTrue(removido);
-        verify(emMock).remove(planoEncontrado);
-        verify(txMock).commit();
+        assertNull(planoRepository.buscarPorId(id));
     }
 
     @Test
-    void testDeletarPlano_NaoEncontrado() {
-        // Arrange
-        int idParaDeletar = 99;
-        
-        when(emMock.getTransaction()).thenReturn(txMock);
-        when(emMock.find(PlanoTreino.class, idParaDeletar)).thenReturn(null); // Não achou
+    @DisplayName("INTEGRAÇÃO: Deve listar planos por usuário")
+    void testListarPlanosPorUsuario() {
+        Usuario usuario = new Comum("Nivaldo", "333", "teste@t.com",
+                "s", 85.0, 1.70, 9.0);
+        persistirUsuario(usuario);
 
-        // Act
-        boolean removido = repository.deletarPlano(idParaDeletar);
+        PlanoTreino p1 = new PlanoTreino(0, "P1", new Date(), new Date(), usuario);
+        PlanoTreino p2 = new PlanoTreino(0, "P2", new Date(), new Date(), usuario);
 
-        // Assert
-        assertFalse(removido);
-        verify(emMock, never()).remove(any()); // Não deve tentar remover nada
-        verify(txMock).commit();
+        planoRepository.salvarPlanos(List.of(p1, p2), usuario);
+
+        List<PlanoTreino> lista = planoRepository.listarPlanosPorUsuario(usuario);
+
+        assertEquals(2, lista.size());
+    }
+
+    @Test
+    @DisplayName("INTEGRAÇÃO: Deve buscar por ID corretamente")
+    void testBuscarPorId() {
+        Usuario usuario = new Comum("Vitoria", "444", "joao@test.com",
+                "s", 65.0, 1.78, 25.0);
+        persistirUsuario(usuario);
+
+        PlanoTreino plano = new PlanoTreino(0, "Plano João", new Date(), new Date(), usuario);
+        planoRepository.salvarOuAtualizarPlano(plano);
+
+        PlanoTreino encontrado = planoRepository.buscarPorId(plano.getId());
+
+        assertNotNull(encontrado);
+        assertEquals("Plano João", encontrado.getNomePlano());
     }
 }
