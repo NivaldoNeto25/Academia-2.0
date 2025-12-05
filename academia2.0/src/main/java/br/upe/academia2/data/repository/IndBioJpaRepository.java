@@ -18,7 +18,9 @@ public class IndBioJpaRepository implements IIndBioRepository {
         return instance;
     }
 
-    public IndBioJpaRepository() {}
+    public IndBioJpaRepository() {
+        //vazio pois usa o padrão singleton
+    }
 
     @Override
     public boolean save(IndicadorBiomedico indicadorBiomedico) {

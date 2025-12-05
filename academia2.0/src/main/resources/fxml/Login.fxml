@@ -32,7 +32,7 @@
                </Label>
                <TextField fx:id="usuarioField" maxWidth="200.0" prefWidth="200.0" promptText="Usuário" />
                <PasswordField fx:id="senhaField" maxWidth="200.0" prefWidth="200.0" promptText="Senha" />
-               <Button mnemonicParsing="false" onAction="#handleEntrar" prefWidth="90.0" text="Entrar" />
+               <Button style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" mnemonicParsing="false" onAction="#handleEntrar" prefWidth="90.0" text="Entrar" />
             </VBox>
          </VBox>
       </StackPane>

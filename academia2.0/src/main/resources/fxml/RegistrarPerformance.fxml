@@ -50,7 +50,7 @@
             </children>
         </GridPane>
         
-        <Button fx:id="btnSalvar" layoutX="297.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleSalvar" prefWidth="100.0" text="Salvar" />
-        <Button fx:id="btnVoltar" layoutX="166.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleVoltar" prefWidth="100.0" text="Voltar" />
+        <Button fx:id="btnSalvar" layoutX="297.0" layoutY="291.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" mnemonicParsing="false" onAction="#handleSalvar" prefWidth="100.0" text="Salvar" />
+        <Button fx:id="btnVoltar" layoutX="166.0" layoutY="291.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" mnemonicParsing="false" onAction="#handleVoltar" prefWidth="100.0" text="Voltar" />
     </children>
 </AnchorPane>

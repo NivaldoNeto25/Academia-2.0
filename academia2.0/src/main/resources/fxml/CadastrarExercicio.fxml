@@ -22,9 +22,9 @@
       <font>
          <Font name="System Italic" size="9.0" />
       </font></TextField>
-    <Button fx:id="btnCadastrar" layoutX="196.0" layoutY="319.0" onAction="#handleCadastrar" text="Salvar" />
+    <Button fx:id="btnCadastrar" layoutX="196.0" layoutY="319.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" onAction="#handleCadastrar" text="Salvar" />
     <!--<Button fx:id="btnVoltar" layoutX="35.0" layoutY="246.0" onAction="#handleVoltar" text="Voltar" /> -->
     <Label fx:id="mensagemLabel" layoutX="140.0" layoutY="225.0" prefWidth="300" />
     <ImageView fx:id="gifPreview" fitHeight="110.0" fitWidth="151.0" layoutX="30.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #FFFFFF; -fx-border-color: #AAAAAA; -fx-border-style: dashed;" />
-    <Button fx:id="btnImportar" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleImportarGif" prefWidth="151.0" text="Importar GIF" />
+    <Button fx:id="btnImportar" layoutX="30.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleImportarGif" prefWidth="151.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Importar GIF" />
 </AnchorPane>
