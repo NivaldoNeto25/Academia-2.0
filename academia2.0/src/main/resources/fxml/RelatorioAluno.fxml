@@ -16,9 +16,11 @@
         <HBox alignment="CENTER" spacing="22">
             <Button text="Relatório Geral"
                     prefWidth="180" prefHeight="30"
+                    style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);"
                     onAction="#handleRelatorioGeral"/>
             <Button text="Relatório Comparativo"
                     prefWidth="180" prefHeight="30"
+                    style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);"
                     onAction="#handleRelatorioComparativo"/>
         </HBox>
         <TextArea fx:id="txtSaida"
@@ -27,7 +29,7 @@
                   wrapText="true" editable="false"
                   style="-fx-font-family: Consolas; -fx-font-size: 12px;"/>
         <HBox alignment="CENTER">
-            <Button fx:id="btnVoltar" onAction="#handleVoltar" prefWidth="100" text="Voltar" />
+            <Button fx:id="btnVoltar" onAction="#handleVoltar" prefWidth="100" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Voltar" />
         </HBox>
     </VBox>
 </AnchorPane>
