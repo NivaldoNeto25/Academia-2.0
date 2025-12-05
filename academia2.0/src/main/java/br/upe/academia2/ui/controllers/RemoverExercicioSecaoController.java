@@ -108,6 +108,7 @@ public class RemoverExercicioSecaoController {
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
+        alert.getDialogPane().getStyleClass().add("alert");
         alert.showAndWait();
     }
 }
