@@ -48,5 +48,6 @@ out/
 *.csv
 
 src/main/resources/META-INF/persistence.xml
+src/test/resources/META-INF/persistence.xml
 academiaDB.mv.db
 academiaDB.trace.db
