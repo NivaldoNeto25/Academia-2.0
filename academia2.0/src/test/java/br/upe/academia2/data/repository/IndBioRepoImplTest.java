@@ -1,8 +1,11 @@
 package br.upe.academia2.data.repository;
 
 import br.upe.academia2.data.beans.IndicadorBiomedico;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 
@@ -11,12 +14,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class IndBioRepoImplTest {
 
     private IndBioJpaRepository indBioRepository;
+    private EntityManagerFactory emfTest;
 
     @BeforeEach
-    void setUp() {
-        indBioRepository = new IndBioJpaRepository();
-        
-    
+    void setUp() throws Exception{
+        emfTest = Persistence.createEntityManagerFactory("academiaTestPU");
+
+        indBioRepository = IndBioJpaRepository.getInstance();
+
+        // Injeta o emfTest no repositório com reflection
+        Field field = IndBioJpaRepository.class.getDeclaredField("emf");
+        field.setAccessible(true);
+        field.set(indBioRepository, emfTest);
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (emfTest != null && emfTest.isOpen()) {
+            emfTest.close();
+        }
     }
 
     @Test

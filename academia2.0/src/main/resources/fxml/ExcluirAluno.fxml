@@ -23,7 +23,7 @@
 
         <Label fx:id="mensagemLabel" style="-fx-text-fill: red;"/>
         <HBox alignment="CENTER">
-            <Button text="Excluir" onAction="#handleExcluir" prefWidth="100"/>
+            <Button text="Excluir" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" onAction="#handleExcluir" prefWidth="100"/>
         </HBox>
     </VBox>
 </AnchorPane>

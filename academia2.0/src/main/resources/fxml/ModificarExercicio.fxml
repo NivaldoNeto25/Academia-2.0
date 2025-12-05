@@ -14,12 +14,12 @@
     </Pane>
     <Label layoutX="35" layoutY="70" text="Nome do exercício:" textFill="WHITE" />
     <TextField fx:id="nomeField" layoutX="35.0" layoutY="94.0" prefHeight="26.0" prefWidth="112.0" />
-    <Button fx:id="btnBuscar" layoutX="209.0" layoutY="227.0" onAction="#handleBuscar" text="GIF Atual" />
+    <Button fx:id="btnBuscar" layoutX="209.0" layoutY="227.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" onAction="#handleBuscar" text="GIF Atual" />
     <Label layoutX="35.0" layoutY="136.0" text="Nova descrição:" textFill="WHITE" />
     <TextArea fx:id="descricaoField" layoutX="35.0" layoutY="154.0" prefHeight="18.0" prefWidth="112.0" />
     <Label layoutX="36.0" layoutY="209.0" text="Novo caminho GIF:" textFill="WHITE" />
     <ImageView fx:id="gifPreview" fitHeight="80.0" fitWidth="150.0" layoutX="35.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #FFFFFF;" />
-    <Button fx:id="btnImportar" layoutX="35.0" layoutY="227.0" mnemonicParsing="false" onAction="#handleImportarGif" prefWidth="150.0" text="Importar Novo GIF" />
-    <Button layoutX="197.0" layoutY="328.0" onAction="#handleModificar" text="Atualizar" />
+    <Button fx:id="btnImportar" layoutX="35.0" layoutY="227.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" mnemonicParsing="false" onAction="#handleImportarGif" prefWidth="150.0" text="Importar Novo GIF" />
+    <Button layoutX="197.0" layoutY="328.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" onAction="#handleModificar" text="Atualizar" />
     <Label fx:id="mensagemLabel" layoutX="228.0" layoutY="377.0" prefHeight="18.0" prefWidth="207.0" />
 </AnchorPane>

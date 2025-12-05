@@ -9,6 +9,19 @@ public class IndBioJpaRepository implements IIndBioRepository {
 
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 
+    private static IndBioJpaRepository instance;
+
+    public static IndBioJpaRepository getInstance() {
+        if (instance == null) {
+            instance = new IndBioJpaRepository();
+        }
+        return instance;
+    }
+
+    public IndBioJpaRepository() {
+        //vazio pois usa o padrão singleton
+    }
+
     @Override
     public boolean save(IndicadorBiomedico indicadorBiomedico) {
         EntityManager em = emf.createEntityManager();

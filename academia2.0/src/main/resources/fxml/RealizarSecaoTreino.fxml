@@ -14,8 +14,8 @@
     <ListView fx:id="listaExercicios" layoutX="50.0" layoutY="60.0" prefHeight="353.0" prefWidth="300" VBox.vgrow="ALWAYS" />
 
     <!-- Botão para escolher o exercício -->
-    <Button fx:id="btnEscolherExercicio" layoutX="50.0" layoutY="427.0" prefHeight="10.0" prefWidth="110.0" style="-fx-background-radius: 4;" text="Escolher Exercício" />
+    <Button fx:id="btnEscolherExercicio" layoutX="50.0" layoutY="427.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" prefHeight="10.0" prefWidth="110.0" text="Escolher Exercício" />
 
     <!-- Botão de Voltar -->
-    <Button fx:id="btnVoltar" layoutX="50.0" layoutY="460.0" prefHeight="10.0" prefWidth="48.0" style="-fx-background-radius: 4;" text="Voltar" />
+    <Button fx:id="btnVoltar" layoutX="50.0" layoutY="460.0" prefHeight="10.0" prefWidth="48.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Voltar" />
 </AnchorPane>

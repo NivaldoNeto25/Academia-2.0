@@ -27,8 +27,8 @@
     <Label layoutX="33.0" layoutY="191.0" text="Carga (kg):" textFill="WHITE" />
     <TextField fx:id="cargaField" layoutX="33.0" layoutY="216.0" prefHeight="26.0" prefWidth="72.0" />
 
-    <Button fx:id="btnAdicionar" layoutX="178.0" layoutY="302.0" prefHeight="26.0" prefWidth="72.0" text="Adicionar" />
-    <Button fx:id="btnVoltar" layoutX="178.0" layoutY="343.0" prefHeight="26.0" prefWidth="72.0" text="Voltar" />
+    <Button fx:id="btnAdicionar" layoutX="178.0" layoutY="302.0" prefHeight="26.0" prefWidth="72.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Adicionar" />
+    <Button fx:id="btnVoltar" layoutX="178.0" layoutY="343.0" prefHeight="26.0" prefWidth="72.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Voltar" />
    
    <ListView fx:id="exerciciosListView" layoutX="214.0" layoutY="100.0" prefHeight="173.0" prefWidth="160.0" />
    <Label layoutX="214.0" layoutY="82.0" text="Exercícios disponíveis" textFill="WHITE" />

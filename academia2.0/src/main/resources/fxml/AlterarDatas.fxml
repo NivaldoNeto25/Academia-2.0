@@ -12,7 +12,7 @@
     <DatePicker fx:id="dataInicioPicker" layoutX="150" layoutY="115" />
     <Label layoutX="50" layoutY="180" text="Data de Fim:" textFill="WHITE" />
     <DatePicker fx:id="dataFimPicker" layoutX="150" layoutY="175" />
-    <Button fx:id="btnSalvar" layoutX="167.0" layoutY="276.0" onAction="#handleSalvar" prefHeight="26.0" prefWidth="66.0" text="Salvar" />
-    <Button fx:id="btnVoltar" layoutX="167.0" layoutY="318.0" onAction="#handleVoltar" prefHeight="26.0" prefWidth="66.0" text="Voltar" />
+    <Button fx:id="btnSalvar" layoutX="167.0" layoutY="276.0" onAction="#handleSalvar" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Salvar" />
+    <Button fx:id="btnVoltar" layoutX="167.0" layoutY="318.0" onAction="#handleVoltar" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" text="Voltar" />
 
 </AnchorPane>

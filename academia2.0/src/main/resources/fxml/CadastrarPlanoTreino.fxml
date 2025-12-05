@@ -16,6 +16,6 @@
     <Label layoutX="35.0" layoutY="213.0" text="Data de Término:" textFill="WHITE" />
     <DatePicker fx:id="dataFimPicker" layoutX="140.0" layoutY="210.0" prefHeight="26.0" prefWidth="150.0" />
 
-    <Button layoutX="196.0" layoutY="309.0" onAction="#handleCadastrar" text="Salvar" />
+    <Button layoutX="196.0" layoutY="309.0" style="-fx-background-color: #488BC6; -fx-text-fill: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);" onAction="#handleCadastrar" text="Salvar" />
 
 </AnchorPane>
