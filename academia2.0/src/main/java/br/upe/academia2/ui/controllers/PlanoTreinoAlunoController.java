@@ -150,25 +150,22 @@ public class PlanoTreinoAlunoController implements Initializable{
     }
 
     private void configurarTabela() {
-        colunaExercicio.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExercicio().getNome()));
-        colunaSeries.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getSeries()));
-        colunaReps.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getRepeticoes()));
-        colunaCarga.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCarga()));
+        colunaExercicio.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getExercicio().getNome()));
+        colunaSeries.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(cellData.getValue().getSeries()));
+        colunaReps.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(cellData.getValue().getRepeticoes()));
+        colunaCarga.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(cellData.getValue().getCarga()));
 
         colunaSecao.setCellValueFactory(cellData -> {
-            ItemPlanoTreino itemAtual = cellData.getValue();
-            PlanoTreino planoSelecionado = comboPlanos.getValue(); // Pega o plano selecionado
-            
-            if (planoSelecionado != null) {
-                for (SecaoTreino secao : planoSelecionado.getSecoes()) {
-                    if (secao.getItensPlano().contains(itemAtual)) {
-                        return new SimpleStringProperty(secao.getNomeTreino());
-                    }
-                }
-            }
-            return new SimpleStringProperty("N/A");
+            SecaoTreino secao = cellData.getValue().getSecaoTreino();
+            String nome = (secao != null) ? secao.getNomeTreino() : "N/A";
+            return new SimpleStringProperty(nome);
         });
     }
+
 
 
     private void abrirJanelaModal(String caminhoFxml, String titulo, PlanoTreino plano) {

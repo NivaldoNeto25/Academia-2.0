@@ -43,12 +43,9 @@ class PlanoTreinoControllerTest extends ApplicationTest {
         Parent root = loader.load();
         controller = loader.getController();
 
-        // --- INJEÇÃO DE DEPENDÊNCIA VIA REFLEXÃO ---
-        // Substitui a instância real criada no initialize() pelo Mock
         Field field = PlanoTreinoAlunoController.class.getDeclaredField("planoTreinoBusiness");
         field.setAccessible(true);
         field.set(controller, planoTreinoBusinessMock);
-        // -------------------------------------------
 
         stage.setScene(new Scene(root));
         stage.show();
@@ -63,22 +60,18 @@ class PlanoTreinoControllerTest extends ApplicationTest {
 
     @Test
     void deveCarregarPlanosNoComboBoxAoSetarUsuario() {
-        // Cenário
         Usuario usuarioMock = mock(Usuario.class);
         PlanoTreino planoA = mock(PlanoTreino.class);
         when(planoA.getNomePlano()).thenReturn("Hipertrofia A");
-        
+
         PlanoTreino planoB = mock(PlanoTreino.class);
         when(planoB.getNomePlano()).thenReturn("Cardio B");
 
         when(planoTreinoBusinessMock.listarPlanosPorUsuario(usuarioMock))
                 .thenReturn(List.of(planoA, planoB));
 
-        // Ação: Setar o usuário (que dispara o carregamento)
-        // Usamos interact para garantir execução na Thread JavaFX
         interact(() -> controller.setUsuario(usuarioMock));
 
-        // Verificação
         ComboBox<PlanoTreino> combo = lookup("#comboPlanos").queryComboBox();
         assertEquals(2, combo.getItems().size());
         assertEquals("Hipertrofia A", combo.getItems().get(0).getNomePlano());
@@ -87,74 +80,51 @@ class PlanoTreinoControllerTest extends ApplicationTest {
 
     @Test
     void devePreencherTabelaAoSelecionarPlano() {
-        // --- CONFIGURAÇÃO DE DADOS MOCKADOS ---
         Usuario usuarioMock = mock(Usuario.class);
-        
-        // Exercicio
+
         Exercicio exercicioMock = mock(Exercicio.class);
-        when(exercicioMock.getNome()).thenReturn("Supino Reto");
+        lenient().when(exercicioMock.getNome()).thenReturn("Supino Reto");
 
-        // Item do Plano
         ItemPlanoTreino itemMock = mock(ItemPlanoTreino.class);
-        when(itemMock.getExercicio()).thenReturn(exercicioMock);
-        when(itemMock.getSeries()).thenReturn(3);
-        when(itemMock.getRepeticoes()).thenReturn(12);
-        when(itemMock.getCarga()).thenReturn(20);
+        lenient().when(itemMock.getExercicio()).thenReturn(exercicioMock);
+        // CORREÇÃO: lenient() para evitar erro se a tabela não renderizar essas colunas imediatamente
+        lenient().when(itemMock.getSeries()).thenReturn(3);
+        lenient().when(itemMock.getRepeticoes()).thenReturn(12);
+        lenient().when(itemMock.getCarga()).thenReturn(20);
 
-        // Seção (Necessário para a lógica da coluna 'Seção' no Controller)
         SecaoTreino secaoMock = mock(SecaoTreino.class);
-        when(secaoMock.getNomeTreino()).thenReturn("Treino A - Peito");
-        when(secaoMock.getItensPlano()).thenReturn(List.of(itemMock));
+        lenient().when(secaoMock.getNomeTreino()).thenReturn("Treino A - Peito");
+        lenient().when(secaoMock.getItensPlano()).thenReturn(List.of(itemMock));
 
-        // Plano
         PlanoTreino planoMock = mock(PlanoTreino.class);
         when(planoMock.getNomePlano()).thenReturn("Meu Plano");
         when(planoMock.getItens()).thenReturn(List.of(itemMock));
-        when(planoMock.getSecoes()).thenReturn(List.of(secaoMock));
+        lenient().when(planoMock.getSecoes()).thenReturn(List.of(secaoMock));
 
-        // Configurar retorno do business
         when(planoTreinoBusinessMock.listarPlanosPorUsuario(usuarioMock))
                 .thenReturn(List.of(planoMock));
 
-        // --- AÇÃO ---
         interact(() -> controller.setUsuario(usuarioMock));
-        
-        // Seleciona o plano no ComboBox
+
         clickOn("#comboPlanos").clickOn("Meu Plano");
 
-        // --- VERIFICAÇÃO ---
-        TableView<ItemPlanoTreino> tabela = lookup("#tabelaExercicios").queryTableView();
-        
-        // Espera a UI atualizar
         WaitForAsyncUtils.waitForFxEvents();
 
+        TableView<ItemPlanoTreino> tabela = lookup("#tabelaExercicios").queryTableView();
         assertEquals(1, tabela.getItems().size());
-        
-        // Verifica se a célula da primeira linha contém os dados esperados
-        // Nota: TestFX verifica o que está visível na tela (Cell)
-        // Pode ser necessário mover o mouse se a tabela for grande, mas aqui é apenas 1 item.
-        
-        // Verifica nome do exercício
-        verifyThat(".table-cell", (javafx.scene.Node node) -> 
-            node instanceof javafx.scene.control.Labeled && 
-            ((javafx.scene.control.Labeled) node).getText().equals("Supino Reto"));
-            
-        // Verifica a seção (Lógica complexa do controller)
-        // O controller itera sobre seções para achar o nome
-        // Se a mockagem da SecaoTreino falhar, aqui apareceria "N/A"
+
+        verifyThat(".table-cell", (javafx.scene.Node node) ->
+                node instanceof javafx.scene.control.Labeled &&
+                        ((javafx.scene.control.Labeled) node).getText().equals("Supino Reto"));
     }
 
     @Test
     void deveExibirAlertaAoTentarModificarSemSelecao() {
-        // Ação: Clicar em Modificar sem selecionar nada no ComboBox
         clickOn("#btnModificar");
 
-        // Verificação: O TestFX detecta a janela de Alerta modal
-        // O título do alerta definido no controller é "Nenhum Plano Selecionado"
         verifyThat(".alert", isVisible());
         verifyThat(".dialog-pane .content", hasText("Por favor, selecione um plano de treino para modificar."));
-        
-        // Fecha o alerta para não travar outros testes (pressionando OK/Enter)
+
         type(KeyCode.ENTER);
     }
 }

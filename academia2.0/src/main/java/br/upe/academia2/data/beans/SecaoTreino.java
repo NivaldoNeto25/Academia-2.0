@@ -15,7 +15,7 @@ public class SecaoTreino {
     @JoinColumn(name = "plano_treino_id")
     private PlanoTreino planoTreino;
 
-    @OneToMany(mappedBy = "secaoTreino", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "secaoTreino", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ItemPlanoTreino> itensPlano = new ArrayList<>();
 
     public SecaoTreino(String id, String nomeTreino, PlanoTreino planoTreino){
@@ -34,5 +34,7 @@ public class SecaoTreino {
     public void setPlanoTreino(PlanoTreino planoTreino) { this.planoTreino = planoTreino; }
     public List<ItemPlanoTreino> getItensPlano() { return itensPlano; }
     public void setItensPlano(List<ItemPlanoTreino> itensPlano) { this.itensPlano = itensPlano; }
-    public void addItemSecao(ItemPlanoTreino item) { this.itensPlano.add(item); }
+    public void addItemSecao(ItemPlanoTreino item) {
+        this.itensPlano.add(item);
+        item.setSecaoTreino(this);}
 }

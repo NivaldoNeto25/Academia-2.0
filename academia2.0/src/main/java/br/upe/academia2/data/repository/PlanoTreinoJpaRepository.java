@@ -12,18 +12,19 @@ public class PlanoTreinoJpaRepository {
     private static final Logger logger = Logger.getLogger(PlanoTreinoJpaRepository.class.getName());
     private static final String EMAIL = "email";
 
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
+    // CORREÇÃO 1: Removido 'final'.
+    // Isso é OBRIGATÓRIO para que o teste de integração consiga injetar o banco H2 de teste.
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 
     public void salvarPlanos(List<PlanoTreino> planos, Usuario usuario) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            // Remove todos os planos antigos do usuário
             em.createQuery("DELETE FROM PlanoTreino pt WHERE pt.usuario.email = :email")
                     .setParameter(EMAIL, usuario.getEmail())
                     .executeUpdate();
-            // Salva os novos planos na base
+
             for (PlanoTreino plano : planos) {
                 plano.setUsuario(usuario);
                 em.persist(plano);
@@ -31,7 +32,7 @@ public class PlanoTreinoJpaRepository {
             tx.commit();
             logger.info("Planos de treino salvos com sucesso para o usuário " + usuario.getEmail());
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e, ()-> "Erro ao salvar planos de treino (JPA): " + e.getMessage());
+            logger.log(Level.SEVERE, e, () -> "Erro ao salvar planos de treino (JPA): " + e.getMessage());
             if (tx.isActive()) tx.rollback();
         } finally {
             em.close();
@@ -42,13 +43,14 @@ public class PlanoTreinoJpaRepository {
         EntityManager em = emf.createEntityManager();
         List<PlanoTreino> lista = List.of();
         try {
+            // MELHORIA: JOIN FETCH para carregar as seções e evitar erro na tela (LazyInitializationException)
             lista = em.createQuery(
-                            "SELECT pt FROM PlanoTreino pt WHERE pt.usuario.email = :email",
+                            "SELECT p FROM PlanoTreino p LEFT JOIN FETCH p.secoes WHERE p.usuario.email = :email",
                             PlanoTreino.class)
                     .setParameter(EMAIL, usuario.getEmail())
                     .getResultList();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e,()-> "Erro ao carregar planos de treino (JPA): " + e.getMessage());
+            logger.log(Level.SEVERE, e, ()-> "Erro ao carregar planos de treino (JPA): " + e.getMessage());
         } finally {
             em.close();
         }
@@ -80,15 +82,26 @@ public class PlanoTreinoJpaRepository {
         boolean removido = false;
         try {
             tx.begin();
+
             PlanoTreino plano = em.find(PlanoTreino.class, id);
+
             if (plano != null) {
-                em.remove(plano);
-                removido = true;
+                int deletedCount = em.createQuery("DELETE FROM PlanoTreino p WHERE p.id = :id")
+                        .setParameter("id", id)
+                        .executeUpdate();
+
+                if (deletedCount > 0) {
+                    removido = true;
+                }
+                em.flush();
+                em.clear();
+
+                tx.commit();
             }
-            tx.commit();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e, ()-> "Erro ao remover plano de treino (JPA): " + e.getMessage());
+            logger.log(Level.SEVERE, e, () -> "Erro ao remover plano de treino (JPA): " + e.getMessage());
             if (tx.isActive()) tx.rollback();
+            removido = false;
         } finally {
             em.close();
         }
@@ -111,7 +124,6 @@ public class PlanoTreinoJpaRepository {
         }
         return lista;
     }
-
 
     public PlanoTreino buscarPorId(int id) {
         EntityManager em = emf.createEntityManager();

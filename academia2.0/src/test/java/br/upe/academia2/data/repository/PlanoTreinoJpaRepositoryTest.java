@@ -35,7 +35,6 @@ class PlanoTreinoJpaRepositoryTest {
         }
     }
 
-    // Método auxiliar para persistir usuário antes de salvar planos
     private void persistirUsuario(Usuario usuario) {
         EntityManager em = emfTest.createEntityManager();
         em.getTransaction().begin();
@@ -47,8 +46,7 @@ class PlanoTreinoJpaRepositoryTest {
     @Test
     @DisplayName("INTEGRAÇÃO: Deve salvar lista de planos e recarregar com sucesso")
     void testSalvarECarregarPlanos() {
-        Usuario usuario = new Comum("Charles X", "999", "user@x.com",
-                "s", 70.0, 1.80, 10.0);
+        Usuario usuario = new Comum("Charles X", "999", "user@x.com", "s", 70.0, 1.80, 10.0);
         persistirUsuario(usuario);
 
         PlanoTreino p1 = new PlanoTreino(0, "Plano A", new Date(), new Date(), usuario);
@@ -66,8 +64,7 @@ class PlanoTreinoJpaRepositoryTest {
     @Test
     @DisplayName("INTEGRAÇÃO: Deve salvar e depois atualizar um plano")
     void testSalvarOuAtualizarPlano() {
-        Usuario usuario = new Comum("MariaMilena", "111", "maria@test.com",
-                "s", 45.0, 1.65, 12.0);
+        Usuario usuario = new Comum("MariaMilena", "111", "maria@test.com", "s", 45.0, 1.65, 12.0);
         persistirUsuario(usuario);
 
         PlanoTreino plano = new PlanoTreino(0, "Plano Inicial", new Date(), new Date(), usuario);
@@ -85,8 +82,7 @@ class PlanoTreinoJpaRepositoryTest {
     @Test
     @DisplayName("INTEGRAÇÃO: Deve deletar plano existente")
     void testDeletarPlano() {
-        Usuario usuario = new Comum("Xavier", "222", "c@t.com",
-                "s", 80.0, 1.75, 8.0);
+        Usuario usuario = new Comum("Xavier", "222", "c@t.com", "s", 80.0, 1.75, 8.0);
         persistirUsuario(usuario);
 
         PlanoTreino plano = new PlanoTreino(0, "Plano Z", new Date(), new Date(), usuario);
@@ -99,15 +95,17 @@ class PlanoTreinoJpaRepositoryTest {
 
         boolean removido = planoRepository.deletarPlano(id);
 
-        assertTrue(removido);
-        assertNull(planoRepository.buscarPorId(id));
+        assertTrue(removido, "O método deletarPlano deve retornar true");
+
+        PlanoTreino posDelete = planoRepository.buscarPorId(id);
+
+        assertNull(posDelete, "O plano deveria ter sido removido do banco");
     }
 
     @Test
     @DisplayName("INTEGRAÇÃO: Deve listar planos por usuário")
     void testListarPlanosPorUsuario() {
-        Usuario usuario = new Comum("Nivaldo", "333", "teste@t.com",
-                "s", 85.0, 1.70, 9.0);
+        Usuario usuario = new Comum("Nivaldo", "333", "teste@t.com", "s", 85.0, 1.70, 9.0);
         persistirUsuario(usuario);
 
         PlanoTreino p1 = new PlanoTreino(0, "P1", new Date(), new Date(), usuario);
@@ -123,8 +121,7 @@ class PlanoTreinoJpaRepositoryTest {
     @Test
     @DisplayName("INTEGRAÇÃO: Deve buscar por ID corretamente")
     void testBuscarPorId() {
-        Usuario usuario = new Comum("Vitoria", "444", "joao@test.com",
-                "s", 65.0, 1.78, 25.0);
+        Usuario usuario = new Comum("Vitoria", "444", "joao@test.com", "s", 65.0, 1.78, 25.0);
         persistirUsuario(usuario);
 
         PlanoTreino plano = new PlanoTreino(0, "Plano João", new Date(), new Date(), usuario);

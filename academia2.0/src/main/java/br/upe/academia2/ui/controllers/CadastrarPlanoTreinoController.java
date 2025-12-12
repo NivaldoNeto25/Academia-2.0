@@ -15,12 +15,13 @@ import javafx.stage.Stage;
 import java.time.LocalDate; 
 import java.time.ZoneId; 
 import java.util.Date;
+import java.util.logging.Logger;
 
 public class CadastrarPlanoTreinoController {
 
     @FXML private TextField nomeField;
-    @FXML private DatePicker dataInicioPicker; 
-    @FXML private DatePicker dataFimPicker;    
+    @FXML private DatePicker dataInicioPicker;
+    @FXML private DatePicker dataFimPicker;
     @FXML private Button btnVoltar;
 
     private Usuario usuarioLogado;
@@ -67,7 +68,7 @@ public class CadastrarPlanoTreinoController {
 
         } catch (Exception e) {
             mostrarAlerta("Erro", "Erro ao cadastrar o plano: " + e.getMessage(), Alert.AlertType.ERROR);
-        }
+            Logger.getLogger(CadastrarPlanoTreinoController.class.getName()).severe(e.getMessage());}
         
     }
 

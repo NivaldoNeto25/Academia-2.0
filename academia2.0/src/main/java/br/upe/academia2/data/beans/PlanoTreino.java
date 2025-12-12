@@ -20,7 +20,7 @@ public class PlanoTreino {
     @JoinColumn(name = "usuario_email")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "planoTreino", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "planoTreino", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SecaoTreino> secoes = new ArrayList<>();
 
     public PlanoTreino(int id, String nomePlano, Date inicioPlano, Date fimPlano, Usuario usuario) {
